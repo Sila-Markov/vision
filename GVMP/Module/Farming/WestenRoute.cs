@@ -1,8 +1,4 @@
 ﻿using GTANetworkAPI;
-using Crashkopf.Inventar;
-using Crashkopf.Fraktion;
-using Crashkopf.Player;
-using Crashkopf.Animation;
 using System;
 
 namespace Vision.Routen
@@ -38,13 +34,13 @@ namespace Vision.Routen
                                     timer = 181;
                                     break;
                             }
-                            Item westenkiste = new Westenkiste();
+                            Item Westenkiste = new Westenkiste();
 
                             NAPI.Task.Run(() =>
                             {
                                 AnimationDictionary.callAnimation(client, Convert.ToInt32(AnimationDictionary.animationType.leer));
                                 client.TriggerEvent("client:enableinv");
-                                InventorySystem.AddItem(client, westenkiste.Item_Name, 1, westenkiste.maxItemQuantity);
+                                InventorySystem.AddItem(client, Westenkiste.Item_Name, 1, Westenkiste.maxItemQuantity);
                                 client?.SetSharedData("isFarming", false);
                                 Main.freezePlayer(client, false);
                             }, delayTime: timer * 1000);
