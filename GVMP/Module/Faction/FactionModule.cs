@@ -69,6 +69,7 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                                 RGB = NAPI.Util.FromJson<Color>(reader.GetString("RGB")),
                                 BadFraktion = reader.GetInt32("BadFraktion") == 1,
                                 Dimension = reader.GetInt32("Dimension"),
+                                FrakFFA = NAPI.Util.FromJson<Vector3>(reader.GetString("FrakFFA")),
                                 Storage = NAPI.Util.FromJson<Vector3>(reader.GetString("Storage")),
                                 Garage = NAPI.Util.FromJson<Vector3>(reader.GetString("Garage")),
                                 GarageSpawn = NAPI.Util.FromJson<Vector3>(reader.GetString("GarageSpawn")),
