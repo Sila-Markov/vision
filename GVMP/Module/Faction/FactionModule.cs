@@ -441,7 +441,9 @@ new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Specialcarbine - 280000$", "Specialcarbine-280000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
-new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
+new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1"),
+new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
+new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1")
                 });
                         //   nativeMenu2.Items.Add(new NativeItem("Waffenaufsätze", "weaponcomponents"));
                         dbPlayer.ShowNativeMenu(nativeMenu2);
@@ -974,6 +976,8 @@ new NativeItem("1x Compactrifle - 50000$", "Compactrifle-50000-1"),
 new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Specialcarbine - 280000$", "Specialcarbine-280000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
+new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
+new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
 new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                 });
@@ -989,6 +993,8 @@ new NativeItem("1x Bullpuprifle - 75000$", "Bullpuprifle-75000-1"),
 new NativeItem("1x Compactrifle - 50000$", "Compactrifle-50000-1"),
 new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
+new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
+new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
 new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                 });
