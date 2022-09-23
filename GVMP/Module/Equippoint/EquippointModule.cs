@@ -1,0 +1,143 @@
+﻿using GTANetworkAPI;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GVMP
+{
+    class GeschenkModule : GVMP.Module.Module<GeschenkModule>
+    {
+        public static List<string> equipItems = new List<string>();
+        public static List<int> alreadyEquipped = new List<int>();
+        public static List<EquippointModel> equipList = new List<EquippointModel>();
+
+        protected override bool OnLoad()
+        {
+            equipItems.Add("Advancedrifle");
+            equipItems.Add("Gusenberg");
+            equipItems.Add("Assaultrifle");
+            equipItems.Add("Compactrifle");
+            equipItems.Add("Compactrifle");
+            equipItems.Add("Compactrifle");
+
+            equipList.Add(new EquippointModel
+            {
+                Name = "Equippoint",
+                Position = new Vector3(195.32, -936.24, 30.68)
+            });
+
+
+            foreach (EquippointModel equippointModel in equipList)
+            {
+
+
+                ColShape cb = NAPI.ColShape.CreateCylinderColShape(equippointModel.Position, 7.4f, 2.4f, 0);
+                cb.SetData("FUNCTION_MODEL", new FunctionModel("equip:fun"));
+                cb.SetData("MESSAGE", new Message("Benutze E um dich auszurüsten.", "Equippoint", "blue", 3000));
+
+                // NAPI.Marker.CreateMarker(1, equippointModel.position, new Vector3(), new Vector3(), 7.0f, new Color(255, 140, 0), false, 0);
+                NAPI.Blip.CreateBlip(313, equippointModel.Position, 1f, 0, "Equippoint ", 255, 0.0f, true, 0, 0);
+
+
+
+            }
+
+            return true;
+        }
+        /*
+        [ServerEvent(Event.PlayerEnterColshape)]
+        public void OnPlayerEnterColshape(ColShape shape, Client c)
+        {
+            try
+            {
+                if (c == null) return;
+                DbPlayer dbPlayer = c.GetPlayer();
+                if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
+                    return;
+  
+
+                dbPlayer.RemoveAllWeapons();
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.Message);
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.StackTrace);
+            }
+        }
+      [ServerEvent(Event.PlayerExitColshape)]
+        public void OnPlayerExitColshape(ColShape shape, Client c)
+        {
+            try
+            {
+                if (c == null) return;
+                DbPlayer dbPlayer = c.GetPlayer();
+                if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
+                    return;
+
+                dbPlayer.RemoveAllWeapons();
+                WeaponManager.loadWeapons(c);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.Message);
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.StackTrace);
+            }
+        }*/
+
+        [RemoteEvent("equip:fun")]
+        public static void equipPlayer(Client c)
+        {
+            try
+            {
+                if (c == null) return;
+                DbPlayer dbPlayer = c.GetPlayer();
+                if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
+                    return;
+
+                try
+                {
+                    if (alreadyEquipped.Contains(dbPlayer.Id))
+                    {
+                        dbPlayer.SendNotification("Du hast dein Equip für die jetzige Wende bereits abgeholt.", 3000,
+                            "blue", "Equippoint");
+                        return;
+                    }
+
+                    alreadyEquipped.Add(dbPlayer.Id);
+                    dbPlayer.SendProgressbar(5000);
+                    dbPlayer.disableAllPlayerActions(true);
+                    dbPlayer.PlayAnimation(33, "anim@heists@narcotics@funding@gang_idle", "gang_chatting_idle01", 8f);
+                    NAPI.Task.Run(() =>
+                    {
+                        var r = new Random();
+                        string item = equipItems[r.Next(0, equipItems.Count)];
+                        dbPlayer.UpdateInventoryItems("HeavyPistol", 1, true);
+                        dbPlayer.UpdateInventoryItems("Schutzweste", 20, true);
+                        dbPlayer.UpdateInventoryItems("Verbandskasten", 20, true);
+                        dbPlayer.UpdateInventoryItems(item, 1, false);
+                        dbPlayer.StopProgressbar();
+                        dbPlayer.SendNotification(
+                            "Du hast dein Equip für die jetzige Wende abgeholt. (+ 1x " + item + ")", 3000, "blue",
+                            "Equippoint");
+                        dbPlayer.StopAnimation();
+                        dbPlayer.disableAllPlayerActions(false);
+                    }, 5000);
+                    dbPlayer.Client.TriggerEvent("abholen:open");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Print("[EXCEPTION useEquippoint] " + ex.Message);
+                    Logger.Print("[EXCEPTION useEquippoint] " + ex.StackTrace);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.Message);
+                Logger.Print("[EXCEPTION useEquippoint] " + ex.StackTrace);
+            }
+        }
+    }
+}
