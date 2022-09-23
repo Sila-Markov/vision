@@ -18,6 +18,8 @@ namespace GVMP
         public Vector3 TunerPosition { get; set; }
         public float GarageSpawnRotation { get; set; }
         public int Blip { get; set; }
+
+        public Vector3 FrakFFA { get; set; }
         public int CustomCarColor
         {
             get;
