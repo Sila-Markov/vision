@@ -1,9 +1,11 @@
 {
-	"maxplayers" : 100,
-	"name" : "RAGE:MP Unofficial server", 
-	"gamemode" : "freeroam", 
-	"stream-distance" : 500.0,
-	"announce" : false,
-	"csharp" : "disabled",
+	"maxplayers" : 512,
+	"name" : "Vision Crimelife | discord.gg/Ue5gbqJ5av | TS: soon ",
+	"gamemode" : "Crimelife", 
+	"language": "ge",
+	"stream-distance" : 200.0,
+	"sync-rate" : 400,
+	"announce" : true,
+	"csharp" : "enabled",
 	"port": 22005
 }
