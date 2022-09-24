@@ -525,6 +525,26 @@ namespace GVMP
                 }
                 dbPlayer.UpdateInventoryItems("Waffenkiste", 1, true);
             }
+            else if (item.Name == "Westenkiste")
+            {
+                dbPlayer.SendNotification("Westenkiste geöffnet.", 3000, "green");
+                int randomitem = new Random().Next(1, 6);
+                int randomanzahl = new Random().Next(1, 5);
+
+                switch (randomitem)
+                {
+                    case 1:
+                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
+                        break;
+                    case 2:
+                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
+                        break;
+                    case 3:
+                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
+                        break;
+                }
+                dbPlayer.UpdateInventoryItems("Westenkiste", 1, true);
+            }
             else if (item.Name == "FastEquipAG")
             {
                 dbPlayer.SendNotification("FastEquip Advanced & Gusi geöffnet.", 3000, "green");
