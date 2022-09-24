@@ -134,17 +134,17 @@ namespace GVMP
 
                 if (encrypted)
                 {
-                    dbPlayer.SendNotification("Dieser Funkkanal ist verschlüsselt.", 3000, "red");
+                    dbPlayer.SendNotification("Dieser Funkkanal ist verschlüsselt.", "black", 3500);
                     return;
                 }
 
                 if (val > 0 && val <= 10000)
                 {
                     c.SetSharedData("FUNK_CHANNEL", val);
-                    dbPlayer.SendNotification("Funkkanal " + val + " MHz betreten!", 3000, "green", "FUNK");
+                    dbPlayer.SendNotification("Funkkanal " + val + " MHz betreten!", "black", 3500, "FUNK");
                 }
                 else
-                    dbPlayer.SendNotification("Dieser Funk ist nicht existent.", 3000, "red", "FUNK");
+                    dbPlayer.SendNotification("Dieser Funk ist nicht existent.", "black", 3500, "FUNK");
             }
             catch(Exception ex)
             {

@@ -94,14 +94,14 @@ namespace GVMP
 				{
 					if (motd.Length > 32)
 					{
-						player.SendNotification("MOTD zu lang, maximal 32 Zeichen!", 3000, "orange", "Business");
+						player.SendNotification("MOTD zu lang, maximal 32 Zeichen!", "black", 3500, "Business");
 						return;
 					}
 					MySqlQuery mySqlQuery = new MySqlQuery("UPDATE businesses SET Motd = @motd WHERE Id = @id");
 					mySqlQuery.AddParameter("@id", player.Business.Id);
 					mySqlQuery.AddParameter("@motd", motd);
 					MySqlHandler.ExecuteSync(mySqlQuery);
-					player.SendNotification("MOTD geändert!", 3000, "orange", player.Business.Name);
+					player.SendNotification("MOTD geändert!", "black", 3500, player.Business.Name);
 				}
 			}
 			catch (Exception ex)
@@ -129,12 +129,12 @@ namespace GVMP
 				player.SetAttribute("Businessrank", 0);
 				foreach (DbPlayer businessPlayer in player.Business.GetBusinessPlayers())
 				{
-					businessPlayer.SendNotification("Der Spieler " + c.Name + " hat das Business verlassen.", 3000, "orange", businessPlayer.Business.Name);
+					businessPlayer.SendNotification("Der Spieler " + c.Name + " hat das Business verlassen.", "black", 3500, businessPlayer.Business.Name);
 				}
 				player.Business = BusinessModule.getBusinessById(0);
 				player.Businessrank = 0;
 				player.RefreshData(player);
-				player.SendNotification("Du hast das Business verlassen.", 3000, "orange", "Business");
+				player.SendNotification("Du hast das Business verlassen.", "black", 3500, "Business");
 			}
 			catch (Exception ex)
 			{
@@ -158,14 +158,14 @@ namespace GVMP
 					DbPlayer player2 = PlayerHandler.GetPlayer(id);
 					if (player2 == null || !player2.IsValid(ignorelogin: true))
 					{
-						player.SendNotification("Spieler nicht online!", 3000, "red");
+						player.SendNotification("Spieler nicht online!", "black", 3500);
 					}
 					else if (player2.Business.Id == player.Business.Id && player2.Businessrank <= player.Businessrank)
 					{
 						player2.SetAttribute("Businessrank", Convert.ToInt32(manage));
 						player2.Businessrank = Convert.ToInt32(manage);
 						player2.RefreshData(player2);
-						player.SendNotification("Du hast den Spieler aktualisiert.", 3000, "orange", player.Business.Name);
+						player.SendNotification("Du hast den Spieler aktualisiert.", "black", 3500, player.Business.Name);
 					}
 				}
 			}
@@ -193,7 +193,7 @@ namespace GVMP
 				DbPlayer player2 = PlayerHandler.GetPlayer(id);
 				if (player2 == null || !player2.IsValid(ignorelogin: true))
 				{
-					player.SendNotification("Spieler nicht online!", 3000, "red");
+					player.SendNotification("Spieler nicht online!", "black", 3500);
 				}
 				else
 				{
@@ -203,7 +203,7 @@ namespace GVMP
 					}
 					if (player.Businessrank <= player2.Businessrank)
 					{
-						player.SendNotification("Das kannst du nicht da der Spieler den/einen höheren Rang als du hat!", 3000, "orange", player.Business.Name);
+						player.SendNotification("Das kannst du nicht da der Spieler den/einen höheren Rang als du hat!", "black", 3500, player.Business.Name);
 						return;			
 					}
 					player2.SetAttribute("Business", 0);
@@ -213,9 +213,9 @@ namespace GVMP
 					player2.RefreshData(player2);
 					foreach (DbPlayer businessPlayer in player.Business.GetBusinessPlayers())
 					{
-						businessPlayer.SendNotification("Der Spieler " + player2.Name + " hat das Business verlassen.", 3000, "orange", player.Business.Name);
+						businessPlayer.SendNotification("Der Spieler " + player2.Name + " hat das Business verlassen.", "black", 3500, player.Business.Name);
 					}
-					player.SendNotification("Du hast den Spieler gekickt.", 3000, "orange", player.Business.Name);
+					player.SendNotification("Du hast den Spieler gekickt.", "black", 3500, player.Business.Name);
 					return;
 				}
 			}
@@ -249,25 +249,25 @@ namespace GVMP
 					DbPlayer player2 = PlayerHandler.GetPlayer(name);
 					if (player2 == null || !player2.IsValid(ignorelogin: true))
 					{
-						player.SendNotification("Spieler nicht online!", 3000, "red");
+						player.SendNotification("Spieler nicht online!", "black", 3500);
 					}
 					else if (player2.Business.Id == player.Business.Id)
 					{
-						player.SendNotification("Der Spieler ist bereits in deinem Business.", 3000, "orange", "BUSINESS");
+						player.SendNotification("Der Spieler ist bereits in deinem Business.", "black", 3500, "BUSINESS");
 					}
 					else if (player2.Business.Id == 0)
 					{
 						player2.TriggerEvent("openWindow", "Confirmation", "{\"confirmationObject\":{\"Title\":\"" + player.Business.Name + "\",\"Message\":\"Möchtest du die Einladung von " + c.Name + " annehmen?\",\"Callback\":\"acceptBusinessInvite\",\"Arg1\":" + player.Business.Id + ",\"Arg2\":\"\"}}");
-						player.SendNotification("Du hast " + name + " eine Einladung gesendet.", 3000, "orange", "BUSINESS");
+						player.SendNotification("Du hast " + name + " eine Einladung gesendet.", "black", 3500, "BUSINESS");
 					}
 					else
 					{
-						player.SendNotification("Dieser Spieler ist bereits in einem Business.", 3000, "orange", "BUSINESS");
+						player.SendNotification("Dieser Spieler ist bereits in einem Business.", "black", 3500, "BUSINESS");
 					}
 				}
 				else
 				{
-					player.SendNotification("Du hast dazu keine Berechtigung.", 3000, "orange", "BUSINESS");
+					player.SendNotification("Du hast dazu keine Berechtigung.", "black", 3500, "BUSINESS");
 				}
 			}
 			catch (Exception ex)
@@ -298,14 +298,14 @@ namespace GVMP
 				}
 				foreach (DbPlayer businessPlayer in businessById.GetBusinessPlayers())
 				{
-					businessPlayer.SendNotification("Der Spieler " + c.Name + " hat das Business betreten.", 3000, "orange", businessPlayer.Business.Name);
+					businessPlayer.SendNotification("Der Spieler " + c.Name + " hat das Business betreten.", "black", 3500, businessPlayer.Business.Name);
 				}
 				player.Business = businessById;
 				player.Businessrank = 0;
 				player.RefreshData(player);
 				player.SetAttribute("Business", businessById.Id);
 				player.SetAttribute("Businessrank", 0);
-				player.SendNotification("Du bist dem Business " + businessById.Name + " beigetreten.", 3000, "orange", "BUSINESS");
+				player.SendNotification("Du bist dem Business " + businessById.Name + " beigetreten.", "black", 3500, "BUSINESS");
 			}
 			catch (Exception ex)
 			{

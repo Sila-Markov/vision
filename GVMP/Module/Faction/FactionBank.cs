@@ -41,11 +41,11 @@ namespace GVMP
             {
                 dbPlayer.removeMoney(Amount);
                 dbPlayer.Faction.addMoney(Amount);
-                dbPlayer.SendNotification(Amount.ToDots() + "$ erfolgreich eingezahlt!", 3000, "green");
+                dbPlayer.SendNotification(Amount.ToDots() + "$ erfolgreich eingezahlt!", "black", 3500);
             }
             else
             {
-                dbPlayer.SendNotification("Zu wenig Geld!", 3000, "red");
+                dbPlayer.SendNotification("Zu wenig Geld!", "black", 3500);
             }
         }
 
@@ -65,11 +65,11 @@ namespace GVMP
             {
                 dbPlayer.addMoney(Amount);
                 dbPlayer.Faction.removeMoney(Amount);
-                dbPlayer.SendNotification(Amount.ToDots() + "$ erfolgreich ausgezahlt!", 3000, "green");
+                dbPlayer.SendNotification(Amount.ToDots() + "$ erfolgreich ausgezahlt!", "black", 3500);
             }
             else
             {
-                dbPlayer.SendNotification("Zu wenig Geld auf dem Fraktionskonto!", 3000, "red");
+                dbPlayer.SendNotification("Zu wenig Geld auf dem Fraktionskonto!", "black", 3500);
             }
         }
     }

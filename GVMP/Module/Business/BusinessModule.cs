@@ -169,27 +169,27 @@ namespace GVMP
 					case "enter":
 						if (player.Business.Id == 0)
 						{
-							player.SendNotification("Du bist aktuell nicht in einem Business!", 3000, "orange", "BUSINESS");
+							player.SendNotification("Du bist aktuell nicht in einem Business!", "black", 3500, "BUSINESS");
 							break;
 						}
 						player.Position = InteriorPosition;
 						player.Dimension = 1000 + player.Business.Id;
-						player.SendNotification("Du hast den Businesstower betreten!", 3000, "orange", "BUSINESS");
+						player.SendNotification("Du hast den Businesstower betreten!", "black", 3500, "BUSINESS");
 						break;
 					case "leave":
 						if (player.Business.Id == 0)
 						{
-							player.SendNotification("Du bist aktuell nicht in einem Business!", 3000, "orange", "BUSINESS");
+							player.SendNotification("Du bist aktuell nicht in einem Business!", "black", 3500, "BUSINESS");
 							break;
 						}
 						player.Position = EntrancePosition;
 						player.Dimension = 0;
-						player.SendNotification("Du hast den Businesstower verlassen!", 3000, "orange", "BUSINESS");
+						player.SendNotification("Du hast den Businesstower verlassen!", "black", 3500, "BUSINESS");
 						break;
 					case "buy":
 						if (player.Business.Id != 0)
 						{
-							player.SendNotification("Du bereits in einem Business!", 3000, "orange", "BUSINESS");
+							player.SendNotification("Du bereits in einem Business!", "black", 3500, "BUSINESS");
 							break;
 						}
 						player.OpenTextInputBox(new TextInputBoxObject
@@ -256,7 +256,7 @@ namespace GVMP
 						mySqlQuery.AddParameter("@name", business3.Name);
 						MySqlHandler.ExecuteSync(mySqlQuery);
 						businesses.Add(business3);
-						player.SendNotification("Business erfolgreich erstellt!", 3000, "orange", "BUSINESS");
+						player.SendNotification("Business erfolgreich erstellt!", "black", 3500, "BUSINESS");
 					}
 					else
 					{
@@ -266,7 +266,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500);
 				}
 			}
 			catch (Exception ex)
@@ -293,16 +293,16 @@ namespace GVMP
 				DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(text);
 				if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
 				{
-					player.SendNotification("Der Spieler ist nicht online.", 3000, "red");
+					player.SendNotification("Der Spieler ist nicht online.", "black", 3500);
 					return;
 				}
 				if (dbPlayer2.Factionrank >= 12)
 				{
-					player.SendNotification("Der Spieler ist nicht Leader.", 3000, "red");
+					player.SendNotification("Der Spieler ist nicht Leader.", "black", 3500);
 					return;
 				}
 				dbPlayer2.TriggerEvent("openWindow", "Confirmation", "{\"confirmationObject\":{\"Title\":\"Kriegsvertrag\",\"Message\":\"Möchtest du den Kriegsvertrag von " + player.Faction.Name + " annehmen?\",\"Callback\":\"acceptkriegsvertrag\",\"Arg1\":" + player.Faction.Id + ",\"Arg2\":\"\"}}");
-				player.SendNotification("Kriegsvertrag an " + dbPlayer2.Faction.Name + " gesendet!", 6000, player.Faction.GetRGBStr(), player.Faction.Name);
+				player.SendNotification("Kriegsvertrag an " + dbPlayer2.Faction.Name + " gesendet!", player.Faction.GetRGBStr(), 6000, player.Faction.Name);
 			}
 			catch (Exception ex)
 			{

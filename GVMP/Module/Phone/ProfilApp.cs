@@ -10,7 +10,7 @@ namespace GVMP
         [ServerEvent(Event.ResourceStart)]
         public void ResourceStart()
         {
-            Console.Write("Profilapp geladen.");
+            Logger.Print("Profilapp geladen.");
         }
 
         [RemoteEvent("phone:requestprofilapp")]

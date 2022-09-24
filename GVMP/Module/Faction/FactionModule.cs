@@ -25,12 +25,10 @@ new NativeItem("1x Advancedrifle - 80000$", "Advancedrifle-80000-1"),
 new NativeItem("1x Bullpuprifle - 75000$", "Bullpuprifle-75000-1"),
 new NativeItem("1x Compactrifle - 50000$", "Compactrifle-50000-1"),
 new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
-new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
 new NativeItem("1x Specialcarbine - 280000$", "Specialcarbine-280000-1"),
 new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1"),
-new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1"),
 new NativeItem("1x Machete - 5000$", "Machete-5000-1"),
 new NativeItem("1x Axt - 5000$", "Axt-5000-1"),
 new NativeItem("1x Schlagring - 5000$", "Schlagring-5000-1"),//
@@ -71,7 +69,6 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                                 RGB = NAPI.Util.FromJson<Color>(reader.GetString("RGB")),
                                 BadFraktion = reader.GetInt32("BadFraktion") == 1,
                                 Dimension = reader.GetInt32("Dimension"),
-                                FrakFFA = NAPI.Util.FromJson<Vector3>(reader.GetString("FrakFFA")),
                                 Storage = NAPI.Util.FromJson<Vector3>(reader.GetString("Storage")),
                                 Garage = NAPI.Util.FromJson<Vector3>(reader.GetString("Garage")),
                                 GarageSpawn = NAPI.Util.FromJson<Vector3>(reader.GetString("GarageSpawn")),
@@ -185,11 +182,11 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
 
                 ColShape val6 = NAPI.ColShape.CreateCylinderColShape(new Vector3(2572.73, -1115.03, 42.72), 2f, 2f, 0);
                 val6.SetData("COLSHAPE_FUNCTION", new FunctionModel("enterPlanningroom"));
-                val6.SetData("COLSHAPE_MESSAGE", new Message("Drücke E um den Planningroom zu betreten", "PLANNINGROOM", "white", 5000));
+                val6.SetData("COLSHAPE_MESSAGE", new Message("Drücke E um den Planningroom zu betreten", "black", ""));
 
                 ColShape val7 = NAPI.ColShape.CreateCylinderColShape(new Vector3(2727.237, -360.4476, -53.10004), 2f, 2f, 0);
                 val7.SetData("COLSHAPE_FUNCTION", new FunctionModel("exitPlanningroom"));
-                val7.SetData("COLSHAPE_MESSAGE", new Message("Drücke E um den Planningroom zu verlassen", "PLANNINGROOM", "white", 5000));
+                val7.SetData("COLSHAPE_MESSAGE", new Message("Drücke E um den Planningroom zu verlassen", "black", ""));
 
                 ColShape val4 = NAPI.ColShape.CreateCylinderColShape(new Vector3(1055.27, -3187.34, -39.16), 1.4f, 1.4f, uint.MaxValue);
                 val4.SetData("FUNCTION_MODEL", new FunctionModel("openFraktionskleiderschrank"));
@@ -442,9 +439,7 @@ new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Specialcarbine - 280000$", "Specialcarbine-280000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
-new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1"),
-new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
-new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1")
+new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                 });
                         //   nativeMenu2.Items.Add(new NativeItem("Waffenaufsätze", "weaponcomponents"));
                         dbPlayer.ShowNativeMenu(nativeMenu2);
@@ -566,26 +561,67 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
             {
                 if (c == null) return;
                 DbPlayer dbPlayer = c.GetPlayer();
-                if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
-                    return;
+                int id = 0;
+                id = dbPlayer.GetData("CurrentgangwarID");
+                if (id == 0) return;
+                if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
+                Console.WriteLine(id.ToString());
+                if (dbPlayer.Faction.Id == 0) return;
+
+                Gangwar gw = GangwarModule.FindGWById(id);
+
+                if (gw == null) return;
+                if (dbPlayer.Faction == gw.Faction) return;
+
                 if (c.Dimension == dbPlayer.Faction.Dimension)
                 {
-                    dbPlayer.SendNotification("Du hast die Gangwar Dimension betreten.", 3000, "orange", "GANGWAR");
-                    c.Dimension = Convert.ToUInt32(GangwarDimension);
-                    c.Position = FactionModule.StoragePosition; 
-                    
+                    foreach (DbPlayer dbTarget in gw.Faction.GetFactionPlayers())
+                    {
+                        dbPlayer.SendNotification("Gangwar Betreten!", $"{dbTarget.Faction.RGB}", 5000, $"{dbTarget.Faction.Name}");
+                        dbPlayer.Client.Dimension = Convert.ToUInt32(GangwarDimension);
+                        dbPlayer.Position = gw.PlayerSpawn2.Position;
+                        dbPlayer.Client.Rotation = new Vector3(0f, 0f, gw.RotationPlayerSpawn2);
+                        dbPlayer.RemoveAllWeapons();
+                        dbPlayer.GiveWeapon(WeaponHash.Gusenberg, 5000);
+                        dbPlayer.GiveWeapon(WeaponHash.AdvancedRifle, 0);
+                        dbPlayer.GiveWeapon(WeaponHash.AssaultRifle, 0);
+                        dbTarget.GiveWeapon(WeaponHash.BullpupRifle, 5000);
+                        dbPlayer.GiveWeapon(WeaponHash.HeavyPistol, 5000);
+                    }
+
+                    foreach (DbPlayer dbTarget2 in gw.Attacker.GetFactionPlayers())
+                    {
+                        dbPlayer.SendNotification("Gangwar Betreten!", $"{dbTarget2.Faction.RGB}", 5000, $"{dbTarget2.Faction.Name}");
+                        dbPlayer.Client.Dimension = Convert.ToUInt32(GangwarDimension);
+                        dbPlayer.Position = gw.PlayerSpawn2.Position;
+                        dbPlayer.Client.Rotation = new Vector3(0f, 0f, gw.RotationPlayerSpawn1);
+                        dbPlayer.RemoveAllWeapons();
+                        dbPlayer.GiveWeapon(WeaponHash.Gusenberg, 5000);
+                        dbPlayer.GiveWeapon(WeaponHash.AdvancedRifle, 0);
+                        dbPlayer.GiveWeapon(WeaponHash.AssaultRifle, 0);
+                        dbPlayer.GiveWeapon(WeaponHash.BullpupRifle, 5000);
+                        dbPlayer.GiveWeapon(WeaponHash.HeavyPistol, 5000);
+                    }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast die Gangwar Dimension verlassen.", 3000, "orange", "GANGWAR");
-                    c.RemoveAllWeapons();
-                    c.Dimension = 9999;
-
-                    NAPI.Task.Run(() =>
+                    foreach (DbPlayer dbTarget in gw.Faction.GetFactionPlayers())
                     {
-                        WeaponManager.loadWeapons(dbPlayer.Client);
-                        c.Dimension = Convert.ToUInt32(dbPlayer.Faction.Dimension);
-                    }, 3000);
+                        dbPlayer.SendNotification("Gangwar Verlassen!", $"{dbTarget.Faction.RGB}", 5000, $"{dbTarget.Faction.Name}");
+                        dbPlayer.RemoveAllWeapons();
+                        dbPlayer.Dimension = 0;
+                        dbPlayer.Position = dbTarget.Faction.Storage;
+                        WeaponManager.loadWeapons(dbTarget.Client);
+                    }
+
+                    foreach (DbPlayer dbTarget2 in gw.Attacker.GetFactionPlayers())
+                    {
+                        dbPlayer.SendNotification("Gangwar Verlassen!", $"{dbTarget2.Faction.RGB}", 5000, $"{dbTarget2.Faction.Name}");
+                        dbPlayer.RemoveAllWeapons();
+                        dbPlayer.Dimension = 0;
+                        dbPlayer.Position = dbTarget2.Faction.Storage;
+                        WeaponManager.loadWeapons(dbTarget2.Client);
+                    }
                 }
             }
             catch (Exception ex)
@@ -607,12 +643,12 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
 
                 if (c.Dimension == dbPlayer.Faction.Dimension)
                 {
-                    dbPlayer.SendNotification("Du hast die Kriegs Dimension betreten.", 3000, "orange", "KRIEG");
+                    dbPlayer.SendNotification("Du hast die Kriegs Dimension betreten.",  "black", 3500);
                     c.Dimension = Convert.ToUInt32(1338);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast die Kriegs Dimension verlassen.", 3000, "orange", "KRIEG");
+                    dbPlayer.SendNotification("Du hast die Kriegs Dimension verlassen.",  "black", 3500);
                     c.Dimension = Convert.ToUInt32(dbPlayer.Faction.Dimension);
                 }
             }
@@ -642,11 +678,11 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                     if (c.Dimension == dbPlayer.Faction.Dimension)
                     {
                         c.Dimension = 0;
-                        dbPlayer.SendNotification("Fraktions Lager Verlassen Dimension " + dbPlayer.Client.Dimension);
+                        dbPlayer.SendNotification("Fraktions Lager Verlassen Dimension " + dbPlayer.Client.Dimension, "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Fraktions Lager Verlassen Dimension " + dbPlayer.Client.Dimension);
+                        dbPlayer.SendNotification("Fraktions Lager Verlassen Dimension " + dbPlayer.Client.Dimension, "black", 3500);
                     }
 
                 }
@@ -703,7 +739,7 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du bist nicht in der Fraktion.", 3000, dbPlayer.Faction.GetRGBStr(),
+                        dbPlayer.SendNotification("Du bist nicht in der Fraktion.", dbPlayer.Faction.GetRGBStr(), 3000,
                             dbPlayer.Faction.Name);
                     }
                 }
@@ -767,7 +803,7 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                         if (list == null) return;
                         if (itemToUse == null)
                         {
-                            //   dbPlayer.SendNotification("Du hast kein Gültigen Ticket!", 3000, "red");
+                            //   dbPlayer.SendNotification("Du hast kein Gültigen Ticket!", "black", 3500);
                             return;
                         }
 
@@ -782,7 +818,7 @@ new NativeItem("1x FastEquipBC - 210000$", "FastEquipBC-210000-1")
                         }
                         else
                         {
-                            //  dbPlayer.SendNotification("Du hast kein Gültigen Ticket!", 3000, "red");
+                            //  dbPlayer.SendNotification("Du hast kein Gültigen Ticket!", "black", 3500);
                         }
 
                         // Logger.Print("7");
@@ -977,8 +1013,6 @@ new NativeItem("1x Compactrifle - 50000$", "Compactrifle-50000-1"),
 new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Specialcarbine - 280000$", "Specialcarbine-280000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
-new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
-new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
 new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                 });
@@ -994,8 +1028,6 @@ new NativeItem("1x Bullpuprifle - 75000$", "Bullpuprifle-75000-1"),
 new NativeItem("1x Compactrifle - 50000$", "Compactrifle-50000-1"),
 new NativeItem("1x Gusenberg - 90000$", "Gusenberg-90000-1"),
 new NativeItem("1x Assaultrifle - 45000$", "Assaultrifle-45000-1"),
-new NativeItem("1x Carbinerifle - 50000$", "Carbinerifle-50000-1"),
-new NativeItem("1x PistolMK2 - 25000$", "PistolMK2-25000-1"),
 new NativeItem("1x Heavypistol - 10000$", "HeavyPistol-10000-1"),
 new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                 });
@@ -1035,25 +1067,25 @@ new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
             var weapon = NAPI.Player.GetPlayerCurrentWeapon(c);
             if (weapon == null || weapon == WeaponHash.Unarmed)
             {
-                dbPlayer.SendNotification("Du musst eine Waffe in die Hand nehmen!", 3500, "red", "WAFFENAUFSÄTZE");
+                dbPlayer.SendNotification("Du musst eine Waffe in die Hand nehmen!",  "black", 3500);
                 return;
             }
 
             NXWeaponComponent component = WeaponComponentModule.nXWeaponComponents.FirstOrDefault(c => c.WeaponHash == weapon && c.Name == selection);
             if (component == null)
             {
-                dbPlayer.SendNotification("Für diese Waffe gibt es diesen Waffenaufsatz nicht!", 3500, "red", "WAFFENAUFSÄTZE");
+                dbPlayer.SendNotification("Für diese Waffe gibt es diesen Waffenaufsatz nicht!",  "black", 3500);
                 return;
             }
 
             if (dbPlayer.Money >= component.Price)
             {
-                dbPlayer.SendNotification(component.Name + " an deine Waffe angebracht!");
+                dbPlayer.SendNotification(component.Name + " an deine Waffe angebracht!", "black", 3500);
                 WeaponManager.addWeaponComponent(dbPlayer.Client, weapon, component.WeaponComponent);
             }
             else
             {
-                dbPlayer.SendNotification("Du hast nicht genug Geld!", 3500, "red", "WAFFENAUFSÄTZE");
+                dbPlayer.SendNotification("Du hast nicht genug Geld!",  "black", 3500);
             }
 
         }
@@ -1115,11 +1147,11 @@ new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
 
                         dbPlayer.UpdateInventoryItems(itemObj.Name, count, false);
                         dbPlayer.removeMoney(Convert.ToInt32(price));
-                        dbPlayer.SendNotification("Du hast " + count + "x " + item + " hergestellt!");
+                        dbPlayer.SendNotification("Du hast " + count + "x " + item + " hergestellt!", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du hast zu wenig Geld.", 3000, "red", "waffenschrank");
+                        dbPlayer.SendNotification("Du hast zu wenig Geld.",  "black", 3500);
                     }
                 }
                 catch (Exception ex)
@@ -1313,13 +1345,11 @@ new NativeItem("1x Pistol50 - 15000$", "Pistol50-15000-1")
                         MySqlHandler.ExecuteSync(mySqlQuery);
 
                         dbPlayer.SendNotification(
-                            "Du hast das Fahrzeug " + name + " erfolgreich für deine Fraktion gekauft.", 3000,
-                            dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            "Du hast das Fahrzeug " + name + " erfolgreich für deine Fraktion gekauft.", dbPlayer.Faction.GetRGBStr(), 5000, dbPlayer.Faction.Name);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Es ist zu wenig Geld auf der Fraktionsbank.", 3000,
-                            dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                        dbPlayer.SendNotification("Es ist zu wenig Geld auf der Fraktionsbank.", dbPlayer.Faction.GetRGBStr(), 5000, dbPlayer.Faction.Name);
                     }
                 }
                 catch (Exception ex)

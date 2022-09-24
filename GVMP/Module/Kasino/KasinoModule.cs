@@ -117,7 +117,7 @@ namespace GVMP
 			}*/
 			if (dbPlayer.Money < kasinoDevice.MinPrice * 5)
 			{
-				dbPlayer.SendNotification($"Sie benötigen mindestens ${kasinoDevice.MinPrice * 5} um hier zu spielen!");
+				dbPlayer.SendNotification($"Sie benötigen mindestens ${kasinoDevice.MinPrice * 5} um hier zu spielen!", "black", 3500);
 			}
 			dbPlayer.TriggerEvent("openWindow", "SlotMachine", JsonConvert.SerializeObject(new ShowEvent(kasinoDevice)));
 			kasinoDevice.IsInUse = true;
@@ -222,7 +222,7 @@ namespace GVMP
 			}
 			else
 			{
-				player2.SendNotification("Du hast nicht genug Geld dafür!");
+				player2.SendNotification("Du hast nicht genug Geld dafür!", "black", 3500);
 			}
 		}
 
@@ -248,7 +248,7 @@ namespace GVMP
 			{
 				value.WinSum *= value.Multiple;
 				player2.addMoney(value.WinSum);
-				player2.SendNotification($"Du hast {value.WinSum}$ gewonnen!", 4000, "lightblue", "CASINO");
+				player2.SendNotification($"Du hast {value.WinSum}$ gewonnen!", "black", 3500);
 				SlotMachineGames.Remove(id);
 			}
 		}

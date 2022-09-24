@@ -50,8 +50,8 @@ namespace GVMP
                 {
                     if (alreadygeschenkped.Contains(dbPlayer.Id))
                     {
-                        dbPlayer.SendNotification("Du hast dein geschenk für die jetzige Wende bereits abgeholt.", 3000,
-                            "blue", "geschenkpoint");
+                        dbPlayer.SendNotification("Du hast dein geschenk für die jetzige Wende bereits abgeholt.",
+                            "blue", 3000, "geschenkpoint");
                         return;
                     }
 
@@ -66,10 +66,10 @@ namespace GVMP
                         dbPlayer.UpdateInventoryItems(item, 1, false);
                         dbPlayer.StopProgressbar();
                         dbPlayer.SendNotification(
-                            "Du hast dein Waffengeschenk für die jetzige Wende abgeholt. (+ 1x " + item + ")", 3000, "blue", "geschenkpoint");
+                            "Du hast dein Waffengeschenk für die jetzige Wende abgeholt. (+ 1x " + item + ")", "black", 6000, "geschenkpoint");
                         dbPlayer.StopAnimation();
                         dbPlayer.disableAllPlayerActions(false);
-                    }, 5000);
+                    }, 3500);
                 }
                 catch (Exception ex)
                 {

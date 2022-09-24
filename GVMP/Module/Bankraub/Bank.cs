@@ -69,7 +69,7 @@ namespace GVMP
 
                     if (BlockedZones.Contains(awd))
                     {
-                        dbPlayer.SendNotification("Diese Bank wurde bereits gemacht.", 3000, "orange", "Bank");
+                        dbPlayer.SendNotification("Diese Bank wurde bereits gemacht.", "black", 3500, "Bank");
                         return;
                     }
                     MySqlQuery mySqlQuery = new MySqlQuery("SELECT * FROM inventorys WHERE Id = @userId LIMIT 1");
@@ -145,7 +145,7 @@ namespace GVMP
                     Notification.SendGlobalNotification("Bank wird aufgebrochen!", 100000, "lightblue", Notification.icon.bullhorn);
 
                     dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.SendNotification("Du Schweisst die Bank auf!");
+                    dbPlayer.SendNotification("Du Schweisst die Bank auf!", "black", 3500);
 
 
 

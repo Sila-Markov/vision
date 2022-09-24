@@ -13,7 +13,7 @@ namespace GVMP
         [ServerEvent(Event.ResourceStart)]
         public void ResourceStart()
         {
-            Console.Write("Fraktionsapp geladen.");
+            Logger.Print("Fraktionsapp geladen.");
         }
 
         [RemoteEvent("phone:requestteamappapp")]
@@ -59,7 +59,7 @@ namespace GVMP
 
                 dbPlayer.SetAttribute("Fraktion", 0);
                 dbPlayer.SetAttribute("Fraktionrank", 0);
-                dbPlayer.SendNotification("Du hast die Fraktion verlassen!", 3000, "red");
+                dbPlayer.SendNotification("Du hast die Fraktion verlassen!", "black", 3500);
                 dbPlayer.Faction = FactionModule.getFactionById(0);
                 dbPlayer.Factionrank = 0;
                 dbPlayer.RefreshData(dbPlayer);

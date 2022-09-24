@@ -50,7 +50,7 @@ namespace GVMP
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Kein Zugriff!", 3000, "red");
+                    dbPlayer.SendNotification("Kein Zugriff!", "black", 3500);
                 }
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace GVMP
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Kein Zugriff!", 3000, "red");
+                    dbPlayer.SendNotification("Kein Zugriff!", "black", 3500);
                 }
             }
             catch (Exception ex)

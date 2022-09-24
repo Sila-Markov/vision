@@ -101,8 +101,7 @@ namespace GVMP
                 {
                     if (alreadyEquipped.Contains(dbPlayer.Id))
                     {
-                        dbPlayer.SendNotification("Du hast dein Equip für die jetzige Wende bereits abgeholt.", 3000,
-                            "blue", "Equippoint");
+                        dbPlayer.SendNotification("Du hast dein Equip für die jetzige Wende bereits abgeholt.", "black", 5000);
                         return;
                     }
 
@@ -120,8 +119,7 @@ namespace GVMP
                         dbPlayer.UpdateInventoryItems(item, 1, false);
                         dbPlayer.StopProgressbar();
                         dbPlayer.SendNotification(
-                            "Du hast dein Equip für die jetzige Wende abgeholt. (+ 1x " + item + ")", 3000, "blue",
-                            "Equippoint");
+                            "Du hast dein Equip für die jetzige Wende abgeholt. (+ 1x " + item + ")", "black", 5000);
                         dbPlayer.StopAnimation();
                         dbPlayer.disableAllPlayerActions(false);
                     }, 5000);

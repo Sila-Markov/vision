@@ -32,11 +32,11 @@ namespace GVMP
 				{
 					dbPlayer.removeMoney(amount);
 					dbPlayer.Business.addMoney(amount);
-					dbPlayer.SendNotification(amount.ToDots() + "$ erfolgreich eingezahlt!", 3000, "green");
+					dbPlayer.SendNotification(amount.ToDots() + "$ erfolgreich eingezahlt!", "black", 3500);
 				}
 				else
 				{
-					dbPlayer.SendNotification("Zu wenig Geld!", 3000, "red");
+					dbPlayer.SendNotification("Zu wenig Geld!", "black", 3500);
 				}
 			}
 		}
@@ -49,11 +49,11 @@ namespace GVMP
 				{
 					dbPlayer.addMoney(amount);
 					dbPlayer.Business.removeMoney(amount);
-					dbPlayer.SendNotification(amount.ToDots() + "$ erfolgreich ausgezahlt!", 3000, "green");
+					dbPlayer.SendNotification(amount.ToDots() + "$ erfolgreich ausgezahlt!", "black", 3500);
 				}
 				else
 				{
-					dbPlayer.SendNotification("Zu wenig Geld auf dem Businesskonto!", 3000, "red");
+					dbPlayer.SendNotification("Zu wenig Geld auf dem Businesskonto!", "black", 3500);
 				}
 			}
 		}

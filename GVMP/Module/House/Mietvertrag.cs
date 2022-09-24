@@ -38,12 +38,12 @@ namespace GVMP
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Der Spieler besitzt bereits ein Haus!", 3000, "red");
+                    dbPlayer.SendNotification("Der Spieler besitzt bereits ein Haus!", "black", 3500);
                 }
             }
             else
             {
-                dbPlayer.SendNotification("Spieler nicht gefunden!");
+                dbPlayer.SendNotification("Spieler nicht gefunden!", "black", 6000);
             }
         }
 
@@ -84,8 +84,8 @@ namespace GVMP
             mySqlQuery.AddParameter("@val", NAPI.Util.ToJson(house.TenantsIds));
             MySqlHandler.ExecuteSync(mySqlQuery);
 
-            dbPlayer2.SendNotification("Dein Mietvertrag wurde angenommen!", 3000, "green");
-            dbPlayer.SendNotification("Du hast den Mietvertrag angenommen!", 3000, "green");
+            dbPlayer2.SendNotification("Dein Mietvertrag wurde angenommen!", "black", 3500);
+            dbPlayer.SendNotification("Du hast den Mietvertrag angenommen!", "black", 3500);
 
 
         }

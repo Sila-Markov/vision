@@ -58,12 +58,12 @@ namespace GVMP
 				}
 				if (dbPlayer == null)
 				{
-					player2.SendNotification("Der Buerger ist nicht erreichbar.", 3500, "red");
+					player2.SendNotification("Der Buerger ist nicht erreichbar.", "black", 3500);
 					return;
 				}
 				if (((Entity)player2.Client).Position.DistanceTo(((Entity)dbPlayer.Client).Position) > 5f)
 				{
-					player2.SendNotification("Der Spieler ist nicht in deiner Nähe!", 3500, "red");
+					player2.SendNotification("Der Spieler ist nicht in deiner Nähe!", "black", 3500);
 					return;
 				}
 			}
@@ -71,7 +71,7 @@ namespace GVMP
 			{
 				if (player2.Business == null || player2.Business.Id == 0)
 				{
-					player2.SendNotification("Du bist nicht in einem Business!", 3500, "red");
+					player2.SendNotification("Du bist nicht in einem Business!", "black", 3500);
 					return;
 				}
 				num = (uint)player2.Business.Id;
@@ -81,24 +81,24 @@ namespace GVMP
 				case "Häuser":
 					if (num != 0)
 					{
-						player2.SendNotification("Hausschlüssel können aktuell nicht im Business hinterlegt werden.", 3500, "red");
+						player2.SendNotification("Hausschlüssel können aktuell nicht im Business hinterlegt werden.", "black", 3500);
 					}
 					else if (player2.GetHouse() == null || player2.GetHouse().Id != id)
 					{
-						player2.SendNotification("Dieses Haus gehoert dir nicht!", 3500, "red");
+						player2.SendNotification("Dieses Haus gehoert dir nicht!", "black", 3500);
 					}
 					else if (dbPlayer != null && dbPlayer.IsValid())
 					{
 						if (dbPlayer.HouseKeys.Contains(id))
 						{
-							player2.SendNotification("Der Buerger besitzt diesen Schluessel bereits!", 3500, "red");
+							player2.SendNotification("Der Buerger besitzt diesen Schluessel bereits!", "black", 3500);
 							break;
 						}
 						var house = HouseModule.houses.FirstOrDefault(h => h.Id == id);
 						if (house == null) return;
 						HouseKeyHandler.Instance.AddHouseKey(dbPlayer, house);
-						player2.SendNotification("Sie haben " + dbPlayer.Name + " einen Schluessel fuer Ihr Haus gegeben.", 3500, "green");
-						dbPlayer.SendNotification(player2.Name + " hat ihnen einen Schluessel das Haus " + id + " gegeben.", 3500, "green");
+						player2.SendNotification("Sie haben " + dbPlayer.Name + " einen Schluessel fuer Ihr Haus gegeben.", "black", 3500);
+						dbPlayer.SendNotification(player2.Name + " hat ihnen einen Schluessel das Haus " + id + " gegeben.", "black", 3500);
 					}
 					break;
 				case "Fahrzeuge":
@@ -106,7 +106,7 @@ namespace GVMP
 						DbVehicle byVehicleDatabaseId = NAPI.Pools.GetAllVehicles().FirstOrDefault(v => v.GetVehicle() != null && v.GetVehicle().Id == id).GetVehicle();
 						if (byVehicleDatabaseId == null || byVehicleDatabaseId.OwnerId != player2.Id)
 						{
-							player2.SendNotification("Dieses Fahrzeug gehört ihnen nicht (darf nicht in der Garage sein!).", 3500, "red");
+							player2.SendNotification("Dieses Fahrzeug gehört ihnen nicht (darf nicht in der Garage sein!).", "black", 3500);
 							break;
 						}
 						string model = byVehicleDatabaseId.Model;
@@ -114,17 +114,17 @@ namespace GVMP
 						{
 							if (VehicleKeyHandler.Instance.GetVehicleKeyCount(id) >= 1)
 							{
-								player2.SendNotification("Es wurden bereits zu viele Schlüssel für dieses Fahrzeug vergeben!", 3500, "red");
+								player2.SendNotification("Es wurden bereits zu viele Schlüssel für dieses Fahrzeug vergeben!", "black", 3500);
 								break;
 							}
 							if (dbPlayer.VehicleKeys.ContainsKey(id))
 							{
-								player2.SendNotification("Der Buerger besitzt diesen Schluessel bereits!", 3500, "red");
+								player2.SendNotification("Der Buerger besitzt diesen Schluessel bereits!", "black", 3500);
 								break;
 							}
 							VehicleKeyHandler.Instance.AddPlayerKey(dbPlayer, id, model);
-							player2.SendNotification("Sie haben " + dbPlayer.Name + " einen Schluessel fuer Fahrzeug " + model + " (" + id + ") gegeben.", 3500, "green");
-							dbPlayer.SendNotification(player2.Name + " hat ihnen einen Schluessel fuer Fahrzeug " + model + " (" + id + ") gegeben.", 3500, "green");
+							player2.SendNotification("Sie haben " + dbPlayer.Name + " einen Schluessel fuer Fahrzeug " + model + " (" + id + ") gegeben.", "black", 3500);
+							dbPlayer.SendNotification(player2.Name + " hat ihnen einen Schluessel fuer Fahrzeug " + model + " (" + id + ") gegeben.", "black", 3500);
 						}
 						break;
 					}
@@ -145,7 +145,7 @@ namespace GVMP
 					if (player2.GetHouse() == null) return;
 					if (id != 0 && id == player2.GetHouse().Id)
 					{
-						player2.SendNotification("Du kannst den Hauptschlüssel nicht wegwerfen.", 3500, "red");
+						player2.SendNotification("Du kannst den Hauptschlüssel nicht wegwerfen.", "black", 3500);
 					}
 					HouseKeyHandler.Instance.DeleteHouseKey(player2, HouseModule.houses[id]);
 					break;
@@ -154,15 +154,15 @@ namespace GVMP
 						DbVehicle byVehicleDatabaseId = NAPI.Pools.GetAllVehicles().FirstOrDefault(v => v.GetVehicle() != null && v.GetVehicle().Id == id).GetVehicle();
 						if (byVehicleDatabaseId == null)
 						{
-							player2.SendNotification("Dieses Fahrzeug darf nicht in der Garage sein!", 3500, "red");
+							player2.SendNotification("Dieses Fahrzeug darf nicht in der Garage sein!", "black", 3500);
 							break;
 						}
 						if (byVehicleDatabaseId.OwnerId == player2.Id)
 						{
-							player2.SendNotification("Du kannst den Hauptschlüssel nicht wegwerfen.", 3500, "red");
+							player2.SendNotification("Du kannst den Hauptschlüssel nicht wegwerfen.", "black", 3500);
 							break;
 						}
-						player2.SendNotification("Sie haben den Schluessel fuer das Fahrzeug " + player2.VehicleKeys.GetValueOrDefault(id) + " (" + id + ") fallen gelassen!", 3500, "red");
+						player2.SendNotification("Sie haben den Schluessel fuer das Fahrzeug " + player2.VehicleKeys.GetValueOrDefault(id) + " (" + id + ") fallen gelassen!", "black", 3500);
 						VehicleKeyHandler.Instance.DeletePlayerKey(player2, id);
 						break;
 					}

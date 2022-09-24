@@ -53,7 +53,7 @@ public void sendMietvertrag(Client c, string text)
         }
         else
         {
-            dbPlayer.SendNotification("Der Spieler besitzt bereits ein Haus!", 3000, "red");
+            dbPlayer.SendNotification("Der Spieler besitzt bereits ein Haus!", "black", 3500);
         }
     }
     else

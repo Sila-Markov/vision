@@ -28,12 +28,12 @@ namespace GVMP
             NAPI.Server.SetAutoSpawnOnConnect(false);
 
             Modules.Instance.LoadAll();
-
-            Logger.Print("Diamond Crimelife Loaded... ok23");
-
-
             MySqlHandler.ExecuteSync(new MySqlQuery("UPDATE vehicles SET Parked = 1"));
-            Logger.Print("Alle autos wurden eingeparkt!");
+            Logger.Print("Alle Autos Wurden Eingeparkt!");
+            Console.WriteLine();
+
+            Logger.Print("Vision Crimelife Wurde Erfolgreich Gestartet Und Geladen");
+            Console.WriteLine();
         }
         public bool IsUserAdministrator()
         {
@@ -101,8 +101,8 @@ namespace GVMP
                         dbPlayer.SetAttribute("Level", (int)dbPlayer.GetAttributeInt("Level") + 1);
                         dbPlayer.Level = dbPlayer.Level + 1;
                         dbPlayer.RefreshData(dbPlayer);
-                        dbPlayer.SendNotification("Glueckwunsch, Sie haben nun Level " + dbPlayer.Level + " erreicht!", 5000, "yellow", "Level aufgestiegen!");
-                        dbPlayer.SendNotification("Durch Ihr Levelup haben Sie " + dbPlayer.Level + " erhalten!", 5000, "#2f2f30");
+                        dbPlayer.SendNotification("Glueckwunsch, Sie haben nun Level " + dbPlayer.Level + " erreicht!", "black", 6000, "Level aufgestiegen!");
+                        dbPlayer.SendNotification("Durch Ihr Levelup haben Sie " + dbPlayer.Level + " erhalten!", "black", 3500, "#2f2f30");
                     }
 
                     House house = HouseModule.houses.FirstOrDefault((House house2) => house2.TenantsIds.Contains(dbPlayer.Id));
@@ -114,17 +114,17 @@ namespace GVMP
                         if (house.TenantPrices.ContainsKey(dbPlayer.Id))
                             price = house.TenantPrices[dbPlayer.Id];
 
-                        dbPlayer.SendNotification("Dir wurde dein Mietpreis abgezogen! -" + price.ToDots() + "$");
+                        dbPlayer.SendNotification("Dir wurde dein Mietpreis abgezogen! -" + price.ToDots() + "$", "black", 6000);
                         dbPlayer.removeMoney(price);
                     }
 
                     dbPlayer.addMoney(2500000);
-                    dbPlayer.SendNotification("Sie haben ihren Payday erhalten! +2.500.000$", 5000, "darkgreen", "KONTOVERAENDERUNG");
+                    dbPlayer.SendNotification("Sie haben ihren Payday erhalten! +2.500.000$", "black", 6000, "KONTOVERAENDERUNG");
                     Adminrank adminranks = dbPlayer.Adminrank;
 
                     if (adminranks.Permission >= 91)
                     {
-                        dbPlayer.SendNotification("Da du ein Teamler bekommst du einen extra PayDay! +1.000.000$", 5000, "red", "KONTOVERAENDERUNG");
+                        dbPlayer.SendNotification("Da du ein Teamler bekommst du einen extra PayDay! +1.000.000$", "black", 6000, "KONTOVERAENDERUNG");
                         dbPlayer.addMoney(1000000);
                     }
                 }
@@ -161,7 +161,7 @@ namespace GVMP
                         dbPlayer.disableAllPlayerActions(true);
                         dbPlayer.SetInvincible(true);
                         dbPlayer.StopAnimation();
-                        dbPlayer.PlayAnimation(33, "combat@damage@rb_writhe", "rb_writhe_loop", 8f);
+                        dbPlayer.PlayAnimation(33, "missarmenian2", "corpse_search_exit_ped", 8f);
 
                         if (DateTime.Now.Subtract(dateTime).TotalMinutes >= 2)
                         {
@@ -178,8 +178,9 @@ namespace GVMP
 
                             dbPlayer.disableAllPlayerActions(false);
                             dbPlayer.StopAnimation();
-                            dbPlayer.StopScreenEffect("DeathFailOut");
-                            dbPlayer.SendNotification("Du wurdest wiederbelebt!", 3000);
+                            dbPlayer.TriggerEvent("toggleBlurred", false);
+                            //dbPlayer.TriggerEvent("toggleBlurred", false);
+                            dbPlayer.SendNotification("Du wurdest wiederbelebt!", "black", 6000);
                             dbPlayer.SetAttribute("Death", 0);
                             dbPlayer.SetInvincible(false);
                             dbPlayer.SetHealth(200);
@@ -191,11 +192,12 @@ namespace GVMP
                                 {
                                     dbPlayer.disableAllPlayerActions(false);
                                     dbPlayer.StopAnimation();
-                                    dbPlayer.StopScreenEffect("DeathFailOut");
-                                    dbPlayer.SendNotification("Gangwar-Deathbug", 3000);
+                                    dbPlayer.TriggerEvent("toggleBlurred", false);
+                                    //dbPlayer.TriggerEvent("toggleBlurred", false);
+                                    dbPlayer.SendNotification("Gangwar-Deathbug", "black", 6000);
                                     dbPlayer.SetAttribute("Death", 0);
                                     dbPlayer.SetInvincible(false);
-                                }, 5000);
+                                }, 3500);
                             }
 
                             if (dbPlayer.Client.Dimension != FactionModule.GangwarDimension)

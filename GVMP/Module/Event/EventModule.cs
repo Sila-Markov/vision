@@ -46,7 +46,7 @@ namespace GVMP
                 {
                     if (dbPlayer.Event)
                     {
-                        dbPlayer.SendNotification("Du hast dir bereits dein Equip abgeholt!", 3000, "red", "EVENT");
+                        dbPlayer.SendNotification("Du hast dir bereits dein Equip abgeholt!", "black", 3500, "EVENT");
                         return;
                     }
                     else
@@ -55,7 +55,7 @@ namespace GVMP
                         dbPlayer.Event = true;
                         dbPlayer.SetAttribute("Event", 1);
                         dbPlayer.RefreshData(dbPlayer);
-                        dbPlayer.SendNotification("Du hast dir dein Equip abgeholt. Lass es dir nicht abziehen!" + dbPlayer.Event, 3000, "orange","EVENT");
+                        dbPlayer.SendNotification("Du hast dir dein Equip abgeholt. Lass es dir nicht abziehen!" + dbPlayer.Event, "black", 3500,"EVENT");
                     }
                 }
                 catch (Exception ex)

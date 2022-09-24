@@ -77,7 +77,7 @@ namespace GVMP
 
                 if (money < 1)
                 {
-                    dbPlayer.SendNotification("hoff nicht");
+                    dbPlayer.SendNotification("hoff nicht", "black", 6000);
                     return;
                 }
 
@@ -86,7 +86,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 3000, "red");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
 
@@ -99,13 +99,12 @@ namespace GVMP
                         "Der Spieler " + dbPlayer.Name + " hat dem Spieler " + dbPlayer2.Name + " " + money +
                         "$ gegeben.", Webhooks.geldlogs, "Geld");
 
-                    dbPlayer.SendNotification("Du hast dem Spieler erfolgreich Geld übergeben.", 3000, "green");
-                    dbPlayer2.SendNotification($"Dir wurde von {dbPlayer.Name} {money.ToDots()}$ übergeben.", 3000,
-                        "green");
+                    dbPlayer.SendNotification("Du hast dem Spieler erfolgreich Geld übergeben.", "black", 3500);
+                    dbPlayer2.SendNotification($"Dir wurde von {dbPlayer.Name} {money.ToDots()}$ übergeben.", "black", 6000);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Nicht genug Geld.", 3000, "red");
+                    dbPlayer.SendNotification("Nicht genug Geld.", "black", 3500);
                 }
             }
             catch (Exception ex)
@@ -147,14 +146,14 @@ namespace GVMP
                             dbPlayer2.IsCuffed = true;
                             dbPlayer2.IsFarming = true;
                             dbPlayer2.RefreshData(dbPlayer2);
-                            dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " gefesselt.", 3000, "black");
-                            dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " gefesselt.", 3000, "black");
+                            dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " gefesselt.", "black", 6000);
+                            dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " gefesselt.", "black", 6000);
                             NAPI.Player.SetPlayerCurrentWeapon(dbPlayer2.Client, WeaponHash.Unarmed);
                         /*dbPlayer.UpdateInventoryItems("Fesseln", 1, true);*/
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du besitzt keine Fesseln!", 3000, "red");
+                        dbPlayer.SendNotification("Du besitzt keine Fesseln!", "black", 3500);
                     }
                 }
                 else
@@ -169,8 +168,8 @@ namespace GVMP
                         dbPlayer2.IsCuffed = false;
                         dbPlayer2.IsFarming = false;
                         dbPlayer2.RefreshData(dbPlayer2);
-                        dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " entfesselt.", 3000);
-                        dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " entfesselt.", 3000);
+                        dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " entfesselt.", "black", 6000);
+                        dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " entfesselt.", "black", 6000);
                         dbPlayer2.StopAnimation();
                         dbPlayer.StopAnimation();
                         dbPlayer.disableAllPlayerActions(false);
@@ -205,13 +204,13 @@ namespace GVMP
 
                 if (dbPlayer.IsFarming)
                 {
-                    dbPlayer.SendNotification("Du kannst aktuell niemanden durchsuchen!", 3000, "red");
+                    dbPlayer.SendNotification("Du kannst aktuell niemanden durchsuchen!", "black", 3500);
                     return;
                 }
 
                 if (!dbPlayer2.IsCuffed && !dbPlayer2.DeathData.IsDead)
                 {
-                    dbPlayer2.SendNotification("Der Spieler ist nicht gefesselt.", 3000, "red");
+                    dbPlayer2.SendNotification("Der Spieler ist nicht gefesselt.", "black", 3500);
                     return;
                 }
 
@@ -224,13 +223,13 @@ namespace GVMP
                 {
                     dbPlayer.IsFarming = false;
                     dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2.Name + " durchsucht.", 3000);
+                    dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2.Name + " durchsucht.", "black", 6000);
                     dbPlayer.StopAnimation();
                     dbPlayer.disableAllPlayerActions(false);
                     dbPlayer.TriggerEvent("openWindow", "Inventory",
                         "{\"inventory\":[{\"Id\":1,\"Name\":\"Inventar von Spieler\",\"Money\":1,\"Blackmoney\":0,\"PlayerInventory\":false,\"Weight\":0,\"MaxWeight\":40000,\"MaxSlots\":12,\"Slots\":" +
                         NAPI.Util.ToJson(dbPlayer2.GetInventoryItems()) + "}]}");
-                }, 5000);
+                }, 3500);
             }
             catch (Exception ex)
             {
@@ -263,8 +262,8 @@ namespace GVMP
                     house2.OwnerId == dbPlayer.Id || house2.TenantsIds.Contains(dbPlayer.Id));
                 if (house != null) houseId = house.Id.ToString();
 
-                dbPlayer.SendNotification($"Du hast dem Spieler {dbPlayer2.Name} deinen Personalausweis gezeigt.");
-                dbPlayer2.SendNotification($"Dir wurde der Personalausweis von {dbPlayer.Name} gezeigt.");
+                dbPlayer.SendNotification($"Du hast dem Spieler {dbPlayer2.Name} deinen Personalausweis gezeigt.", "black", 6000);
+                dbPlayer2.SendNotification($"Dir wurde der Personalausweis von {dbPlayer.Name} gezeigt.", "black", 6000);
                 dbPlayer2.ShowPersonalausweis(dbPlayer.Name.Split("_")[0], dbPlayer.Name.Split("_")[1],
                     dbPlayer.Faction.Name, houseId, dbPlayer.Level, dbPlayer.Id, 0, 0);
             }
@@ -291,7 +290,7 @@ namespace GVMP
                 }
                 if (dbPlayer.IsFarming)
                 {
-                    dbPlayer.SendNotification("Du kannst das aktuell nicht!");
+                    dbPlayer.SendNotification("Du kannst das aktuell nicht!", "black", 6000);
                     return;
                 }
                 DbPlayer dbPlayer2 = target.GetPlayer();
@@ -301,19 +300,19 @@ namespace GVMP
                 }
                 if (!dbPlayer2.DeathData.IsDead)
                 {
-                    dbPlayer.SendNotification("Dieser Spieler lebt!", 3000, "red");
+                    dbPlayer.SendNotification("Dieser Spieler lebt!", "black", 3500);
                     return;
                 }
                 if (dbPlayer2.Faction.Id != dbPlayer.Faction.Id)
                 {
-                    dbPlayer.SendNotification("Du kannst nur deine Fraktion reviven!", 3000, "red");
+                    dbPlayer.SendNotification("Du kannst nur deine Fraktion reviven!", "black", 3500);
                     return;
                 }
                 dbPlayer.AllActionsDisabled = true;
                 dbPlayer.IsFarming = true;
                 dbPlayer.RefreshData(dbPlayer);
                 dbPlayer.PlayAnimation(33, "amb@medic@standing@tendtodead@idle_a", "idle_a");
-                dbPlayer.SendNotification("Du fängst an einen Spieler wiederzubeleben...", 3000, "green");
+                dbPlayer.SendNotification("Du fängst an einen Spieler wiederzubeleben...", "black", 3500);
                 NAPI.Task.Run((Action)delegate
                 {
                     if (NAPI.Pools.GetAllPlayers().Contains(dbPlayer.Client))
@@ -335,9 +334,10 @@ namespace GVMP
                                 DeathTime = new DateTime(0L)
                             };
                             dbPlayer2.RefreshData(dbPlayer2);
-                            dbPlayer2.StopScreenEffect("DeathFailOut");
-                            dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2.Name + " wiederbelebt!", 3000, "red", "medic");
-                            dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " wiederbelebt!", 3000, "red", "medic");
+                             dbPlayer2.TriggerEvent("toggleBlurred", false);
+                            //dbPlayer.TriggerEvent("toggleBlurred", false);
+                            dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2.Name + " wiederbelebt!", "black", 3500, "medic");
+                            dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " wiederbelebt!", "black", 3500, "medic");
                            // WebhookSender.SendMessage("Spieler wird revived", "Der Spieler " + dbPlayer.Name + " hat den Spieler " + dbPlayer2.Name + " revived.", Webhooks.playerrevivelogs, "Revive");
                         }
                     }
@@ -376,12 +376,12 @@ namespace GVMP
 
                 if (!dbPlayer2.IsCuffed && !dbPlayer2.DeathData.IsDead)
                 {
-                    dbPlayer2.SendNotification("Der Spieler ist nicht gefesselt.", 3000, "red");
+                    dbPlayer2.SendNotification("Der Spieler ist nicht gefesselt.", "black", 3500);
                     return;
                 }
 
-                dbPlayer.SendNotification($"Du hast dem Spieler {dbPlayer2.Name} den Personalausweis gezogen.");
-                dbPlayer2.SendNotification($"Dir wurde der Personalausweis von {dbPlayer.Name} gezogen.");
+                dbPlayer.SendNotification($"Du hast dem Spieler {dbPlayer2.Name} den Personalausweis gezogen.", "black", 6000);
+                dbPlayer2.SendNotification($"Dir wurde der Personalausweis von {dbPlayer.Name} gezogen.", "black", 6000);
                 dbPlayer.ShowPersonalausweis(dbPlayer2.Name.Split("_")[0], dbPlayer2.Name.Split("_")[1],
                     dbPlayer2.Faction.Name, houseId, dbPlayer2.Level, dbPlayer2.Id, 0, 0);
             }

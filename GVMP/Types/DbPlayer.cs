@@ -55,6 +55,8 @@ namespace GVMP
 
 		public bool IsFarming { get; set; }
 
+		public bool IsCancleAction { get; set; }
+
 		private DeathData _deathData = new DeathData
 		{
 			DeathTime = DateTime.Now,

@@ -46,7 +46,7 @@ namespace GVMP
             {
                 ColShape c = NAPI.ColShape.CreateCylinderColShape(weaponManufacture.Position, 20.0f, 2.4f, 0);
                 c.SetData("FUNCTION_MODEL", new FunctionModel("openManufacturing", weaponManufacture.Id));
-                c.SetData("MESSAGE", new Message("Benutze E um Waffen herzustellen.", "Waffenherstellung", "green", 3000));
+                c.SetData("MESSAGE", new Message("Benutze E um Waffen herzustellen.", "Waffenherstellung", "black", 3000));
 
                 NAPI.Blip.CreateBlip(156, weaponManufacture.Position, 1f, 0, "Waffenherstellung " + weaponManufacture.WeaponName, 255, 0, true, 0, 0);
             }
@@ -102,13 +102,13 @@ namespace GVMP
 
                 if (dbPlayer.GetItemAmount("Waffenteile") < weaponManufacture.RemoveCount)
                 {
-                    dbPlayer.SendNotification("Du besitzt zu wenig Waffenteile! Benötigt: " + weaponManufacture.RemoveCount, 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt zu wenig Waffenteile! Benötigt: " + weaponManufacture.RemoveCount, "black", 3500);
                     return;
                 }
 
                 if (dbPlayer.Money < weaponManufacture.Price)
                 {
-                    dbPlayer.SendNotification("Du besitzt zu wenig Geld! Benötigt: " + weaponManufacture.Price, 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt zu wenig Geld! Benötigt: " + weaponManufacture.Price, "black", 3500);
                     return;
                 }
 
@@ -127,7 +127,7 @@ namespace GVMP
                     {
                         if (c.Dimension != 0)
                         {
-                            dbPlayer.SendNotification("Du kannst gerade keine Waffen herstellen.", 3000, "red");
+                            dbPlayer.SendNotification("Du kannst gerade keine Waffen herstellen.", "black", 3500);
                             return;
                         }
                         else

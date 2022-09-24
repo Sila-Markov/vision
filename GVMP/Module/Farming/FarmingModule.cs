@@ -79,11 +79,11 @@ namespace GVMP
             {
                 ColShape c = NAPI.ColShape.CreateCylinderColShape(farmingModel.Sammler, farmingModel.ColShapeRange, 2.4f, 0);
                 c.SetData("FUNCTION_MODEL", new FunctionModel("triggerFarming"));
-                c.SetData("MESSAGE", new Message("Benutze E um zu farmen.", "FARMING", "green", 3000));
+                c.SetData("MESSAGE", new Message("Benutze E um zu farmen.", "FARMING", "black", 3000));
 
                 ColShape ca = NAPI.ColShape.CreateCylinderColShape(farmingModel.Verarbeiter, 30f, 2.4f, 0);
                 ca.SetData("FUNCTION_MODEL", new FunctionModel("triggerFarming"));
-                ca.SetData("MESSAGE", new Message("Benutze E um zu verarbeiten.", "FARMING", "green", 3000));
+                ca.SetData("MESSAGE", new Message("Benutze E um zu verarbeiten.", "FARMING", "black", 3000));
 
                 /*NAPI.Marker.CreateMarker(1, t.Sammler, new Vector3(), new Vector3(), t.ColShapeRange, new Color(255, 140, 0), false, 0);
                 NAPI.Marker.CreateMarker(1, t.Verarbeiter, new Vector3(), new Vector3(), 3.7f, new Color(255, 140, 0), false, 0);*/
@@ -93,12 +93,12 @@ namespace GVMP
 
             ColShape cb = NAPI.ColShape.CreateCylinderColShape(new Vector3(1465.892, 6547.677, 13.05419), 1.4f, 1.4f, 0);
             cb.SetData("FUNCTION_MODEL", new FunctionModel("showDrugMenu"));
-            cb.SetData("MESSAGE", new Message("Benutze E um bei Katsu drogen zu verkaufen.", "DEALER", "green", 3000));
+            cb.SetData("MESSAGE", new Message("Benutze E um bei Katsu drogen zu verkaufen.", "DEALER", "black", 3000));
             NAPI.Marker.CreateMarker(1, new Vector3(1465.892, 6547.677, 13.05419), new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, 0);
             /*
             ColShape Marki = NAPI.ColShape.CreateCylinderColShape(new Vector3(460.85, -2181.3, 5.92), 1.4f, 1.4f, 0);
             Marki.SetData("FUNCTION_MODEL", new FunctionModel("showGummiMenu"));
-            Marki.SetData("MESSAGE", new Message("Benutze E um Gummi/Golden Dildos zu kaufen.", "GummiDildo", "green", 3000));
+            Marki.SetData("MESSAGE", new Message("Benutze E um Gummi/Golden Dildos zu kaufen.", "GummiDildo", "black", 3000));
             NAPI.Marker.CreateMarker(1, new Vector3(460.85, -2181.3, 5.92), new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, 0);
             NAPI.Blip.CreateBlip(140, new Vector3(460.85,-2181.3,5.92), 1f, 1, "GummiDildo", 255, 0, true, 0, 0);*/
 
@@ -170,8 +170,7 @@ namespace GVMP
                             {
                                 dbPlayer.UpdateInventoryItems(farmingModel.Item_1, farmingModel.PickupCount, false);
                                 dbPlayer.SendNotification(
-                                    $"Du hast {farmingModel.PickupCount}x {farmingModel.Item_1} gesammelt.", 3000,
-                                    "green", "FARMING");
+                                    $"Du hast {farmingModel.PickupCount}x {farmingModel.Item_1} gesammelt.", "black", 5000,  "FARMING");
                             }
                         }
                         else if (client.Position.DistanceTo(farmingModel.Verarbeiter) <= 30.0f)
@@ -184,12 +183,12 @@ namespace GVMP
                                     dbPlayer.UpdateInventoryItems(farmingModel.Item_2, farmingModel.AddCount, false);
                                     dbPlayer.SendNotification(
                                         $"Du hast {farmingModel.RemoveCount}x {farmingModel.Item_1} zu {farmingModel.AddCount}x {farmingModel.Item_2} verarbeitet.",
-                                        3000, "green", "FARMING");
+                                        "black", 5000, "FARMING");
                                 }
                                 else
                                 {
                                     dbPlayer.SendNotification("Du besitzt nicht genug " + farmingModel.Item_1 + "!",
-                                        3000, "red");
+                                        "black", 5000);
                                     triggerFarming(client);
                                 }
                             }
@@ -250,11 +249,11 @@ namespace GVMP
                     {
                         dbPlayer.UpdateInventoryItems("Meth", 10, true);
                         dbPlayer.addMoney(14000 * 10);
-                        dbPlayer.SendNotification("Du hast 10x Meth verkauft.", 3000, "green", "DEALER");
+                        dbPlayer.SendNotification("Du hast 10x Meth verkauft.", "black", 3500, "DEALER");
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du besitzt nicht genug Meth!", 3000, "red");
+                        dbPlayer.SendNotification("Du besitzt nicht genug Meth!", "black", 3500);
                     }
                 }
                 if (value == "Ephidrinkonzentrat")
@@ -263,11 +262,11 @@ namespace GVMP
                     {
                         dbPlayer.UpdateInventoryItems("Ephidrinkonzentrat", 1, true);
                         dbPlayer.addMoney(farmingPrices["Ephidrinkonzentrat"]);
-                        dbPlayer.SendNotification("Du hast 1x Ephidrinkonzentrat verkauft.", 3000, "green", "DEALER");
+                        dbPlayer.SendNotification("Du hast 1x Ephidrinkonzentrat verkauft.", "black", 3500, "DEALER");
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du besitzt nicht genug Ephidrinkonzentrat!", 3000, "red");
+                        dbPlayer.SendNotification("Du besitzt nicht genug Ephidrinkonzentrat!", "black", 3500);
                     }
                 }
                 if (value == "GoldenDildo")
@@ -276,11 +275,11 @@ namespace GVMP
                     {
                         dbPlayer.UpdateInventoryItems("GoldenDildo", 1, true);
                         dbPlayer.addMoney(100000000 * 1);
-                        dbPlayer.SendNotification("Du hast 1x Golden Dildo verkauft.", 3000, "green", "DEALER");
+                        dbPlayer.SendNotification("Du hast 1x Golden Dildo verkauft.", "black", 3500, "DEALER");
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du besitzt kein Golden Dildo!", 3000, "red");
+                        dbPlayer.SendNotification("Du besitzt kein Golden Dildo!", "black", 3500);
                     }
 
                 }
@@ -330,12 +329,12 @@ namespace GVMP
                     if (dbPlayer.Money >= 25000000)
                     {
                         dbPlayer.UpdateInventoryItems("Gummi", 100, false);
-                        dbPlayer.SendNotification("Du hast 100x Gummi gekauft.", 3000, "green", "Shop");
+                        dbPlayer.SendNotification("Du hast 100x Gummi gekauft.", "black", 3500, "Shop");
                         dbPlayer.removeMoney(25000000);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du hast nicht genug Geld!", 3000, "red");
+                        dbPlayer.SendNotification("Du hast nicht genug Geld!", "black", 3500);
                     }
                 }
                 if (value == "GoldenDildo")
@@ -343,12 +342,12 @@ namespace GVMP
                     if (dbPlayer.Money >= 80000000)
                     {
                         dbPlayer.UpdateInventoryItems("GoldenDildo", 1, false);
-                        dbPlayer.SendNotification("Du hast 1x Golden Dildo gekauft.", 3000, "green", "Golden Dildo");
+                        dbPlayer.SendNotification("Du hast 1x Golden Dildo gekauft.", "black", 3500, "Golden Dildo");
                         dbPlayer.removeMoney(15000000);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du hast nicht genug Geld!", 3000, "red");
+                        dbPlayer.SendNotification("Du hast nicht genug Geld!", "black", 3500);
                     }
                 }
 

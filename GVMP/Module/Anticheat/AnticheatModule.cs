@@ -22,7 +22,7 @@ namespace GVMP
                     Adminrank adminranks = dbPlayer2.Adminrank;
 
                     if (adminranks.Permission >= 91)
-                        dbPlayer2.SendNotification($"{Detection} - {player.Name} Dimension: {player.Dimension}", 5000, "red", "Anticheat");
+                        dbPlayer2.SendNotification($"{Detection} - {player.Name} Dimension: {player.Dimension}", "black", 3500);
                 });
             }
             catch (Exception ex)

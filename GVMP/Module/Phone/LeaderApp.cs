@@ -10,7 +10,7 @@ namespace GVMP
         [ServerEvent(Event.ResourceStart)]
         public void ResourceStart()
         {
-            Console.Write("Leaderapp geladen.");
+            Logger.Print("Leaderapp geladen.");
         }
 
         [RemoteEvent("phone:uprank")]
@@ -32,7 +32,7 @@ namespace GVMP
                             {
                                 PlayerHandler.GetPlayer(name).Factionrank = PlayerHandler.GetPlayer(name).Factionrank + 1;
                                 PlayerHandler.GetPlayer(name).RefreshData(PlayerHandler.GetPlayer(name));
-                                PlayerHandler.GetPlayer(name).SendNotification("Du hast den Spieler " + name + " auf Rang " + PlayerHandler.GetPlayer(name).Factionrank + " upranked.");
+                                PlayerHandler.GetPlayer(name).SendNotification("Du hast den Spieler " + name + " auf Rang " + PlayerHandler.GetPlayer(name).Factionrank + " upranked.", "black", 3500);
                                 MySqlQuery mySqlQuery =
                                 new MySqlQuery("UPDATE accounts SET Fraktionrank = @rang WHERE Id = @id");
                                 mySqlQuery.AddParameter("@id", PlayerHandler.GetPlayer(name).Id);
@@ -41,28 +41,28 @@ namespace GVMP
 
                                 if (PlayerHandler.GetPlayer(name) != null)
                                 {
-                                    PlayerHandler.GetPlayer(name).SendNotification("Dein Rang wurde auf " + PlayerHandler.GetPlayer(name).Factionrank + " upranked.");
+                                    PlayerHandler.GetPlayer(name).SendNotification("Dein Rang wurde auf " + PlayerHandler.GetPlayer(name).Factionrank + " upranked.", "black", 3500);
                                 }
                             }
                             else
                             {
-                                dbPlayer.SendNotification("Du hast keine Berechtigung, um die Rechte für diesen Spieler zu verändern.");
+                                dbPlayer.SendNotification("Du hast keine Berechtigung, um die Rechte für diesen Spieler zu verändern.", "black", 3500);
                             }
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.");
+                            dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.", "black", 3500);
                         }
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Dieser Spieler existiert nicht.");
+                        dbPlayer.SendNotification("Dieser Spieler existiert nicht.", "black", 3500);
                     }
 
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.");
+                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", "black", 3500);
                 }
             } catch(Exception ex) { Console.Write(ex.Message); }
         }
@@ -86,7 +86,7 @@ namespace GVMP
                             {
                                 PlayerHandler.GetPlayer(name).Factionrank = PlayerHandler.GetPlayer(name).Factionrank - 1;
                                 PlayerHandler.GetPlayer(name).RefreshData(PlayerHandler.GetPlayer(name));
-                                PlayerHandler.GetPlayer(name).SendNotification("Du hast den Spieler " + name + " auf Rang " + PlayerHandler.GetPlayer(name).Factionrank + " gederanked.");
+                                PlayerHandler.GetPlayer(name).SendNotification("Du hast den Spieler " + name + " auf Rang " + PlayerHandler.GetPlayer(name).Factionrank + " gederanked.", "black", 3500);
                                 MySqlQuery mySqlQuery =
                                 new MySqlQuery("UPDATE accounts SET Fraktionrank = @rang WHERE Id = @id");
                                 mySqlQuery.AddParameter("@id", PlayerHandler.GetPlayer(name).Id);
@@ -95,28 +95,28 @@ namespace GVMP
 
                                 if (PlayerHandler.GetPlayer(name) != null)
                                 {
-                                    PlayerHandler.GetPlayer(name).SendNotification("Dein Rang wurde auf " + PlayerHandler.GetPlayer(name).Factionrank + " gederanked.");
+                                    PlayerHandler.GetPlayer(name).SendNotification("Dein Rang wurde auf " + PlayerHandler.GetPlayer(name).Factionrank + " gederanked.", "black", 3500);
                                 }
                             }
                             else
                             {
-                                dbPlayer.SendNotification("Du hast keine Berechtigung, um die Rechte für diesen Spieler zu verändern.");
+                                dbPlayer.SendNotification("Du hast keine Berechtigung, um die Rechte für diesen Spieler zu verändern.", "black", 3500);
                             }
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.");
+                            dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.", "black", 3500);
                         }
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Dieser Spieler existiert nicht.");
+                        dbPlayer.SendNotification("Dieser Spieler existiert nicht.", "black", 3500);
                     }
 
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.");
+                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", "black", 3500);
                 }
             }
             catch (Exception ex) { Console.Write(ex.Message); }
@@ -140,44 +140,44 @@ namespace GVMP
 
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Spieler nicht online!", 3000, "red");
+                        dbPlayer.SendNotification("Spieler nicht online!", "black", 3500);
                         return;
                     }
 
                     /* List<DbPlayer> list = dbPlayer.Faction.GetFactionPlayers().FindAll((DbPlayer player) => player.SpielerFraktion);
                      if (list.Count >= 35)
                      {
-                         dbPlayer.SendNotification("Deine Fraktion hat mehr als 35 Member, daher kannst du keinen Mehr einladen!", 5000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                         dbPlayer.SendNotification("Deine Fraktion hat mehr als 35 Member, daher kannst du keinen Mehr einladen!", "black", 3500, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
                      }*/
 
                     /* List<DbPlayer> factionPlayers = dbPlayer.Faction.GetFactionPlayers();
 
                      if (factionPlayers.FindAll(dbPlayer2.Id).Count >= 35)
                      {
-                         dbPlayer.SendNotification("Deine Fraktion hat mehr als 35 Member, daher kannst du keinen Mehr einladen!", 5000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                         dbPlayer.SendNotification("Deine Fraktion hat mehr als 35 Member, daher kannst du keinen Mehr einladen!", "black", 3500, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
                      }*/
 
 
                     if (dbPlayer2.Faction.Id == dbPlayer.Faction.Id)
                     {
-                        dbPlayer.SendNotification("Der Spieler ist bereits in deiner Fraktion.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                        dbPlayer.SendNotification("Der Spieler ist bereits in deiner Fraktion.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                     }
                     else
                     {
                         if (dbPlayer2.Faction.Id == 0)
                         {
                             dbPlayer2.TriggerEvent("invite:open", dbPlayer.Faction.Name);
-                            dbPlayer.SendNotification("Du hast " + name + " eine Einladung gesendet.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            dbPlayer.SendNotification("Du hast " + name + " eine Einladung gesendet.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Dieser Spieler ist bereits in einer Fraktion.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            dbPlayer.SendNotification("Dieser Spieler ist bereits in einer Fraktion.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                         }
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                 }
             }
             catch (Exception ex)
@@ -213,10 +213,10 @@ namespace GVMP
 
                 foreach (DbPlayer target in fraktion.GetFactionPlayers())
                 {
-                    target.SendNotification("" + c.Name + " ist jetzt ein Mitglied", 3000, fraktion.GetRGBStr(), fraktion.Name);
+                    target.SendNotification("" + c.Name + " ist jetzt ein Mitglied", fraktion.GetRGBStr(), 3000,  fraktion.Name);
                 }
 
-                dbPlayer.SendNotification("Du bist der Fraktion " + fraktion.Name + " beigetreten.", 3000, fraktion.GetRGBStr(), fraktion.Name);
+                dbPlayer.SendNotification("Du bist der Fraktion " + fraktion.Name + " beigetreten.", fraktion.GetRGBStr(), 3000,  fraktion.Name);
             }
             catch (Exception ex)
             {
@@ -244,7 +244,7 @@ namespace GVMP
                     DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Spieler nicht online!", 3000, "red");
+                        dbPlayer.SendNotification("Spieler nicht online!", "black", 3500);
                         return;
                     }
 
@@ -252,8 +252,7 @@ namespace GVMP
                     {
                         if (dbPlayer2.Factionrank < dbPlayer.Factionrank)
                         {
-                            dbPlayer.SendNotification("Du hast den Spieler " + name + " uninvited.", 3000,
-                                dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            dbPlayer.SendNotification("Du hast den Spieler " + name + " uninvited.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
 
                             dbPlayer2.SetAttribute("Fraktion", 0);
                             dbPlayer2.SetAttribute("Fraktionrank", 0);
@@ -266,21 +265,21 @@ namespace GVMP
                             dbPlayer2.Faction = FactionModule.getFactionById(0);
                             dbPlayer2.Factionrank = 0;
                             dbPlayer2.RefreshData(dbPlayer2);
-                            dbPlayer2.SendNotification("Du wurdest aus der Fraktion " + dbPlayer.Faction.Name + " gekickt.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            dbPlayer2.SendNotification("Du wurdest aus der Fraktion " + dbPlayer.Faction.Name + " gekickt.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Du hast keine Berechtigung, um diesen Spieler zu uninviten.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            dbPlayer.SendNotification("Du hast keine Berechtigung, um diesen Spieler zu uninviten.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                         }
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                        dbPlayer.SendNotification("Dieser Spieler ist nicht in deiner Fraktion.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                    dbPlayer.SendNotification("Du hast dazu keine Berechtigung.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                 }
             }
             catch (Exception ex)
@@ -308,7 +307,7 @@ namespace GVMP
                 {
                     dbPlayer.Faction.GetFactionPlayers().ForEach(delegate (DbPlayer target)
                     {
-                        target.SendNotification("Alle Fraktionsfahrzeuge wurden von " + c.Name + " eingeparkt.", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                        target.SendNotification("Alle Fraktionsfahrzeuge wurden von " + c.Name + " eingeparkt.", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                     });
                     NAPI.Pools.GetAllVehicles().FindAll((Vehicle veh) => veh.GetVehicle() != null && veh.GetVehicle().Fraktion != null && veh.GetVehicle().Fraktion.Id == dbPlayer.Faction.Id).ForEach(delegate (Vehicle veh)
                     {

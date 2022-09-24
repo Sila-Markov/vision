@@ -23,7 +23,7 @@ namespace GVMP
             {
                 ColShape c = NAPI.ColShape.CreateCylinderColShape(clinic.Position, 2.4f, 2.4f, 0);
                 c.SetData("FUNCTION_MODEL", new FunctionModel("openClinic"));
-                c.SetData("MESSAGE", new Message("Benutze E um die Schönheitsklinik zu betreten. (5.000$)", "KLINIK", "green", 3000));
+                c.SetData("MESSAGE", new Message("Benutze E um die Schönheitsklinik zu betreten. (5.000$)", "KLINIK", "black", 3000));
 
                 NAPI.Marker.CreateMarker(1, clinic.Position, new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, 0);
                 NAPI.Blip.CreateBlip(468, clinic.Position, 1f, 0, "Schönheitsklinik", 255, 0, true, 0, 0);
@@ -44,7 +44,7 @@ namespace GVMP
 
                 if (dbPlayer.Money >= 5000)
                 {
-                    dbPlayer.SendNotification("Du hast die Schönheitsklinik betreten!", 3000, "green");
+                    dbPlayer.SendNotification("Du hast die Schönheitsklinik betreten!", "black", 3500);
                     dbPlayer.removeMoney(5000);
                     dbPlayer.OpenCharacterCreator();
                     dbPlayer.SetPosition(new Vector3(402.8664, -996.4108, -99.00027));
@@ -53,7 +53,7 @@ namespace GVMP
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du besitzt nicht genug Geld!", 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt nicht genug Geld!", "black", 3500);
                 }
             }
             catch (Exception ex)

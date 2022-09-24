@@ -11,8 +11,11 @@ namespace GVMP
         public string Name { get; set; }
         public Faction Faction { get; set; }
         public Vector3 Zone { get; set; }
-        public Vector3 PlayerSpawn1 { get; set; }
-        public Vector3 PlayerSpawn2 { get; set; }
+        public Flag PlayerSpawn1 { get; set; }
+        public Flag PlayerSpawn2 { get; set; }
+
+        public float RotationPlayerSpawn1 { get; set; }
+        public float RotationPlayerSpawn2 { get; set; }
         public Vector3 CarSpawn1 { get; set; }
         public Vector3 CarSpawn2 { get; set; }
         public float CarSpawnRot1 { get; set; }

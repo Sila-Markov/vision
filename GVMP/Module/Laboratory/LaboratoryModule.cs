@@ -70,22 +70,22 @@ namespace GVMP
 			}
 			ColShape val2 = NAPI.ColShape.CreateCylinderColShape(LaboratoryInteriorPoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val2).SetData("FUNCTION_MODEL", (object)new FunctionModel("leaveLaboratory"));
-			((Entity)val2).SetData("MESSAGE", (object)new Message("Drücke E um das Labor zu verlassen.", "LABOR", "green"));
+			((Entity)val2).SetData("MESSAGE", (object)new Message("Drücke E um das Labor zu verlassen.", "LABOR", "black"));
 			ColShape val3 = NAPI.ColShape.CreateCylinderColShape(BatteryProcessingPoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val3).SetData("FUNCTION_MODEL", (object)new FunctionModel("processBattery"));
-			((Entity)val3).SetData("MESSAGE", (object)new Message("Drücke E um Batterien zu verarbeiten.", "LABOR", "green"));
+			((Entity)val3).SetData("MESSAGE", (object)new Message("Drücke E um Batterien zu verarbeiten.", "LABOR", "black"));
 			ColShape val4 = NAPI.ColShape.CreateCylinderColShape(MaterialStoragePoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val4).SetData("FUNCTION_MODEL", (object)new FunctionModel("openMaterialStorage"));
-			((Entity)val4).SetData("MESSAGE", (object)new Message("Drücke E um das Materiallager zu öffnen.", "LABOR", "green"));
+			((Entity)val4).SetData("MESSAGE", (object)new Message("Drücke E um das Materiallager zu öffnen.", "LABOR", "black"));
 			ColShape val5 = NAPI.ColShape.CreateCylinderColShape(MaterialProductsPoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val5).SetData("FUNCTION_MODEL", (object)new FunctionModel("openMaterialProducts"));
-			((Entity)val5).SetData("MESSAGE", (object)new Message("Drücke E um das Lager der Endprodukte zu öffnen.", "LABOR", "green"));
+			((Entity)val5).SetData("MESSAGE", (object)new Message("Drücke E um das Lager der Endprodukte zu öffnen.", "LABOR", "black"));
 			ColShape val6 = NAPI.ColShape.CreateCylinderColShape(EphiDustProcessingPoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val6).SetData("FUNCTION_MODEL", (object)new FunctionModel("processDust"));
-			((Entity)val6).SetData("MESSAGE", (object)new Message("Drücke E um Ephidrinkonzentrat zu verarbeiten.", "LABOR", "green"));
+			((Entity)val6).SetData("MESSAGE", (object)new Message("Drücke E um Ephidrinkonzentrat zu verarbeiten.", "LABOR", "black"));
 			ColShape val7 = NAPI.ColShape.CreateCylinderColShape(LaboratorySetingsPoint, 1.4f, 1.4f, uint.MaxValue);
 			((Entity)val7).SetData("FUNCTION_MODEL", (object)new FunctionModel("openLabor"));
-			((Entity)val7).SetData("MESSAGE", (object)new Message("Drücke E um das Labor zu steuern", "LABOR", "green"));
+			((Entity)val7).SetData("MESSAGE", (object)new Message("Drücke E um das Labor zu steuern", "LABOR", "black"));
 			NAPI.Marker.CreateMarker(1, LaboratorySetingsPoint, new Vector3(), new Vector3(), 1f, new Color(255, 140, 0), false, uint.MaxValue);
 			NAPI.Marker.CreateMarker(1, EphiDustProcessingPoint, new Vector3(), new Vector3(), 1f, new Color(255, 140, 0), false, uint.MaxValue);
 			NAPI.Marker.CreateMarker(1, LaboratoryInteriorPoint, new Vector3(), new Vector3(), 1f, new Color(255, 140, 0), false, uint.MaxValue);
@@ -116,7 +116,7 @@ namespace GVMP
 					if (!flag)
 					{
 						player.SetData("IN_LABOR", !flag);
-						player.SendNotification("Du hast das Labor " + (flag ? "verlassen" : "betreten") + ".", 3000, player.Faction.GetRGBStr(), "LABOR");
+						player.SendNotification("Du hast das Labor " + (flag ? "verlassen" : "betreten") + ".", player.Faction.GetRGBStr(), 3000, "LABOR");
 						player.Dimension = ((!flag) ? (7500 + Id) : 0);
 						player.Position = (flag ? laboratory.Entrance : LaboratoryInteriorPoint);
 						int num = 2;
@@ -154,7 +154,7 @@ namespace GVMP
 					if (flag)
 					{
 						dbPlayer.SetData("IN_LABOR", !flag);
-						dbPlayer.SendNotification("Du hast das Labor " + (flag ? "verlassen" : "betreten") + ".", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+						dbPlayer.SendNotification("Du hast das Labor " + (flag ? "verlassen" : "betreten") + ".", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 						dbPlayer.Dimension = ((!flag) ? (7500 + laboratory.Id) : 0);
 						dbPlayer.Position = (flag ? laboratory.Entrance : LaboratoryInteriorPoint);
 					}
@@ -190,7 +190,7 @@ namespace GVMP
 				{
 					dbPlayer.IsFarming = true;
 					dbPlayer.RefreshData(dbPlayer);
-					dbPlayer.SendNotification("Du verarbeitest nun 9 Batterien!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+					dbPlayer.SendNotification("Du verarbeitest nun 9 Batterien!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 					dbPlayer.AllActionsDisabled = true;
 					dbPlayer.SendProgressbar(30000);
 					dbPlayer.UpdateInventoryItems("Batterie", 9, remove: true);
@@ -202,14 +202,14 @@ namespace GVMP
 							dbPlayer.RefreshData(dbPlayer);
 							dbPlayer.AllActionsDisabled = false;
 							dbPlayer.StopProgressbar();
-							dbPlayer.SendNotification("Du hast 9 Batterien zu 45 Batteriezellen verarbeitet!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+							dbPlayer.SendNotification("Du hast 9 Batterien zu 45 Batteriezellen verarbeitet!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 							dbPlayer.UpdateInventoryItems("Batteriezelle", 45, remove: false);
 						}
 					}, 30000L);
 				}
 				else
 				{
-					dbPlayer.SendNotification("Du benötigst mindestens 9 Batterien!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+					dbPlayer.SendNotification("Du benötigst mindestens 9 Batterien!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 				}
 			}
 			catch (Exception ex)
@@ -242,7 +242,7 @@ namespace GVMP
 				{
 					dbPlayer.IsFarming = true;
 					dbPlayer.RefreshData(dbPlayer);
-					dbPlayer.SendNotification("Du verarbeitest nun 90 Ephidrinkonzentrat!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+					dbPlayer.SendNotification("Du verarbeitest nun 90 Ephidrinkonzentrat!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 					dbPlayer.AllActionsDisabled = true;
 					dbPlayer.SendProgressbar(30000);
 					dbPlayer.UpdateInventoryItems("Ephidrinkonzentrat", 90, remove: true);
@@ -254,14 +254,14 @@ namespace GVMP
 							dbPlayer.RefreshData(dbPlayer);
 							dbPlayer.AllActionsDisabled = false;
 							dbPlayer.StopProgressbar();
-							dbPlayer.SendNotification("Du hast 90 Ephidrinkonzentrat zu 45 Ephidrinpulver verarbeitet!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+							dbPlayer.SendNotification("Du hast 90 Ephidrinkonzentrat zu 45 Ephidrinpulver verarbeitet!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 							dbPlayer.UpdateInventoryItems("Ephidrinpulver", 45, remove: false);
 						}
 					}, 30000L);
 				}
 				else
 				{
-					dbPlayer.SendNotification("Du benötigst mindestens 90 Ephidrinkonzentrat!", 3000, dbPlayer.Faction.GetRGBStr(), "LABOR");
+					dbPlayer.SendNotification("Du benötigst mindestens 90 Ephidrinkonzentrat!", dbPlayer.Faction.GetRGBStr(), 3000, "LABOR");
 				}
 			}
 			catch (Exception ex)

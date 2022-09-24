@@ -55,13 +55,13 @@ namespace GVMP
 
             ColShape val = NAPI.ColShape.CreateCylinderColShape(new Vector3(1138, -3198, -40), 1.4f, 1.4f, uint.MaxValue);
             val.SetData("FUNCTION_MODEL", new FunctionModel("leaveKeller"));
-            val.SetData("MESSAGE", new Message("Drücke E um den Keller zu verlassen.", "KELLER", "green", 3000)); 
+            val.SetData("MESSAGE", new Message("Drücke E um den Keller zu verlassen.", "KELLER", "black", 3000)); 
 
             NAPI.Marker.CreateMarker(1, new Vector3(1138, -3198, -40).Subtract(new Vector3(0, 0, 1)), new Vector3(), new Vector3(), 1.0f, new Color(9, 114, 193), false, uint.MaxValue);
 
             ColShape val2 = NAPI.ColShape.CreateCylinderColShape(new Vector3(1130, -3194, -40), 1.4f, 1.4f, uint.MaxValue);
             val2.SetData("FUNCTION_MODEL", new FunctionModel("createBulletproofs"));
-            val2.SetData("MESSAGE", new Message("Drücke E um Westen herzustellen.", "KELLER", "green", 3000));
+            val2.SetData("MESSAGE", new Message("Drücke E um Westen herzustellen.", "KELLER", "black", 3000));
 
             NAPI.Marker.CreateMarker(1, new Vector3(1130, -3194, -40).Subtract(new Vector3(0, 0, 1.4)), new Vector3(), new Vector3(), 1.0f, new Color(9, 114, 193), false, uint.MaxValue);
 
@@ -161,7 +161,7 @@ namespace GVMP
                           (house.Class.MaxTenants - house.TenantsIds.Count) +
                           (house.SeeTel ? "      Tel: " + house.OwnerId : "");
 
-                    dbPlayer.SendNotification(msg, 3500, house.Locked ? "red" : "green", "(" + house.Id + ") Immobilie");
+                    dbPlayer.SendNotification(msg, house.Locked ? "red" : "black", 3500, "(" + house.Id + ") Immobilie");
                 }
             } catch (Exception ex)
             {
@@ -236,7 +236,7 @@ namespace GVMP
 
                 if (price > 10000)
                 {
-                    dbPlayer.SendNotification("Dieser Mietpreis ist zu hoch.", 3000, "red");
+                    dbPlayer.SendNotification("Dieser Mietpreis ist zu hoch.", "black", 3500);
                     return;
                 }
 
@@ -254,12 +254,12 @@ namespace GVMP
                 mySqlQuery.AddParameter("@val", NAPI.Util.ToJson(house.TenantPrices));
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Du hast den Mietpreis von dem Spieler erfolgreich geändert!", 3000, "green");
+                dbPlayer.SendNotification("Du hast den Mietpreis von dem Spieler erfolgreich geändert!", "black", 3500);
 
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(id);
                 if (dbPlayer2 != null && dbPlayer.IsValid(true))
                 {
-                    dbPlayer2.SendNotification("Neuer Mietpreis: " + price.ToDots() + "$");
+                    dbPlayer2.SendNotification("Neuer Mietpreis: " + price.ToDots() + "$", "black", 3500);
                 }
             }
             catch (Exception ex)
@@ -314,13 +314,12 @@ namespace GVMP
                 mySqlQuery.AddParameter("@val", NAPI.Util.ToJson(house.TenantsIds));
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Du hast den Spieler erfolgreich aus deinem Haus rausgeschmissen!", 3000,
-                    "green");
+                dbPlayer.SendNotification("Du hast den Spieler erfolgreich aus deinem Haus rausgeschmissen!", "black", 3500);
 
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(id);
                 if (dbPlayer2 != null && dbPlayer.IsValid(true))
                 {
-                    dbPlayer2.SendNotification("Du wurdest aus deinem Haus rausgeschmissen!");
+                    dbPlayer2.SendNotification("Du wurdest aus deinem Haus rausgeschmissen!", "black", 3500);
                 }
             }
             catch (Exception ex)
@@ -409,8 +408,8 @@ namespace GVMP
                     houses.Add(house);
 
                     dbPlayer.SendNotification(
-                        "Du hast Haus " + house.Id + " " + (house.Locked ? " zugeschlossen." : "aufgeschlossen."), 3000,
-                        house.Locked ? "red" : "green");
+                        "Du hast Haus " + house.Id + " " + (house.Locked ? " zugeschlossen." : "aufgeschlossen."),
+                        house.Locked ? "red" : "black", 3000);
                 }
                 else
                 {
@@ -432,7 +431,7 @@ namespace GVMP
 
                         dbPlayer.SendNotification(
                             "Du hast Haus " + house.Id + " " + (house.Locked ? "zugeschlossen." : "aufgeschlossen."),
-                            3000, house.Locked ? "red" : "green");
+                            house.Locked ? "red" : "black", 5000);
                     }
                 }
             }
@@ -461,11 +460,11 @@ namespace GVMP
 
                 if (house.Locked)
                 {
-                    dbPlayer.SendNotification("Das Haus ist abgeschlossen.", 3000, "red");
+                    dbPlayer.SendNotification("Das Haus ist abgeschlossen.", "black", 3500);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast den Keller verlassen.", 3000, "green");
+                    dbPlayer.SendNotification("Du hast den Keller verlassen.", "black", 3500);
                     dbPlayer.SetDimension(0);
                     dbPlayer.SetPosition(house.Entrance);
                     dbPlayer.SetData("IN_HOUSE", 0);
@@ -535,17 +534,17 @@ namespace GVMP
                         dbPlayer.removeMoney(2000);
                         dbPlayer.UpdateInventoryItems("Kevlar", 5, true);
                         dbPlayer.UpdateInventoryItems("Schutzweste", 1, false);
-                        dbPlayer.SendNotification("Du hast eine Schutzweste hergestellt!", 3000, "green");
+                        dbPlayer.SendNotification("Du hast eine Schutzweste hergestellt!", "black", 3500);
                     }
                     else
                     {
                         dbPlayer.SendNotification("Du benötigst mindestens 5 Kevlar um eine Schutzweste herzustellen.",
-                            3000, "red");
+                             "red", 5000);
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du besitzt nicht genug Geld!", 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt nicht genug Geld!", "black", 3500);
                 }
             }
             catch (Exception ex)
@@ -573,11 +572,11 @@ namespace GVMP
 
                 if (house.Locked)
                 {
-                    dbPlayer.SendNotification("Das Haus ist abgeschlossen.", 3000, "red");
+                    dbPlayer.SendNotification("Das Haus ist abgeschlossen.", "black", 3500);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast das Haus verlassen.", 3000, "green");
+                    dbPlayer.SendNotification("Du hast das Haus verlassen.", "black", 3500);
                     dbPlayer.SetDimension(0);
                     dbPlayer.SetPosition(house.Entrance);
                     dbPlayer.SetData("IN_HOUSE", 0);
@@ -608,7 +607,7 @@ namespace GVMP
 
                 if (house.OwnerId != dbPlayer.Id)
                 {
-                    dbPlayer.SendNotification("Nur der Hausbesitzer kann den Kleiderschrank benutzen!", 3000, "red");
+                    dbPlayer.SendNotification("Nur der Hausbesitzer kann den Kleiderschrank benutzen!", "black", 3500);
                     return;
                 }
 
@@ -739,7 +738,7 @@ namespace GVMP
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
                 WebhookSender.SendMessage("TEXTINPUTBOX", "" + dbPlayer.Name + " " + text + " - OUTFIT SPEICHERN", Webhooks.shoplogs, "Shop");
-                dbPlayer.SendNotification("Outfit gespeichert!", 3000, "green");
+                dbPlayer.SendNotification("Outfit gespeichert!", "black", 3500);
             }
             catch (Exception ex)
             {
@@ -771,11 +770,11 @@ namespace GVMP
                 {
                     if (house.Locked)
                     {
-                        dbPlayer.SendNotification("Das Haus ist abgeschlossen.", 3000, "red");
+                        dbPlayer.SendNotification("Das Haus ist abgeschlossen.", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du hast das Haus betreten.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast das Haus betreten.", "black", 3500);
                         dbPlayer.SetDimension(3500 + house.Id);
                         dbPlayer.SetPosition(house.Class.HouseLocation);
                         dbPlayer.SetData("IN_HOUSE", house.Id);
@@ -806,7 +805,7 @@ namespace GVMP
 
                         dbPlayer.SendNotification(
                             "Du hast das anzeigen der Telefonnummer " +
-                            (house.SeeTel ? "eingeschaltet" : "ausgeschaltet") + ".", 3000, "green");
+                            (house.SeeTel ? "eingeschaltet" : "ausgeschaltet") + ".", "black", 3500);
                     }
                 }
             }
@@ -842,17 +841,17 @@ namespace GVMP
                 {
                     if (!house.KellerBuilt)
                     {
-                        dbPlayer.SendNotification("Der Keller ist leider nicht ausgebaut!", 3000, "red");
+                        dbPlayer.SendNotification("Der Keller ist leider nicht ausgebaut!", "black", 3500);
                         return;
                     }
 
                     if (house.Locked)
                     {
-                        dbPlayer.SendNotification("Das Haus ist abgeschlossen.", 3000, "red");
+                        dbPlayer.SendNotification("Das Haus ist abgeschlossen.", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du hast den Keller betreten.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast den Keller betreten.", "black", 3500);
                         dbPlayer.SetDimension(3500 + house.Id);
                         dbPlayer.SetPosition(new Vector3(1138, -3198, -40));
                         dbPlayer.SetData("IN_HOUSE", house.Id);
@@ -862,7 +861,7 @@ namespace GVMP
                 {
                     if (house.KellerBuilt)
                     {
-                        dbPlayer.SendNotification("Der Keller ist bereits ausgebaut!", 3000, "red");
+                        dbPlayer.SendNotification("Der Keller ist bereits ausgebaut!", "black", 3500);
                         return;
                     }
 
@@ -882,12 +881,12 @@ namespace GVMP
                             mySqlQuery.AddParameter("@id", house.Id);
                             MySqlHandler.ExecuteSync(mySqlQuery);
 
-                            dbPlayer.SendNotification("Du hast den Keller ausgebaut.", 3000, "green");
+                            dbPlayer.SendNotification("Du hast den Keller ausgebaut.", "black", 3500);
 
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Du besitzt zu wenig Geld!", 3000, "red");
+                            dbPlayer.SendNotification("Du besitzt zu wenig Geld!", "black", 3500);
                         }
                     }
                 }
@@ -929,7 +928,7 @@ namespace GVMP
                             house2.OwnerId == dbPlayer.Id || house2.TenantsIds.Contains(dbPlayer.Id));
                         if (house2 != null)
                         {
-                            dbPlayer.SendNotification("Du besitzt bereits ein Haus!", 3000, "red");
+                            dbPlayer.SendNotification("Du besitzt bereits ein Haus!", "black", 3500);
                             return;
                         }
 
@@ -938,7 +937,7 @@ namespace GVMP
                         mySqlQuery.AddParameter("@ownerid", dbPlayer.Id);
                         mySqlQuery.AddParameter("@id", house.Id);
                         MySqlHandler.ExecuteSync(mySqlQuery);
-                        dbPlayer.SendNotification("Du hast dieses Haus erfolgreich gekauft.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast dieses Haus erfolgreich gekauft.", "black", 3500);
 
                         houses.Remove(house);
                         house.OwnerId = dbPlayer.Id;
@@ -946,7 +945,7 @@ namespace GVMP
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du besitzt zu wenig Geld!", 3000, "red");
+                        dbPlayer.SendNotification("Du besitzt zu wenig Geld!", "black", 3500);
                     }
                 }
             }

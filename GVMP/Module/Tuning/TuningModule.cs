@@ -118,7 +118,7 @@ namespace GVMP
 		};
 			tuningTurbo = new List<TuningPart>
 		{
-			new TuningPart("EMS Verbesserung 1", "turbo1", 18, 0, 50000)
+			new TuningPart("EMS Verbesserung 1", "turbo1", 18, 0, 35000)
 		};
 			tuningBrakes = new List<TuningPart>
 		{
@@ -583,7 +583,7 @@ namespace GVMP
 							}
 							if (vehicle2.Model.ToLower() == "revolter")
 							{
-								player.SendNotification("Du kannst bei dem Revolter nicht das Dach tunen.", 3000, "red", "TUNING");
+								player.SendNotification("Du kannst bei dem Revolter nicht das Dach tunen.", "black", 3500, "TUNING");
 								player.CloseNativeMenu();
 								break;
 							}
@@ -702,7 +702,7 @@ namespace GVMP
 				}
 				if (player.Money >= tuningColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ getuned.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ getuned.", "black", 3500, "TUNER");
 					player.removeMoney(tuningColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -724,7 +724,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -770,7 +770,7 @@ namespace GVMP
 				}
 				if (selection == "off")
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + neonColor3.Price.ToDots() + "$ getuned.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + neonColor3.Price.ToDots() + "$ getuned.", "black", 3500, "TUNER");
 					vehicle2.SetAttribute("NeonColor", NAPI.Util.ToJson((object)neonColor3.Color));
 					vehicle2.SetAttribute("Neons", 0);
 					vehicle.NeonColor = (neonColor3.Color);
@@ -778,7 +778,7 @@ namespace GVMP
 				}
 				else if (player.Money >= neonColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + neonColor3.Price.ToDots() + "$ getuned.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + neonColor3.Price.ToDots() + "$ getuned.", "black", 3500, "TUNER");
 					player.removeMoney(neonColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -804,7 +804,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -845,7 +845,7 @@ namespace GVMP
 				}
 				if (player.Money >= tuningColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", "black", 3500, "TUNER");
 					player.removeMoney(tuningColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -865,7 +865,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -907,7 +907,7 @@ namespace GVMP
 
 				if (player.Money >= tuningColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", "black", 3500, "TUNER");
 					player.removeMoney(tuningColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -953,7 +953,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -994,7 +994,7 @@ namespace GVMP
 				}
 				if (player.Money >= tuningColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", "black", 3500, "TUNER");
 					player.removeMoney(tuningColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -1014,7 +1014,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -1055,7 +1055,7 @@ namespace GVMP
 				}
 				if (player.Money >= tuningColor3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningColor3.Price.ToDots() + "$ lackiert.", "black", 3500, "TUNER");
 					player.removeMoney(tuningColor3.Price);
 					if (vehicle2.Fraktion == null)
 					{
@@ -1075,7 +1075,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)
@@ -1180,7 +1180,7 @@ namespace GVMP
 				}
 				if (player.Money >= tuningPart3.Price)
 				{
-					player.SendNotification("Du hast dein Fahrzeug für " + tuningPart3.Price.ToDots() + "$ getuned.", 3000, "red", "TUNER");
+					player.SendNotification("Du hast dein Fahrzeug für " + tuningPart3.Price.ToDots() + "$ getuned.", "black", 3500, "TUNER");
 					player.removeMoney(tuningPart3.Price);
 					Dictionary<int, int> dictionary = new Dictionary<int, int>();
 					string text = vehicle2.GetAttributeString("Tuning");
@@ -1214,7 +1214,7 @@ namespace GVMP
 				}
 				else
 				{
-					player.SendNotification("Du besitzt nicht genug Geld!", 3000, "red", "TUNER");
+					player.SendNotification("Du besitzt nicht genug Geld!", "black", 3500, "TUNER");
 				}
 			}
 			catch (Exception ex)

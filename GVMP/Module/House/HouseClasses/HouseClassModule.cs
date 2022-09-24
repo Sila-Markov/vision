@@ -55,12 +55,12 @@ namespace GVMP
             {
                 ColShape val = NAPI.ColShape.CreateCylinderColShape(houseClass.HouseLocation, 1.4f, 1.4f, uint.MaxValue);
                 val.SetData("FUNCTION_MODEL", new FunctionModel("leaveHouse"));
-                val.SetData("MESSAGE", new Message("Drücke E um die Immobilie zu verlassen.", "Immobilie", "green", 3000));
+                val.SetData("MESSAGE", new Message("Drücke E um die Immobilie zu verlassen.", "Immobilie", "black", 3000));
                 NAPI.Marker.CreateMarker(1, houseClass.HouseLocation.Subtract(new Vector3(0, 0, 1)), new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, uint.MaxValue);
 
                 ColShape val2 = NAPI.ColShape.CreateCylinderColShape(houseClass.KleiderschrankLocation, 1.4f, 1.4f, uint.MaxValue);
                 val2.SetData("FUNCTION_MODEL", new FunctionModel("openHouseWardrobe"));
-                val2.SetData("MESSAGE", new Message("Drücke E um den Kleiderschrank zu öffnen.", "Immobilie", "green", 3000));
+                val2.SetData("MESSAGE", new Message("Drücke E um den Kleiderschrank zu öffnen.", "Immobilie", "black", 3000));
                 NAPI.Marker.CreateMarker(1, houseClass.KleiderschrankLocation.Subtract(new Vector3(0, 0, 1)), new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, uint.MaxValue);
             }
 

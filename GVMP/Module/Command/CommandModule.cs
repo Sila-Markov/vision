@@ -44,7 +44,7 @@ namespace GVMP
                     if (p.GetData("PLAYER_ADUTY"))
                     {
                         p.SetSharedData("PLAYER_INVINCIBLE", true);
-                        p.SendNotification("Admin-Dienst aktiviert. (Dein Rang: " + p.Adminrank.Name + ")", 5000, "#0972c1", "ADMIN");
+                        p.SendNotification("Admin-Dienst aktiviert. (Dein Rang: " + p.Adminrank.Name + ")", "black", 3500);
                         p.TriggerEvent("updatesuperjump", true);
                         Adminrank adminrank = p.Adminrank;
                         int num = (int)adminrank.ClothingId;
@@ -57,7 +57,7 @@ namespace GVMP
                     else
                     {
                         p.SetSharedData("PLAYER_INVINCIBLE", false);
-                        p.SendNotification("Admin-Dienst deaktiviert.", 5000, "#0972c1", "ADMIN");
+                        p.SendNotification("Admin-Dienst deaktiviert.", "black", 3500);
                         p.TriggerEvent("Hud:UpdateAduty", 0);
                         p.TriggerEvent("updatesuperjump", false);
                     }
@@ -112,7 +112,8 @@ namespace GVMP
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
-                dbPlayer.SendNotification("Zurzeit sind: " + PlayerHandler.GetAdminPlayers().Count + " Teammitglieder auf dem Server!");
+                dbPlayer.SendNotification("Zurzeit sind: " + PlayerHandler.GetAdminPlayers().Count + " Admins auf dem Server!", "black", 3500);
+                dbPlayer.SendNotification("Zurzeit sind: " + PlayerHandler.GetAdminPlayers().Count + " Admins auf dem Server!", "black", 3500);
             }, "adminlist", 91, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -129,14 +130,14 @@ namespace GVMP
 
                     if (dbPlayer2.Id == dbPlayer.Id)
                     {
-                        dbPlayer.SendNotification("Sich selber abhören macht keinen Sinn, du Fuchs.", 3000, "#0972c1", "ADMIN-COMMAND");
+                        dbPlayer.SendNotification("Sich selber abhören macht keinen Sinn, du Fuchs.", "black", 3500);
                         return;
                     }
 
                     string voiceHashPush = dbPlayer2.VoiceHash;
                     dbPlayer.SetData("adminHearing", voiceHashPush);
                     dbPlayer.TriggerEvent("setAdminVoice", voiceHashPush);
-                    dbPlayer.SendNotification($"Abhören begonnen! Spieler: {dbPlayer2.Name}", 3000, "#0972c1", "ADMIN-COMMAND");
+                    dbPlayer.SendNotification($"Abhören begonnen! Spieler: {dbPlayer2.Name}", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -159,7 +160,7 @@ namespace GVMP
                     {
                         dbPlayer.TriggerEvent("clearAdminVoice");
                         dbPlayer.ResetData("adminHearing");
-                        dbPlayer.SendNotification("Abhören beendet!", 3000, "#0972c1", "ADMIN-COMMAND");
+                        dbPlayer.SendNotification("Abhören beendet!", "black", 3500);
                         return;
                     }
                 }
@@ -224,12 +225,12 @@ namespace GVMP
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
-                dbPlayer.SendNotification("Spieler: " + NAPI.Pools.GetAllPlayers().Count + " Insgesamt, Eingeloggt: " + PlayerHandler.GetPlayers().Count);
+                dbPlayer.SendNotification("Spieler: " + NAPI.Pools.GetAllPlayers().Count + " Insgesamt, Eingeloggt: " + PlayerHandler.GetPlayers().Count, "black", 3500);
             }, "onlist", 0, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
-                dbPlayer.SendNotification("Teamspeak: Vision-Crimelife");
+                dbPlayer.SendNotification("Teamspeak: Vision-Crimelife", "black", 3500);
             }, "ts", 0, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -256,19 +257,19 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 3000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                 {
                     if (dbPlayer2.Faction.Name == "Zivilist")
                     {
-                        dbPlayer.SendNotification("Der Spieler ist in keiner Fraktion!", 3000, "#0972c1");
+                        dbPlayer.SendNotification("Der Spieler ist in keiner Fraktion!", "black", 3500);
                     }
                     else
                     {
                         dbPlayer2.SetPosition(dbPlayer2.Faction.Storage);
-                        dbPlayer.SendNotification("Spieler zu " + dbPlayer2.Faction.Name + " teleportiert!", 3000, "#0972c1");
+                        dbPlayer.SendNotification("Spieler zu " + dbPlayer2.Faction.Name + " teleportiert!", "black", 3500);
                     }
                 }
             }, "tpfrak", 92, 1));
@@ -277,14 +278,14 @@ namespace GVMP
 
             {
 
-                dbPlayer.SendNotification("Du hast alle Spieler Revived ", 5000, "#0972c1");
+                dbPlayer.SendNotification("Du hast alle Spieler Revived ", "black", 3500);
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
 
                     DbPlayer dbPlayer2 = target.GetPlayer(); dbPlayer2.SpawnPlayer(dbPlayer2.Client.Position);
 
 
-                    dbPlayer2.SendNotification("Du Wurdest von " + dbPlayer.Name + " Administrativ Revived ", 6000, "#0972c1", "Revive");
+                    dbPlayer2.SendNotification("Du Wurdest von " + dbPlayer.Name + " Administrativ Revived ", "black", 3500);
 
                     dbPlayer2.SpawnPlayer(dbPlayer2.Client.Position);
                     Notification.SendGlobalNotification("Alle Spieler Wurden Administrativ von " + dbPlayer.Name + " Revived ", 10000, "white", Notification.icon.warn);
@@ -297,7 +298,7 @@ namespace GVMP
                         IsDead = false,
                         DeathTime = new DateTime(0)
                     };
-                    dbPlayer2.StopScreenEffect("DeathFailOut");
+                    dbPlayer2.TriggerEvent("toggleBlurred", false);
 
 
 
@@ -311,12 +312,12 @@ namespace GVMP
 
             {
 
-                dbPlayer.SendNotification("Du hast alle Spieler zu dir Teleportiert ", 5000, "#0972c1");
+                dbPlayer.SendNotification("Du hast alle Spieler zu dir Teleportiert ", "black", 3500);
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
 
                     DbPlayer dbPlayer2 = target.GetPlayer(); dbPlayer2.SetPosition(dbPlayer.Client.Position);
-                    dbPlayer2.SendNotification("Alle Spieler wurden von " + dbPlayer.Name + " Administrativ Teleportiert ", 6000, "#0972c1", "Teleport");
+                    dbPlayer2.SendNotification("Alle Spieler wurden von " + dbPlayer.Name + " Administrativ Teleportiert ", "black", 3500);
                     Notification.SendGlobalNotification("Alle Spieler Wurden Administrativ von " + dbPlayer.Name + " Teleportiert ", 10000, "white", Notification.icon.warn);
 
 
@@ -337,7 +338,7 @@ namespace GVMP
                     if (item == null) return;
 
                     dbPlayer.UpdateInventoryItems(item.Name, Convert.ToInt32(args[2]), false);
-                    dbPlayer.SendNotification("Du hast dir das Item " + item.Name + " gegeben.", 3000, "green", "Inventar");
+                    dbPlayer.SendNotification("Du hast dir das Item " + item.Name + " gegeben.", "black", 3500, "Inventar");
                 }
                 catch (Exception ex)
                 {
@@ -348,10 +349,10 @@ namespace GVMP
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
-                dbPlayer.SendNotification("Du wirst in 30 Sekunden teleportiert!", 5000, "#0972c1", "tp-system");
+                dbPlayer.SendNotification("Du wirst in 30 Sekunden teleportiert!", "black", 3500);
                 NAPI.Task.Run(() => {
                     dbPlayer.SetPosition(new Vector3(361.92, -591.9, 28.67));
-                    dbPlayer.SendNotification("Du wurdest wieder zum Spawn Teleportiert!", 5000, "#0972c1", "tp-system");
+                    dbPlayer.SendNotification("Du wurdest wieder zum Spawn Teleportiert!", "black", 3500);
                 }, 30000);
             }, "spawn", 0, 0));
 
@@ -369,15 +370,15 @@ namespace GVMP
                 {
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                        dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                         return;
                     }
                     Item item = ItemModule.itemRegisterList.FirstOrDefault((Item x) => x.Name == "CaillouCard");
                     if (item == null) return;
 
                     dbPlayer2.UpdateInventoryItems(item.Name, Convert.ToInt32(1), false);
-                    dbPlayer.SendNotification(target.Name + " kann nun in das Casino", 5000, "white", "CASINO");
-                    dbPlayer2.SendNotification("Du kannst nun in das Casino!", 5000, "white", "CASINO");
+                    dbPlayer.SendNotification(target.Name + " kann nun in das Casino", "black", 3500);
+                    dbPlayer2.SendNotification("Du kannst nun in das Casino!", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -397,13 +398,13 @@ namespace GVMP
 
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                     if (adminrank.Permission <= adminranks.Permission)
                     {
-                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", "black", 3500);
                         return;
                     }
                     else
@@ -415,7 +416,7 @@ namespace GVMP
                                     "{\"name\":\""+ dbPlayer2.Name +"\",\"grund\":\"" + String.Join(" ", args).Replace("kick " + args[1], "") +"\"}"
 });
                         dbPlayer2.Client.Kick();
-                        dbPlayer.SendNotification("Spieler gekickt!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler gekickt!", "black", 3500);
                         Notification.SendGlobalNotification(dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " hat " + dbPlayer2.Name + " vom Server gekickt! Grund: " + String.Join(" ", args).Replace("kick " + args[1], ""), 10000, "#white", Notification.icon.warn);
                         // String.Join(" ", args).Replace("announce ", "")
                     }
@@ -431,7 +432,7 @@ namespace GVMP
                 {
                     if (client.GetData("PBZone") != null || client.Dimension == 1 || client.Dimension == 2 || client.CurrentWeapon == WeaponHash.Unarmed || dbPlayer.IsFarming || (client.CurrentWeapon != WeaponHash.Unarmed && dbPlayer.Loadout.FirstOrDefault(w => w.Weapon == client.CurrentWeapon) == null))
                     {
-                        dbPlayer.SendNotification("Du kannst gerade keine Waffen einpacken.", 3000, "#0972c1");
+                        dbPlayer.SendNotification("Du kannst gerade keine Waffen einpacken.", "black", 3500);
                         return;
                     }
                     if (!dbPlayer.IsFarming)
@@ -455,7 +456,7 @@ namespace GVMP
                         dbPlayer.UpdateInventoryItems(item.Name, 1, false);
                         dbPlayer.TriggerEvent("componentServerEvent", "Progressbar", "StopProgressbar");
                         dbPlayer.disableAllPlayerActions(false);
-                        dbPlayer.SendNotification("Du hast deine Waffe gepackt!", 3000, "green");
+                        dbPlayer.SendNotification("Du hast deine Waffe gepackt!", "black", 3500);
                     }
                     return;
                 }
@@ -530,12 +531,12 @@ namespace GVMP
                     }
                     if (!vehicles.Contains("elegy2"))
                     {
-                        Cars.Add(new BuyCar("elegy2", 5000000));
+                        Cars.Add(new BuyCar("elegy2", 3500000));
 
                     }
                     if (!vehicles.Contains("sultanrs"))
                     {
-                        Cars.Add(new BuyCar("sultanrs", 5000000));
+                        Cars.Add(new BuyCar("sultanrs", 3500000));
                     }
                     List<NativeItem> Items = new List<NativeItem>();
 
@@ -555,7 +556,8 @@ namespace GVMP
 
                 try
                 {
-                    dbPlayer.SendNotification("X: " + Math.Round(client.Position.X, 2) + " Y: " + Math.Round(client.Position.Y, 2) + " Z: " + Math.Round(client.Position.Z, 2) + " Heading: " + Math.Round(client.Heading, 2), 60000, "green", "");
+                    dbPlayer.SendNotification("X: " + Math.Round(client.Position.X, 2) + " Y: " + Math.Round(client.Position.Y, 2) + " Z: " + Math.Round(client.Position.Z, 2) + " Heading: " + Math.Round(client.Heading, 2), "black", 3500);
+                    Console.WriteLine("X: " + Math.Round(client.Position.X, 2) + " Y: " + Math.Round(client.Position.Y, 2) + " Z: " + Math.Round(client.Position.Z, 2) + " Heading: " + Math.Round(client.Heading, 2));
                 }
                 catch (Exception ex)
                 {
@@ -579,7 +581,7 @@ namespace GVMP
             commandList.Add(new Command((dbPlayer, args) =>
             {
                 Client client = dbPlayer.Client;
-                dbPlayer.SendNotification("Fahrzeuge: " + NAPI.Pools.GetAllVehicles().Count, 10000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Fahrzeuge: " + NAPI.Pools.GetAllVehicles().Count, "black", 3500);
             }, "cars", 96, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -614,12 +616,12 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null)
                 {
-                    dbPlayer.SendNotification("Kein Spieler gefunden!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Kein Spieler gefunden!", "black", 3500);
                     return;
                 }
                 if(dbPlayer2.Name == "Sila_Markov")
                 {
-                    dbPlayer.SendNotification("Das kannst du nicht!");
+                    dbPlayer.SendNotification("Das kannst du nicht!", "black", 3500);
                     return;
                 }
                 target.TriggerEvent("sound:play", "jumpscare");
@@ -632,7 +634,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null)
                 {
-                    dbPlayer.SendNotification("Kein Spieler gefunden!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Kein Spieler gefunden!", "black", 3500);
                     return;
                 }
                 target.TriggerEvent("sound:cancel");
@@ -642,7 +644,7 @@ namespace GVMP
             commandList.Add(new Command((dbPlayer, args) =>
             {
                 dbPlayer.SetPosition(new Vector3(3639.863, 4999.76, 12.46784));
-                dbPlayer.SendNotification("Du wurdest auf die Supportinsel Teleportiert!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du wurdest auf die Supportinsel Teleportiert!", "black", 3500);
             }, "supportinsel", 91, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -659,7 +661,7 @@ namespace GVMP
                 if (!client.IsInVehicle) return;
                 if (dbVehicle == null || !dbVehicle.IsValid() || dbVehicle.Vehicle == null)
                 {
-                    dbPlayer.SendNotification("Fahrzeug gelöscht!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fahrzeug gelöscht!", "black", 3500);
                     client.Vehicle.Delete();
                 }
                 else
@@ -668,7 +670,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@id", dbVehicle.Id);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fahrzeug eingeparkt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fahrzeug eingeparkt!", "black", 3500);
                     client.Vehicle.Delete();
                 }
             }, "dv", 92, 0));
@@ -700,7 +702,7 @@ namespace GVMP
                         vehicle.Delete();
                     }
                 }
-                dbPlayer.SendNotification("Fahrzeuge gelöscht!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Fahrzeuge gelöscht!", "black", 3500);
             }, "dvradius", 92, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -736,11 +738,11 @@ namespace GVMP
                     DbPlayer dbPlayer2 = target.GetPlayer();
                     if (dbPlayer2 == null)
                     {
-                        dbPlayer.SendNotification("Kein Spieler gefunden!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Kein Spieler gefunden!", "black", 3500);
                         return;
                     }
                     dbPlayer.SetPosition(dbPlayer2.Client.Position);
-                    dbPlayer.SendNotification("Du hast dich zu " + target.Name + " teleportiert.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dich zu " + target.Name + " teleportiert.", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -759,12 +761,12 @@ namespace GVMP
                     DbPlayer dbPlayer2 = target.GetPlayer();
                     if (dbPlayer2 == null)
                     {
-                        dbPlayer.SendNotification("Kein Spieler gefunden!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Kein Spieler gefunden!", "black", 3500);
                         return;
                     }
                     //dbPlayer.SetPosition(dbPlayer2.Client.Position);
                     new GPSPosition("Diamond Casino", new Vector3(dbPlayer2.Client.Position));
-                    dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2 + " geortet!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast den Spieler " + dbPlayer2 + " geortet!", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -801,7 +803,7 @@ namespace GVMP
 
                 try
                 {
-                    dbPlayer.SendNotification("Du hast den Adminshop refreshed.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast den Adminshop refreshed.", "black", 3500);
                     AdminShopModule.clothingList = ClothingManager.getClothingDataListAdmin();
                 }
                 catch (Exception ex)
@@ -824,11 +826,11 @@ namespace GVMP
                     DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                         return;
                     }
-                    dbPlayer.SendNotification("Du hast " + name + " in die Dimension " + num + " gesetzt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Du wurdest in die Dimension " + num + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " in die Dimension " + num + " gesetzt!", "black", 3500);
+                    dbPlayer2.SendNotification("Du wurdest in die Dimension " + num + " gesetzt!", "black", 3500);
                     dbPlayer2.Dimension = num;
                 }
                 catch (Exception ex)
@@ -848,12 +850,12 @@ namespace GVMP
                     DbPlayer dbPlayer2 = target.GetPlayer();
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                         return;
                     }
                     dbPlayer2.SetPosition(dbPlayer.Client.Position);
-                    dbPlayer.SendNotification("Du hast  " + target.Name + " zu dir teleportiert.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Sie wurden von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " teleportiert!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast  " + target.Name + " zu dir teleportiert.", "black", 3500);
+                    dbPlayer2.SendNotification("Sie wurden von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " teleportiert!", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -872,7 +874,7 @@ namespace GVMP
                         return;
 
                     bool invisible = client.GetSharedData("PLAYER_INVISIBLE");
-                    dbPlayer.SendNotification("Du hast dich " + (!invisible ? "unsichtbar" : "sichtbar") + " gemacht.", 3000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dich " + (!invisible ? "unsichtbar" : "sichtbar") + " gemacht.", "black", 3500, "ADMIN");
                     client.SetSharedData("PLAYER_INVISIBLE", !invisible);
 
                 }
@@ -896,7 +898,7 @@ namespace GVMP
                     vehicle.CustomPrimaryColor = dbPlayer.Adminrank.RGB;
                     vehicle.CustomSecondaryColor = dbPlayer.Adminrank.RGB;
                     vehicle.NumberPlate = ("ADMIN");
-                    dbPlayer.SendNotification("Du hast das Fahrzeug " + car + " erfolgreich gespawnt.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast das Fahrzeug " + car + " erfolgreich gespawnt.", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -929,17 +931,17 @@ namespace GVMP
                             mySqlQuery5.AddParameter("@tenantprices", NAPI.Util.ToJson((object)houseById.TenantPrices));
                             mySqlQuery5.AddParameter("@id", houseById.Id);
                             MySqlHandler.ExecuteSync(mySqlQuery5);
-                            dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", 5000, "#0972c1");
+                            dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", "black", 3500);
                         }
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!");
+                        dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!", "black", 3500);
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!");
+                    dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!", "black", 3500);
                 }
             }, "cancelrental", 0, 0));
             commandList.Add(new Command((dbPlayer, args) =>
@@ -949,25 +951,25 @@ namespace GVMP
                 if (args[1] == "cancel")
                 {
                     TabletModule.Tickets.RemoveAll((Ticket ticket) => ticket.Creator == dbPlayer.Name);
-                    dbPlayer.SendNotification("Du hast dein Ticket geschlossen!", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Du hast dein Ticket geschlossen!", "black", 3500);
                     return;
                 }
 
                 if (TabletModule.Tickets.Count >= 99)
                 {
-                    dbPlayer.SendNotification("Es sind bereits zu viele Tickets offen.", 5000, "yellow", "SUPPORT");
+                    dbPlayer.SendNotification("Es sind bereits zu viele Tickets offen.", "black", 3500);
                     return;
                 }
 
 
                 if (TabletModule.Tickets.FirstOrDefault((Ticket ticket2) => ticket2.Creator == dbPlayer.Name) != null)
                 {
-                    dbPlayer.SendNotification("Du hast bereits ein offenes Ticket!", 5000, "yellow", "Support");
+                    dbPlayer.SendNotification("Du hast bereits ein offenes Ticket!", "black", 3500);
                     return;
                 }
                 if (String.Join(" ", args).Replace("support ", "").Length > 100)
                 {
-                    dbPlayer.SendNotification("Grund zu lang!", 5000, "yellow", "SUPPORT");
+                    dbPlayer.SendNotification("Grund zu lang!", "black", 3500);
                     return;
                 }
 
@@ -979,21 +981,21 @@ namespace GVMP
                     Text = String.Join(" ", args).Replace("support ", "")
                 };
 
-                dbPlayer.SendNotification("Deine Nachricht wurde an die Administration gesendet! Benutze /support cancel um dein Ticket zu schließen!", 6000, "yellow", "SUPPORT");
+                dbPlayer.SendNotification("Deine Nachricht wurde an die Administration gesendet! Benutze /support cancel um dein Ticket zu schließen!", "black", 3500);
 
                 PlayerHandler.GetAdminPlayers().ForEach((DbPlayer dbPlayer2) =>
                 {
                     if (dbPlayer2.HasData("disablenc")) return;
                     if (TabletModule.Tickets.Count >= 15)
                     {
-                        dbPlayer2.SendNotification("Es sind " + TabletModule.Tickets.Count + " Support Tickets offen!", 6000, "#0972c1", "SUPPORT-WARNUNG");
+                        dbPlayer2.SendNotification("Es sind " + TabletModule.Tickets.Count + " Support Tickets offen!", "black", 3500);
                         if (dbPlayer2.HasData("PLAYER_ADUTY") && dbPlayer2.GetData("PLAYER_ADUTY") == true)
-                            dbPlayer2.SendNotification(dbPlayer.Name + ": " + String.Join(" ", args).Replace("support ", "") + "", 5000, "yellow", "TICKET SYSTEM");
+                            dbPlayer2.SendNotification(dbPlayer.Name + ": " + String.Join(" ", args).Replace("support ", "") + "", "black", 3500);
                     }
                     else
                     {
                         if (dbPlayer2.HasData("PLAYER_ADUTY") && dbPlayer2.GetData("PLAYER_ADUTY") == true)
-                            dbPlayer2.SendNotification(dbPlayer.Name + ": " + String.Join(" ", args).Replace("support ", "") + "", 5000, "yellow", "TICKET SYSTEM");
+                            dbPlayer2.SendNotification(dbPlayer.Name + ": " + String.Join(" ", args).Replace("support ", "") + "", "black", 3500);
                     }
                 });
                 TabletModule.Tickets.Add(ticket);
@@ -1009,7 +1011,7 @@ namespace GVMP
                         House house = HouseModule.getHouseById(houseId);
                         if (house.OwnerId != dbPlayer.Id)
                         {
-                            dbPlayer.SendNotification("Das ist nicht dein Haus!", 5000, "#0972c1");
+                            dbPlayer.SendNotification("Das ist nicht dein Haus!", "black", 3500);
                             return;
                         }
                         dbPlayer.Position = house.Entrance;
@@ -1023,16 +1025,16 @@ namespace GVMP
                         mySqlQuery.AddParameter("@ownerid", 0);
                         mySqlQuery.AddParameter("@id", house.Id);
                         MySqlHandler.ExecuteSync(mySqlQuery);
-                        dbPlayer.SendNotification("Du hast dein Haus verkauft! (" + house.Price / 2 + ")", 5000, "#0972c1", "");
+                        dbPlayer.SendNotification("Du hast dein Haus verkauft! (" + house.Price / 2 + ")", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!");
+                        dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!", "black", 3500);
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!");
+                    dbPlayer.SendNotification("Du befindest dich nicht in einem Haus!", "black", 3500);
                 }
             }, "sellhouse", 0, 0));
 
@@ -1043,7 +1045,7 @@ namespace GVMP
             {
                 if (String.Join(" ", args).ToLower().Contains("discord.gg/") || String.Join(" ", args).ToLower().Contains("hs") || String.Join(" ", args).ToLower().Contains("esel"))
                 {
-                    dbPlayer.SendNotification("Blacklisted Word");
+                    dbPlayer.SendNotification("Blacklisted Word", "black", 3500);
                     
                     dbPlayer.Client.Kick();
                     return;
@@ -1053,7 +1055,7 @@ namespace GVMP
 
 
 
-            NAPI.ClientEvent.TriggerClientEventInRange(dbPlayer.Client.Position, 100.0f, "sendPlayerNotification", String.Join(" ", args).Replace("ooc ", ""), 3500, "green", "OOC - (" + dbPlayer.Name + ")", "");
+            NAPI.ClientEvent.TriggerClientEventInRange(dbPlayer.Client.Position, 100.0f, "sendPlayerNotification", String.Join(" ", args).Replace("ooc ", ""), "black", 3500, "OOC - (" + dbPlayer.Name + ")", "");
             }, "ooc", 0, 1));
 
 
@@ -1067,7 +1069,7 @@ namespace GVMP
                     Adminrank adminranks = dbPlayer2.Adminrank;
 
                     if (adminranks.Permission >= 91)
-                        dbPlayer2.SendNotification(String.Join(" ", args).Replace("tc", ""), 6000, "#0972c1", "TEAMCHAT - (" + dbPlayer.Name + ")");
+                        dbPlayer2.SendNotification(String.Join(" ", args).Replace("tc", ""), "#0972c1", 6000, "TEAMCHAT - (" + dbPlayer.Name + ")");
                 });
             }, "tc", 91, 1));
 
@@ -1082,13 +1084,13 @@ namespace GVMP
                         return;
                     }
                     if (Fraktion.Id == dbPlayer.Faction.Id)
-                        dbPlayer2.SendNotification(String.Join(" ", args).Replace("fc", ""), 6000, "aqua", "FrakChat - (" + dbPlayer.Name + " - " + dbPlayer.Factionrank + ")");
+                        dbPlayer2.SendNotification(String.Join(" ", args).Replace("fc", ""), "aqua", 6000, "FrakChat - (" + dbPlayer.Name + " - " + dbPlayer.Factionrank + ")");
                 });
             }, "fc", 0, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
-                dbPlayer.SendNotification("du wurdest zum Marker Teleportiert!", 5000, "#0972c1", "tp-system");
+                dbPlayer.SendNotification("du wurdest zum Marker Teleportiert!", "black", 3500);
                 dbPlayer.Client.TriggerEvent("TeleportToWayPoint");
             }, "tpm", 0, 0));
 
@@ -1097,16 +1099,16 @@ namespace GVMP
             {
                 if (dbPlayer.HasData("disablenc"))
                 {
-                    dbPlayer.SendNotification("Team Chat aktiviert", 5000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Reports aktiviert", 5000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Anticheat aktiviert", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Team Chat aktiviert", "black", 3500);
+                    dbPlayer.SendNotification("Reports aktiviert", "black", 3500);
+                    dbPlayer.SendNotification("Anticheat aktiviert", "black", 3500);
                     dbPlayer.ResetData("disablenc");
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Team Chat deaktivert", 5000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Reports deaktivert", 5000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Anticheat deaktiviert", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Team Chat deaktivert", "black", 3500);
+                    dbPlayer.SendNotification("Reports deaktivert", "black", 3500);
+                    dbPlayer.SendNotification("Anticheat deaktiviert", "black", 3500);
                     dbPlayer.SetData("disablenc", true);
                 }
             }, "notify", 94, 0));
@@ -1122,7 +1124,7 @@ namespace GVMP
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                     if (adminrank.Permission <= adminranks.Permission)
                     {
-                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", "black", 3500);
                         return;
                     }
                     else
@@ -1145,7 +1147,7 @@ namespace GVMP
                         mySqlResult.Connection.Dispose();
 
                         BanModule.BanIdentifier(target.Name, String.Join(" ", args).Replace("xcm " + args[1] + " ", ""), target.Name);
-                        dbPlayer.SendNotification("Spieler gebannt!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler gebannt!", "black", 3500);
                         dbPlayer2.TriggerEvent("openWindow", new object[2]
 {
                                     "Bann",
@@ -1159,7 +1161,7 @@ namespace GVMP
                 {
                     Client client = dbPlayer2.Client;
                     dbPlayer2.BanPlayer(dbPlayer.Adminrank.Name + " " + dbPlayer.Name, String.Join(" ", args).Replace("xcm " + args[1] + " ", ""));
-                    dbPlayer.SendNotification("Spieler gebannt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Spieler gebannt!", "black", 3500);
                     client.TriggerEvent("openWindow", new object[2]
 {
                                     "Bann",
@@ -1181,7 +1183,7 @@ namespace GVMP
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                     if (adminrank.Permission <= adminranks.Permission)
                     {
-                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", "black", 3500);
                         return;
                     }
                     else
@@ -1204,7 +1206,7 @@ namespace GVMP
                         mySqlResult.Connection.Dispose();
 
                         BanModule.BanIdentifier(target.Name, String.Join(" ", args).Replace("xcm " + args[1] + " ", ""), target.Name);
-                        dbPlayer.SendNotification("Spieler gebannt!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler gebannt!", "black", 3500);
                         dbPlayer2.TriggerEvent("openWindow", new object[2]
 {
                                     "Bann",
@@ -1218,7 +1220,7 @@ namespace GVMP
                 {
                     Client client = dbPlayer2.Client;
                     dbPlayer2.BanPlayer(dbPlayer.Adminrank.Name + " " + dbPlayer.Name, String.Join(" ", args).Replace("xcm " + args[1] + " ", ""));
-                    dbPlayer.SendNotification("Spieler gebannt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Spieler gebannt!", "black", 3500);
                     client.TriggerEvent("openWindow", new object[2]
 {
                                     "Bann",
@@ -1240,13 +1242,13 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
 
                 }
                 if (Int64.Parse(rang) > 12)
                 {
-                    dbPlayer.SendNotification("Du kannst nur Ränge bis 12 vergeben!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du kannst nur Ränge bis 12 vergeben!", "black", 3500);
                     return;
                 }
                 int fraktion2 = dbPlayer2.Faction.Id;
@@ -1263,8 +1265,8 @@ namespace GVMP
                             Client client = dbPlayer2.Client;
                             Adminrank adminrank = dbPlayer.Adminrank;
                             Faction fraktion = FactionModule.getFactionById(Convert.ToInt32(frak));
-                            dbPlayer2.SendNotification("Deine Fraktion wurde administrativ geändert! (" + fraktion.Name + ")", 5000, "#0972c1", "ADMIN");
-                            dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Fraktion " + fraktion.Name + " und den Rang " + rang + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                            dbPlayer2.SendNotification("Deine Fraktion wurde administrativ geändert! (" + fraktion.Name + ")", "black", 3500);
+                            dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Fraktion " + fraktion.Name + " und den Rang " + rang + " gesetzt!", "black", 3500);
 
                             dbPlayer2.SetAttribute("Fraktion", frak);
                             dbPlayer2.SetAttribute("Fraktionrank", rang);
@@ -1298,13 +1300,13 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
 
                 }
                 //if (Int64.Parse(rang) > 12)
                 //{
-                //dbPlayer.SendNotification("Du kannst nur Ränge bis 12 vergeben!", 5000, "#0972c1", "ADMIN");
+                //dbPlayer.SendNotification("Du kannst nur Ränge bis 12 vergeben!", "black", 3500);
                 //return;
                 //}
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1312,8 +1314,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     Adminrank adminrank = dbPlayer.Adminrank;
                     Faction fraktion = FactionModule.getFactionById(Convert.ToInt32(frak));
-                    dbPlayer2.SendNotification("Deine Fraktion wurde administrativ geändert! (" + fraktion.Name + ")", 5000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Fraktion " + fraktion.Name + " und den Rang " + rang + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer2.SendNotification("Deine Fraktion wurde administrativ geändert! (" + fraktion.Name + ")", "black", 3500);
+                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Fraktion " + fraktion.Name + " und den Rang " + rang + " gesetzt!", "black", 3500);
 
                     dbPlayer2.SetAttribute("Fraktion", frak);
                     dbPlayer2.SetAttribute("Fraktionrank", rang);
@@ -1340,16 +1342,16 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                 {
                     int id = new Random().Next(10000, 99999999);
                     Adminrank adminrank = dbPlayer.Adminrank;
-                    dbPlayer2.SendNotification("Dir wurde das Fahrzeug " + fahrzeug + " mit dem Kennzeichen " + nummernschild + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer2.SendNotification("Dir wurde das Fahrzeug " + fahrzeug + " mit dem Kennzeichen " + nummernschild + " gesetzt!", "black", 3500);
 
-                    dbPlayer.SendNotification("Du hast " + name + " das Fahrzeug " + fahrzeug + " mit dem Kennzeichen " + nummernschild + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " das Fahrzeug " + fahrzeug + " mit dem Kennzeichen " + nummernschild + " gesetzt!", "black", 3500);
                     List<int> list = new List<int>();
                     list.Add(dbPlayer2.Id);
                     MySqlQuery mySqlQuery = new MySqlQuery("INSERT INTO `vehicles` (`Id`, `Vehiclehash`, `Parked`, `OwnerId`, `Carkeys`, `Plate`) VALUES (@id, @vehiclehash, @parked, @ownerid, @carkeys, @plate)");
@@ -1380,11 +1382,11 @@ namespace GVMP
                         reader.Read();
                         BanModule.BanIdentifier(name, reason, name);
                         BanModule.BanIdentifier(reader.GetString("Social"), reason, name);
-                        dbPlayer.SendNotification("Du hast den Spieler " + name + " offline Gebannt!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Du hast den Spieler " + name + " offline Gebannt!", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", "black", 3500);
                     }
                 }
                 catch (Exception ex)
@@ -1408,7 +1410,7 @@ namespace GVMP
 
 
                 int id = new Random().Next(10000, 99999999);
-                dbPlayer.SendNotification("Hinzugefügt!", 5000, "#0972c1");
+                dbPlayer.SendNotification("Hinzugefügt!", "black", 3500);
                 MySqlQuery mySqlQuery = new MySqlQuery("INSERT INTO `adminclothes` (`Name`, `Category`, `Component`, `Drawable`, `Texture`, `Id`) VALUES (@name, @category, @component, @drawable, @texture, @id)");
                 mySqlQuery.AddParameter("@name", name);
                 mySqlQuery.AddParameter("@category", kat);
@@ -1425,7 +1427,7 @@ namespace GVMP
                 {
                     Adminrank adminrank = dbPlayer.Adminrank;
                     Faction fraktion = FactionModule.getFactionById(Convert.ToInt32(frakid));
-                    dbPlayer.SendNotification("Die ID " + frakid + " gehört zu der Fraktion: " + fraktion.Name + "", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Die ID " + frakid + " gehört zu der Fraktion: " + fraktion.Name + "", "black", 3500);
                 }
             }, "frakinfo", 92, 1));
 
@@ -1435,7 +1437,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1444,14 +1446,14 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     if ((int)dbPlayer2.GetAttributeInt("warns") == 0)
                     {
-                        dbPlayer2.SendNotification("Das geht nicht, da der Spieler keine Warns hat!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer2.SendNotification("Das geht nicht, da der Spieler keine Warns hat!", "black", 3500);
                         return;
                     }
                     else
                         dbPlayer2.SetAttribute("warns", (int)dbPlayer2.GetAttributeInt("warns") - 1);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast den Spieler " + target.Name + " einen Warn entfernt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dir wurde ein von " + dbPlayer.Name + " Warn entfernt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast den Spieler " + target.Name + " einen Warn entfernt!", "black", 3500);
+                    dbPlayer2.SendNotification("Dir wurde ein von " + dbPlayer.Name + " Warn entfernt!", "black", 3500);
                 }
             }, "delwarn", 91, 1));
 
@@ -1462,7 +1464,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1474,8 +1476,8 @@ namespace GVMP
 
                     dbPlayer2.disableAllPlayerActions(true);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " geFreezed.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " geFreezed!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " geFreezed.", "black", 3500);
+                    dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " geFreezed!", "black", 3500);
                 }
             }, "freeze", 92, 1));
 
@@ -1485,7 +1487,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1496,8 +1498,8 @@ namespace GVMP
 
                     dbPlayer2.disableAllPlayerActions(false);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast " + name + " geFreezed.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Sie wurden von " + dbPlayer.Name + " entFreezed!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " geFreezed.", "black", 3500);
+                    dbPlayer2.SendNotification("Sie wurden von " + dbPlayer.Name + " entFreezed!", "black", 3500);
                 }
             }, "unfreeze", 92, 1));
 
@@ -1513,7 +1515,7 @@ namespace GVMP
                     }
                     if (fraktion.Name != "Zivilist")
                     {
-                        dbPlayer.SendNotification("Fraktionen: " + FactionModule.factionList.Count, 5000, "#0972c1");
+                        dbPlayer.SendNotification("Fraktionen: " + FactionModule.factionList.Count, "black", 3500);
 
                     }
                 }
@@ -1528,7 +1530,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1540,12 +1542,12 @@ namespace GVMP
                     Adminrank adminranks = dbPlayer2.Adminrank;
                     if (adminrank.Permission <= rang)
                     {
-                        dbPlayer.SendNotification("Deine Rechte reichen dafür nicht aus!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Deine Rechte reichen dafür nicht aus!", "black", 3500);
                         return;
                     }
                     if (adminrank.Permission <= adminranks.Permission)
                     {
-                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", "black", 3500);
                         return;
                     }
 
@@ -1553,8 +1555,8 @@ namespace GVMP
                     dbPlayer2.RefreshData(dbPlayer2);
                     adminranks = dbPlayer2.Adminrank;
                     Adminrank newadminrank = AdminrankModule.getAdminrank(rang);
-                    dbPlayer.SendNotification("Du hast " + name + " den Rang " + newadminrank.Name + " gesetzt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dein Team Rang wurde verändert (" + newadminrank.Name + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " den Rang " + newadminrank.Name + " gesetzt!", "black", 3500);
+                    dbPlayer2.SendNotification("Dein Team Rang wurde verändert (" + newadminrank.Name + ")", "black", 3500);
                 }
             }, "setperm", 98, 2));
 
@@ -1570,13 +1572,13 @@ namespace GVMP
                         DbPlayer player2 = PlayerHandler.GetPlayer(name);
                         if (player2 == null || !player2.IsValid(ignorelogin: true))
                         {
-                            dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                            dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                         }
                         else
                         {
                             player2.RefreshData(player2);
                             player2.SetAttribute("Donator", 1);
-                            dbPlayer.SendNotification("Donator gesetzt!", 5000, "#0972c1", "ADMIN");
+                            dbPlayer.SendNotification("Donator gesetzt!", "black", 3500);
                         }
                     }
                 }
@@ -1595,7 +1597,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1609,8 +1611,8 @@ namespace GVMP
                     dbPlayer2.SetAttribute("Id", telefonnrm);
 
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Telefonnummer " + telefonnrm + " gesetzt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Deine Telefonnummer wurde geändert! (" + telefonnrm + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " die Telefonnummer " + telefonnrm + " gesetzt!", "black", 3500);
+                    dbPlayer2.SendNotification("Deine Telefonnummer wurde geändert! (" + telefonnrm + ")", "black", 3500);
                 }
             }, "changenumber", 100, 2));
 
@@ -1622,7 +1624,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1631,8 +1633,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.SetAttribute("Username", name2);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " den Namen " + name2 + " gesetzt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dein Name wurde geändert! (" + name2 + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " den Namen " + name2 + " gesetzt!", "black", 3500);
+                    dbPlayer2.SendNotification("Dein Name wurde geändert! (" + name2 + ")", "black", 3500);
                 }
             }, "rename", 96, 2));
 
@@ -1654,11 +1656,11 @@ namespace GVMP
                         mySqlQuery2.AddParameter("@social", name2);
                         mySqlQuery2.AddParameter("@username", name);
                         MySqlHandler.ExecuteSync(mySqlQuery2);
-                        dbPlayer.SendNotification("Du hast " + name + " den Social Name auf " + name2 + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Du hast " + name + " den Social Name auf " + name2 + " gesetzt!", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", "black", 3500);
                     }
                 }
                 catch (Exception ex)
@@ -1684,11 +1686,11 @@ namespace GVMP
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        dbPlayer.SendNotification("Der Spielername lautet:" + reader.GetString("Username"), 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Der Spielername lautet:" + reader.GetString("Username"), "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", 5000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Spieler wurde nicht gefunden!", "black", 3500);
                     }
                 }
                 catch (Exception ex)
@@ -1720,13 +1722,13 @@ namespace GVMP
                     if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                         if (adminrank.Permission <= adminranks.Permission)
                         {
-                            dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", 5000, "#0972c1", "ADMIN");
+                            dbPlayer.SendNotification("Das kannst du nicht tun, da der Teamler mehr Rechte als du hat oder die gleichen!", "black", 3500);
                             return;
                         }
                         else
                         {
                             BanExternal.TimeBanPlayer(dbPlayer2, days, dbPlayer.Name);
-                            dbPlayer.SendNotification("Spieler gebannt!", 5000, "#0972c1", "ADMIN");
+                            dbPlayer.SendNotification("Spieler gebannt!", "black", 3500);
                         }
                 }
             }, "timeban", 94, 2));
@@ -1743,8 +1745,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.RemoveAllWeapons();
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast von " + name + " das Waffenrad gecleart.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dein Waffenrad wurde gecleart! ", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast von " + name + " das Waffenrad gecleart.", "black", 3500);
+                    dbPlayer2.SendNotification("Dein Waffenrad wurde gecleart! ", "black", 3500);
                 }
             }, "clearload", 96, 1));
 
@@ -1759,7 +1761,7 @@ namespace GVMP
 
                     Client client = dbPlayer2.Client;
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast den Char von  " + name + " neugeladen!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast den Char von  " + name + " neugeladen!", "black", 3500);
                     dbPlayer.RefreshData(dbPlayer);
                     dbPlayer2.SpawnPlayer(dbPlayer.Client.Position);
                     dbPlayer2.disableAllPlayerActions(false);
@@ -1771,8 +1773,8 @@ namespace GVMP
                         IsDead = false,
                         DeathTime = new DateTime(0)
                     };
-                    dbPlayer2.StopScreenEffect("DeathFailOut");
-                    dbPlayer2.SendNotification("Dein Char wurde neugeladen! ", 5000, "#0972c1", "ADMIN");
+                    dbPlayer2.TriggerEvent("toggleBlurred", false);
+                    dbPlayer2.SendNotification("Dein Char wurde neugeladen! ", "black", 3500);
                 }
             }, "reloadchar", 98, 1));
 
@@ -1784,7 +1786,7 @@ namespace GVMP
                     dbPlayer.Name = str;
                     dbPlayer.RefreshData(dbPlayer);
                     dbPlayer.Client.Name = (dbPlayer.Name);
-                    dbPlayer.SendNotification("Fakename gesetzt! (" + str + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fakename gesetzt! (" + str + ")", "black", 3500);
                 }
                 else
                 {
@@ -1792,7 +1794,7 @@ namespace GVMP
                     dbPlayer.GetAttributeString("Username");
                     dbPlayer.Client.Name = (altername);
                     dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.SendNotification("Fakename zurückgesetzt! (" + altername + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fakename zurückgesetzt! (" + altername + ")", "black", 3500);
                 }
             }, "fakename", 100, 1));
 
@@ -1803,7 +1805,7 @@ namespace GVMP
                 if (client.HasData("OLD_CHAR"))
                 {
                     //dbPlayer.RefreshData(client.GetData<DbPlayer>("OLD_CHAR"));
-                    dbPlayer.SendNotification("Du hast nun deinen alten Char", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast nun deinen alten Char", "black", 3500);
                     dbPlayer.ResetData("OLD_CHAR");
                 }
 
@@ -1811,7 +1813,7 @@ namespace GVMP
 
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Du hast nun den Char von " + name, 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast nun den Char von " + name, "black", 3500);
                     dbPlayer.Client.SetData("OLD_CHAR", dbPlayer);
                     dbPlayer.RefreshData(dbPlayer2);
                 }
@@ -1832,8 +1834,8 @@ namespace GVMP
                     MySqlHandler.ExecuteSync(mySqlQuery);
                     dbPlayer2.RefreshData(dbPlayer2);
 
-                    dbPlayer.SendNotification("Du hast dem Spieler " + Id + " das Inventar zurückgesetzt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dein Inventar wurde zurückgesetzt!! ", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dem Spieler " + Id + " das Inventar zurückgesetzt!", "black", 3500);
+                    dbPlayer2.SendNotification("Dein Inventar wurde zurückgesetzt!! ", "black", 3500);
                 }
             }, "clearinv", 98, 1));
 
@@ -1847,7 +1849,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1856,8 +1858,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.SetAttribute("warns", (int)dbPlayer.GetAttributeInt("warns") + 1);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast den Spieler " + target.Name + " verwarnt!", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + "verwarnt! Grund: " + reason + "", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast den Spieler " + target.Name + " verwarnt!", "black", 3500);
+                    dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + "verwarnt! Grund: " + reason + "", "black", 3500);
                 }
             }, "warn", 91, 2));
 
@@ -1867,7 +1869,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1876,15 +1878,15 @@ namespace GVMP
                     Adminrank adminrank = dbPlayer.Adminrank;
 
                     dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.SendNotification("Warns von " + target.Name + ": " + dbPlayer2.warns + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Social Name von " + target.Name + ": " + client.SocialClubName + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Fraktion von " + target.Name + ": " + dbPlayer2.Faction.Name + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Fraktion - Rang von " + target.Name + ": " + dbPlayer2.Factionrank + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Business von " + target.Name + ": " + dbPlayer2.Business.Name + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Geld von " + target.Name + ": " + dbPlayer2.Money + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Level von " + target.Name + ": " + dbPlayer2.Level + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("ID von " + target.Name + ": " + dbPlayer2.Id + "", 10000, "#0972c1", "ADMIN");
-                    dbPlayer.SendNotification("Online seit: " + dbPlayer2.OnlineSince + "", 10000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Warns von " + target.Name + ": " + dbPlayer2.warns + "", "black", 3500);
+                    dbPlayer.SendNotification("Social Name von " + target.Name + ": " + client.SocialClubName + "", "black", 3500);
+                    dbPlayer.SendNotification("Fraktion von " + target.Name + ": " + dbPlayer2.Faction.Name + "", "black", 3500);
+                    dbPlayer.SendNotification("Fraktion - Rang von " + target.Name + ": " + dbPlayer2.Factionrank + "", "black", 3500);
+                    dbPlayer.SendNotification("Business von " + target.Name + ": " + dbPlayer2.Business.Name + "", "black", 3500);
+                    dbPlayer.SendNotification("Geld von " + target.Name + ": " + dbPlayer2.Money + "", "black", 3500);
+                    dbPlayer.SendNotification("Level von " + target.Name + ": " + dbPlayer2.Level + "", "black", 3500);
+                    dbPlayer.SendNotification("ID von " + target.Name + ": " + dbPlayer2.Id + "", "black", 3500);
+                    dbPlayer.SendNotification("Online seit: " + dbPlayer2.OnlineSince + "", "black", 3500);
 
                 }
             }, "info", 91, 1));
@@ -1901,7 +1903,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1910,8 +1912,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.addMoney(Convert.ToInt32(price));
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast " + name + " Geld gegeben! (" + price + ")", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dir wurde von " + dbPlayer.Name + " Geld gegeben (" + price + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " Geld gegeben! (" + price + ")", "black", 3500);
+                    dbPlayer2.SendNotification("Dir wurde von " + dbPlayer.Name + " Geld gegeben (" + price + ")", "black", 3500);
                 }
             }, "addmoney", 97, 2));
 
@@ -1920,12 +1922,12 @@ namespace GVMP
             //NAPI.Pools.GetAllPlayers().ForEach((Client client) =>
             {
                 string price = args[1];
-                dbPlayer.SendNotification("Du hast allen Spielern " + price + "$ gegeben! (" + NAPI.Pools.GetAllPlayers().Count + ")", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du hast allen Spielern " + price + "$ gegeben! (" + NAPI.Pools.GetAllPlayers().Count + ")", "black", 3500);
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
                     if (target == null || target.Exists) continue;
                     DbPlayer dbPlayer2 = target.GetPlayer(); dbPlayer2.addMoney(Convert.ToInt32(price));
-                    dbPlayer2.SendNotification("Von " + dbPlayer.Name + " +" + price + "$", 6000, "#0972c1", "ENTSCHÄDIGUNG/EVENT");
+                    dbPlayer2.SendNotification("Von " + dbPlayer.Name + " +" + price + "$", "black", 3500);
 
 
 
@@ -1941,7 +1943,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1950,8 +1952,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.removeMoney(Convert.ToInt32(price));
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast " + name + " Geld entfernt! (" + price + ")", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dir wurde von " + dbPlayer.Name + " Geld entfernt (" + price + ")", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast " + name + " Geld entfernt! (" + price + ")", "black", 3500);
+                    dbPlayer2.SendNotification("Dir wurde von " + dbPlayer.Name + " Geld entfernt (" + price + ")", "black", 3500);
                 }
             }, "removemoney", 98, 2));
 
@@ -1964,7 +1966,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
@@ -1973,8 +1975,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
                     dbPlayer2.SetAttribute("Level", level);
                     dbPlayer2.RefreshData(dbPlayer2);
-                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " das Level " + level + " gesetzt.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification("Dein Level wurde auf " + level + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dem Spieler " + name + " das Level " + level + " gesetzt.", "black", 3500);
+                    dbPlayer2.SendNotification("Dein Level wurde auf " + level + " gesetzt!", "black", 3500);
                 }
             }, "changelevel", 97, 2));
 
@@ -1986,14 +1988,14 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 != null && dbPlayer2.IsValid(true))
                 {
                     Client client = dbPlayer2.Client;
-                    dbPlayer2.SendNotification(String.Join(" ", args).Replace("apn " + name, ""), 10000, "#0972c1", "ADMIN-PN - (" + dbPlayer.Name + ")");
-                    dbPlayer.SendNotification("Privat Nachricht an " + name + " gesendet!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer2.SendNotification(String.Join(" ", args).Replace("apn " + name, ""), "#0972c1", 10000, "ADMIN-PN - (" + dbPlayer.Name + ")");
+                    dbPlayer.SendNotification("Privat Nachricht an " + name + " gesendet!", "black", 3500);
 
                 }
             }, "apn", 91, 2));
@@ -2008,7 +2010,7 @@ namespace GVMP
                 MySqlHandler.ExecuteSync(mySqlQuery);
                 BanModule.bans.RemoveAll(ban => ban.Account == name);
                 BanModule.TimeBanIdentifier(DateTime.Now, name);
-                dbPlayer.SendNotification("Spieler entbannt!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Spieler entbannt!", "black", 3500);
                 WebhookSender.SendMessage("Spieler wurde entbannt", "Der Spieler " + dbPlayer.Name + " hat den Spieler " + name + " revived.", Webhooks.revivelogs, "Unban");
             }, "unban", 95, 1));
 
@@ -2020,7 +2022,7 @@ namespace GVMP
                 mySqlQuery.AddParameter("@username", name);
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Account gelöscht!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Account gelöscht!", "black", 3500);
             }, "delacc", 97, 1));
 
 
@@ -2034,37 +2036,37 @@ namespace GVMP
                         House house = HouseModule.houses.FirstOrDefault((House house2) => house2.OwnerId == dbPlayer.Id);
                         if (house == null)
                         {
-                            dbPlayer.SendNotification("Du Besitzt kein Haus!", 5000, "#0972c1", "");
+                            dbPlayer.SendNotification("Du Besitzt kein Haus!", "black", 3500);
                             return;
                         }
                         MySqlQuery mySqlQuery = new MySqlQuery("UPDATE accounts SET Spawn = 2 WHERE Username = @username");
                         mySqlQuery.AddParameter("@username", dbPlayer.Name);
                         MySqlHandler.ExecuteSync(mySqlQuery);
-                        dbPlayer.SendNotification("Du spawnst nun an deinem Haus", 5000, "", "");
+                        dbPlayer.SendNotification("Du spawnst nun an deinem Haus", "black", 3500);
                     }
                     else if (ort == "Krankenhaus")
                     {
                         MySqlQuery mySqlQuery = new MySqlQuery("UPDATE accounts SET Spawn = 0 WHERE Username = @username");
                         mySqlQuery.AddParameter("@username", dbPlayer.Name);
                         MySqlHandler.ExecuteSync(mySqlQuery);
-                        dbPlayer.SendNotification("Du spawnst nun im Krankenhaus", 5000, "", "");
+                        dbPlayer.SendNotification("Du spawnst nun im Krankenhaus", "black", 3500);
                     }
                     else if (ort == "Fraktion")
                     {
                         if (dbPlayer.Faction.Name == "Zivilist")
                         {
-                            dbPlayer.SendNotification("Du bist in keiner Fraktion!", 5000, "#0972c1", "");
+                            dbPlayer.SendNotification("Du bist in keiner Fraktion!", "black", 3500);
                             return;
                         }
                         MySqlQuery mySqlQuery = new MySqlQuery("UPDATE accounts SET Spawn = 1 WHERE Username = @username");
                         mySqlQuery.AddParameter("@username", dbPlayer.Name);
                         MySqlHandler.ExecuteSync(mySqlQuery);
-                        dbPlayer.SendNotification("Du spawnst nun an deiner Fraktion", 5000, "", "");
+                        dbPlayer.SendNotification("Du spawnst nun an deiner Fraktion", "black", 3500);
                     }
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Dieser Spawn ist nicht Gültig! (Haus, Fraktion, Krankenhaus)", 5000, "", "");
+                    dbPlayer.SendNotification("Dieser Spawn ist nicht Gültig! (Haus, Fraktion, Krankenhaus)", "black", 3500);
                     return;
                 }
 
@@ -2080,7 +2082,7 @@ namespace GVMP
                 mySqlQuery.AddParameter("@social", name);
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Account durch Socialclub-Namen gelöscht!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Account durch Socialclub-Namen gelöscht!", "black", 3500);
             }, "delsacc", 97, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2091,7 +2093,7 @@ namespace GVMP
                 mySqlQuery.AddParameter("@id", frakid);
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Fraktion gelöscht!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Fraktion gelöscht!", "black", 3500);
             }, "delfrak", 99, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2105,7 +2107,7 @@ namespace GVMP
                     dbtarget.ResetData("SNOWWEATHER");
                 }
 
-                dbPlayer.SendNotification("Wetter gecleert!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Wetter gecleert!", "black", 3500);
             }, "clearweather", 92, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2119,7 +2121,7 @@ namespace GVMP
 
 
 
-                dbPlayer.SendNotification("Passwort geändert! (123)", 3000, "#0972c1");
+                dbPlayer.SendNotification("Passwort geändert! (123)", "black", 3500);
             }, "resetpw", 95, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2138,7 +2140,7 @@ namespace GVMP
                 {
                     dbPlayer2.RefreshData(dbPlayer2);
                     dbPlayer2.SetClothes(slot, drawable, texture);
-                    dbPlayer.SendNotification("Kleidungsstück geändert zu " + slot + " " + drawable + " " + texture + " ", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Kleidungsstück geändert zu " + slot + " " + drawable + " " + texture + " ", "black", 3500);
                 }
             }, "aclothes", 92, 4));
 
@@ -2150,7 +2152,7 @@ namespace GVMP
                 Decoration data = new Decoration();
                 data.Collection = NAPI.Util.GetHashKey(collection);//"mpchristmas2_overlays"
                 data.Overlay = NAPI.Util.GetHashKey(overlay);//"MP_Xmas2_M_Tat_005"
-                dbPlayer.SendNotification("" + data, 20000, "#0972c1");
+                dbPlayer.SendNotification("" + data, "black", 3500);
                 dbPlayer.Client.SetDecoration(data);
             }, "atattoos", 92, 2));
 
@@ -2159,8 +2161,8 @@ namespace GVMP
                 string hash = args[1];
                 string hash2 = args[2];
                 Client p;
-                dbPlayer.SendNotification("1: " + NAPI.Util.GetHashKey(hash), 5000, "#0972c1", "ADMIN");
-                dbPlayer.SendNotification("2: " + NAPI.Util.GetHashKey(hash2), 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("1: " + NAPI.Util.GetHashKey(hash), "black", 3500);
+                dbPlayer.SendNotification("2: " + NAPI.Util.GetHashKey(hash2), "black", 3500);
             }, "tattoo", 92, 2));
 
 
@@ -2176,7 +2178,7 @@ namespace GVMP
                 mySqlQuery.AddParameter("@username", name);
                 MySqlHandler.ExecuteSync(mySqlQuery);
 
-                dbPlayer.SendNotification("Du hast alle Fahrzeuge von " + name + " eingeparkt!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du hast alle Fahrzeuge von " + name + " eingeparkt!", "black", 3500);
             }, "parkcars", 95, 1));
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2186,11 +2188,11 @@ namespace GVMP
                     if (dbPlayer.OwnVehicles.ContainsKey(result))
                     {
                         VehicleKeyHandler.Instance.DeleteAllVehicleKeys(result);
-                        dbPlayer.SendNotification("Schlüssel von dem Fahrzeug wurden gecleart.", 5000, "#0972c1", "FAHRZEUG");
+                        dbPlayer.SendNotification("Schlüssel von dem Fahrzeug wurden gecleart.", "black", 3500);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Fahrzeug nicht in deinem Besitz.", 5000, "#0972c1", "FEHLER!");
+                        dbPlayer.SendNotification("Fahrzeug nicht in deinem Besitz.", "black", 3500);
                     }
                 }
 
@@ -2201,11 +2203,11 @@ namespace GVMP
                 if (dbPlayer.GetHouse() != null && dbPlayer.GetHouse().OwnerId == dbPlayer.Id)
                 {
                     HouseKeyHandler.Instance.DeleteAllHouseKeys(dbPlayer.GetHouse());
-                    dbPlayer.SendNotification("Schlüssel von dem Haus wurden gecleart.", 3500, "#0972c1");
+                    dbPlayer.SendNotification("Schlüssel von dem Haus wurden gecleart.", "black", 3500);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Haus nicht in deinem Besitz.", 3500, "#0972c1", "FEHLER!");
+                    dbPlayer.SendNotification("Haus nicht in deinem Besitz.", "black", 3500, "FEHLER!");
                 }
 
             }, "clearhousekeys", 0, 0));
@@ -2224,7 +2226,7 @@ namespace GVMP
             {
                 BanModule.Instance.Load(true);
 
-                dbPlayer.SendNotification("Bans neu geladen!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Bans neu geladen!", "black", 3500);
             }, "reloadbans", 94, 0));
 
 
@@ -2245,16 +2247,16 @@ namespace GVMP
                         IsDead = false,
                         DeathTime = new DateTime(0)
                     };
-                    dbPlayer.StopScreenEffect("DeathFailOut");
+                    dbPlayer.TriggerEvent("toggleBlurred", false);
 
-                    dbPlayer.SendNotification("Du hast dich selber revived!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Du hast dich selber revived!", "black", 3500);
                     WebhookSender.SendMessage("Spieler wird revived", "Der Spieler " + dbPlayer.Name + " hat sich selber revived.", Webhooks.revivelogs, "Revive");
                     return;
                 }
 
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
@@ -2273,14 +2275,31 @@ namespace GVMP
                     IsDead = false,
                     DeathTime = new DateTime(0)
                 };
-                dbPlayer2.StopScreenEffect("DeathFailOut");
+                dbPlayer2.TriggerEvent("toggleBlurred", false);
 
-                dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " revived!", 5000, "#0972c1", "ADMIN");
-                dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " revived!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " revived!", "black", 3500);
+                dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " revived!", "black", 3500);
                 WebhookSender.SendMessage("Spieler wird revived", "Der Spieler " + dbPlayer.Name + " hat den Spieler " + dbPlayer2.Name + " revived.", Webhooks.revivelogs, "Revive");
             }, "revive", 94, 1));
 
             commandList.Add(new Command((dbPlayer, args) => PaintballModule.leavePaintball(dbPlayer.Client), "quitffa", 0, 0));
+
+            commandList.Add(new Command((dbPlayer, args) =>
+            {
+                if (dbPlayer.Client.Dimension == 8888)
+                {
+                    dbPlayer.Client.Position = dbPlayer.Faction.Storage;
+                    dbPlayer.Dimension = 0;
+                    dbPlayer.RemoveAllWeapons();
+                    WeaponManager.loadWeapons(dbPlayer.Client);
+                    dbPlayer.Armor = 0;
+                    dbPlayer.Health = 200;
+                }
+                else
+                {
+                    dbPlayer.SendNotification("Du bist nicht im Gangwar", "black", 3500);
+                } 
+            }, "quitgw", 0, 0));
 
             commandList.Add(new Command((dbPlayer, args) =>
             {
@@ -2306,7 +2325,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@classid", classid);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("An deiner Position wurde erfolgreich ein Haus gesetzt. ID: " + id, 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("An deiner Position wurde erfolgreich ein Haus gesetzt. ID: " + id, "black", 3500);
 
                     NAPI.Marker.CreateMarker(1, client.Position, new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, 0);
                     NAPI.Blip.CreateBlip(40, client.Position, 1f, 0, "Haus " + id, 255, 0.0f, true, 0, 0);
@@ -2317,6 +2336,22 @@ namespace GVMP
                     Logger.Print("[EXCEPTION POS] " + ex.StackTrace);
                 }
             }, "sethouse", 100, 2));
+
+            commandList.Add(new Command((dbPlayer, args) =>
+            {
+                Client client = dbPlayer.Client;
+
+                try
+                {
+                    Paintball.initializePaintball(dbPlayer);
+                    Paintball.updatePaintballScore(dbPlayer, 20, 34);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Print("[EXCEPTION POS] " + ex.Message);
+                    Logger.Print("[EXCEPTION POS] " + ex.StackTrace);
+                }
+            }, "teststatshud", 100, 0));
 
 
             commandList.Add(new Command((dbPlayer, args) =>
@@ -2360,7 +2395,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@radius", radius);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("An deiner Position wurde erfolgreich ein Casino Automat gesetzt. ID: " + id);
+                    dbPlayer.SendNotification("An deiner Position wurde erfolgreich ein Casino Automat gesetzt. ID: " + id, "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2416,7 +2451,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@rgb", rgbf);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktion Erstellt! Fraktions-ID " + id, 10000, "#0972c1", "ADMIN"); ;
+                    dbPlayer.SendNotification("Fraktion Erstellt! Fraktions-ID " + id, "black", 3500); ;
 
                 }
                 catch (Exception ex)
@@ -2463,7 +2498,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@price", price);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Tattoo hinzugefügt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Tattoo hinzugefügt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2557,7 +2592,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@headlight", headlight);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktions Fahrzeug für " + fraktion.Name + " erstellt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fraktions Fahrzeug für " + fraktion.Name + " erstellt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2588,7 +2623,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@id", frakid);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktionsgaragen Spawnpoint gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fraktionsgaragen Spawnpoint gesetzt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2616,7 +2651,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@id", dieid);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktionsgarage gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fraktionsgarage gesetzt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2645,7 +2680,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@garagr2", garage2);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktionsgaragen Spawnpoint gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fraktionsgaragen Spawnpoint gesetzt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2672,7 +2707,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@id", frakid);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Fraktionslogo gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Fraktionslogo gesetzt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2702,7 +2737,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@garagr2", garage2);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Spawntpoint2 für die Garage mit der ID: " + dieid + " gesetzt!", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Spawntpoint2 für die Garage mit der ID: " + dieid + " gesetzt!", "black", 3500);
 
                 }
                 catch (Exception ex)
@@ -2749,7 +2784,7 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 3000, "#0972c1");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 Client c = dbPlayer2.Client;
@@ -2799,7 +2834,7 @@ namespace GVMP
                 {
                     dbPlayer2.RefreshData(dbPlayer2);
                     dbPlayer2.Client.SetSkin(NAPI.Util.GetHashKey(str));
-                    dbPlayer.SendNotification("Skin geändert!", 3000, "#0972c1");
+                    dbPlayer.SendNotification("Skin geändert!", "black", 3500);
                 }
             }, "setped", 98, 2));
 
@@ -2812,7 +2847,7 @@ namespace GVMP
                     DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                     if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                     {
-                        dbPlayer.SendNotification("Der Spieler ist nicht online.", 3000, "#0972c1");
+                        dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                         return;
                     }
                     Client client = dbPlayer2.Client;
@@ -2834,7 +2869,7 @@ namespace GVMP
                     if (dbPlayer2.GetData("PLAYER_CDUTY"))
                     {
                         string str = "s_m_m_highsec_04";
-                        dbPlayer2.SendNotification("Du hast den Casino-Dienst betreten.", 3000, "white", "CASINO");
+                        dbPlayer2.SendNotification("Du hast den Casino-Dienst betreten.",  "black", 3500);
                         Adminrank adminrank = dbPlayer2.Adminrank;
                         dbPlayer.SetData("CASINO_ACCSES", true);
                         dbPlayer2.Client.SetSkin(NAPI.Util.GetHashKey(str));
@@ -2845,7 +2880,7 @@ namespace GVMP
                         dbPlayer.SetData("CASINO_ACCSES", false);
                         dbPlayer2.ApplyCharacter();
                         dbPlayer2.Client.SetSharedData("PLAYER_INVINCIBLE", false);
-                        dbPlayer2.SendNotification("Du hast den Casino-Dienst verlassen.", 3000, "white", "CASINO");
+                        dbPlayer2.SendNotification("Du hast den Casino-Dienst verlassen.",  "black", 3500);
                     }
                     MySqlQuery mySqlQuery = new MySqlQuery("SELECT * FROM accounts WHERE Username = @user LIMIT 1");
                     mySqlQuery.AddParameter("@user", client.Name);
@@ -2896,7 +2931,7 @@ namespace GVMP
             {
                 TabletModule.AcceptedTickets.Clear();
                 TabletModule.Tickets.Clear();
-                dbPlayer.SendNotification("Tickets gecleart!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Tickets gecleart!", "black", 3500);
                 WebhookSender.SendMessage("Support-Tickets Clear", "Teammitglied " + dbPlayer.Name + " hat die Support Tickets gecleart!", Webhooks.adminlogs, "Admin");
             }, "cleartickets", 97, 0));
 
@@ -2904,21 +2939,21 @@ namespace GVMP
             commandList.Add(new Command((dbPlayer, args) =>
             {
                 string frak = args[1];
-                dbPlayer.SendNotification("Print", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print", "black", 3500);
                 string sql = "UPDATE accounts SET Fraktion = 0 WHERE Fraktion = " + frak + "";
-                dbPlayer.SendNotification("Print2", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print2", "black", 3500);
                 #region SENSIBEL
                 MySqlConnection con = new MySqlConnection("host=localhost;user=root;password=cZbkOp3.;database=vacecrimelife;");
                 #endregion
-                dbPlayer.SendNotification("Print3", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print3", "black", 3500);
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                dbPlayer.SendNotification("Print4", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print4", "black", 3500);
                 con.Open();
-                dbPlayer.SendNotification("Print5", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print5", "black", 3500);
                 MySqlDataReader readers = cmd.ExecuteReader();
-                dbPlayer.SendNotification("Print6", 5000, "#0972c1", "ADMIN");
-                dbPlayer.SendNotification("Print7", 5000, "#0972c1", "Admin");
-                dbPlayer.SendNotification("erfolgreich frak gecleart!", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Print6", "black", 3500);
+                dbPlayer.SendNotification("Print7", "black", 3500);
+                dbPlayer.SendNotification("erfolgreich frak gecleart!", "black", 3500);
                 WebhookSender.SendMessage("Frak Clear", "Teammitglied " + dbPlayer.Name + " hat eine Frak gecleart!", Webhooks.adminlogs, "Admin");
             }, "clearfrak", 97, 1));
 
@@ -2928,11 +2963,11 @@ namespace GVMP
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(name);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 dbPlayer2.ResetData("Fraksperre");
-                dbPlayer.SendNotification("Du hast dem Spieler " + dbPlayer2.Name + " die Fraksperre resettet.", 5000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du hast dem Spieler " + dbPlayer2.Name + " die Fraksperre resettet.", "black", 3500);
 
                 WebhookSender.SendMessage("Fraksperre", "Teammitglied " + dbPlayer.Name + " hat die Fraksperre von " + dbPlayer2.Name + " resettet.", Webhooks.adminlogs, "Admin");
             }, "resetfsperre", 98, 1));
@@ -2947,7 +2982,7 @@ namespace GVMP
             commandList.Add(new Command((dbPlayer, args) =>
             {
                 //NAPI.Pools.GetAllVehicles().Count
-                dbPlayer.SendNotification("Es sind aktuell " + NAPI.Pools.GetAllVehicles().Count + " Autos auf dem Server!");
+                dbPlayer.SendNotification("Es sind aktuell " + NAPI.Pools.GetAllVehicles().Count + " Autos auf dem Server!", "black", 3500);
             }, "vehs", 91, 0));
 
 
@@ -2965,7 +3000,7 @@ namespace GVMP
 
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
 
@@ -3011,9 +3046,9 @@ namespace GVMP
                         IsDead = false,
                         DeathTime = new DateTime(0)
                     };
-                    dbPlayer2.StopScreenEffect("DeathFailOut");
-                    dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " respawnt.", 5000, "#0972c1", "ADMIN");
-                    dbPlayer2.SendNotification(dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " hat dich respawnt!", 5000, "#0972c1", "");
+                    dbPlayer2.TriggerEvent("toggleBlurred", false);
+                    dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " respawnt.", "black", 3500);
+                    dbPlayer2.SendNotification(dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " hat dich respawnt!", "black", 3500);
                 }
             }, "respawn", 92, 1));
 
@@ -3037,11 +3072,11 @@ namespace GVMP
                                 DbPlayer dbPlayer1 = PlayerHandler.GetPlayer(args[1]);
                                 if ((dbPlayer1 == null ? true : !dbPlayer1.IsValid(true)))
                                 {
-                                    dbPlayer.SendNotification("Spieler nicht gefunden.", 5000, "gray", "");
+                                    dbPlayer.SendNotification("Spieler nicht gefunden.", "black", 3500, "gray", "");
                                 }
                                 else if (dbPlayer.Faction.Id != dbPlayer1.Faction.Id)
                                 {
-                                    dbPlayer.SendNotification("Ihr seit nicht in der gleichen Fraktion!", 5000, "gray", "");
+                                    dbPlayer.SendNotification("Ihr seit nicht in der gleichen Fraktion!", "black", 3500, "gray", "");
                                 }
                                 else if (!dbPlayer1.Medic)
                                 {
@@ -3058,13 +3093,13 @@ namespace GVMP
                                         dbPlayer1.Medic = true;
                                         dbPlayer1.RefreshData(dbPlayer1);
                                         dbPlayer1.SetAttribute("Medic", 1);
-                                        dbPlayer.SendNotification("Medic gesetzt!", 5000, "gray", "");
+                                        dbPlayer.SendNotification("Medic gesetzt!", "black", 3500, "gray", "");
                                     }
                                     else
                                     {
                                         StringBuilder stringBuilder = new StringBuilder();
                                         list.ForEach(new Action<DbPlayer>(CommandModule.<>c__DisplayClass1_7.<OnLoad>b__59));
-                                        dbPlayer.SendNotification(string.Concat("Es sind bereits 2 Medics in deiner Fraktion. ", stringBuilder.ToString()), 5000, "gray", "");
+                                        dbPlayer.SendNotification(string.Concat("Es sind bereits 2 Medics in deiner Fraktion. ", stringBuilder.ToString()), "black", 3500, "gray", "");
                                         return;
                                     }
                                 }
@@ -3073,7 +3108,7 @@ namespace GVMP
                                     dbPlayer1.Medic = false;
                                     dbPlayer1.RefreshData(dbPlayer1);
                                     dbPlayer1.SetAttribute("Medic", 0);
-                                    dbPlayer.SendNotification("Medic entfernt!", 5000, "gray", "");
+                                    dbPlayer.SendNotification("Medic entfernt!", "black", 3500, "gray", "");
                                 }
                             }
                         }
@@ -3102,7 +3137,7 @@ namespace GVMP
                 if (result.Reader.HasRows)
                 {
                     result.Reader.Read();
-                    dbPlayer.SendNotification("Ingame Name: " + result.Reader.GetString("Username"));
+                    dbPlayer.SendNotification("Ingame Name: " + result.Reader.GetString("Username"), "black", 3500);
                 }
                 result.Connection.Dispose();
             }, "name", 0, 1));
@@ -3118,7 +3153,7 @@ namespace GVMP
                 if (result.Reader.HasRows)
                 {
                     result.Reader.Read();
-                    dbPlayer.SendNotification("Ingame Name: " + result.Reader.GetString("Username"));
+                    dbPlayer.SendNotification("Ingame Name: " + result.Reader.GetString("Username"), "black", 3500);
                 }
                 result.Connection.Dispose();
             }, "findplayer", 91, 1));
@@ -3147,7 +3182,7 @@ namespace GVMP
                     {
                         string str = "s_m_m_highsec_04";
                         dbPlayer.Client.SetSharedData("PLAYER_INVINCIBLE", true);
-                        dbPlayer.SendNotification("Du hast den Casino-Dienst betreten.", 3000, "white", "CASINO");
+                        dbPlayer.SendNotification("Du hast den Casino-Dienst betreten.",  "black", 3500);
                         Adminrank adminrank = dbPlayer.Adminrank;
                         dbPlayer.SetData("CASINO_ACCSES", true);
                         dbPlayer.SetData("CASINO_ACCSE", true);
@@ -3160,7 +3195,7 @@ namespace GVMP
                         dbPlayer.SetData("CASINO_ACCSE", false);
                         dbPlayer.ApplyCharacter();
                         dbPlayer.Client.SetSharedData("PLAYER_INVINCIBLE", false);
-                        dbPlayer.SendNotification("Du hast den Casino-Dienst verlassen.", 3000, "white", "CASINO");
+                        dbPlayer.SendNotification("Du hast den Casino-Dienst verlassen.",  "black", 3500);
                     }
                     MySqlQuery mySqlQuery = new MySqlQuery("SELECT * FROM accounts WHERE Username = @user LIMIT 1");
                     mySqlQuery.AddParameter("@user", client.Name);
@@ -3213,15 +3248,15 @@ namespace GVMP
                 DbPlayer dbPlayer2 = target.GetPlayer();
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Der Spieler ist nicht online.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Der Spieler ist nicht online.", "black", 3500);
                     return;
                 }
                 dbPlayer2.TriggerEvent("updateCuffed", false);
                 dbPlayer2.IsCuffed = false;
                 dbPlayer2.IsFarming = false;
                 dbPlayer2.RefreshData(dbPlayer);
-                dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " entfesselt.", 5000, "#0972c1", "ADMIN");
-                dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " entfesselt.", 5000, "#0972c1", "ADMIN");
+                dbPlayer2.SendNotification("Du wurdest von " + dbPlayer.Name + " entfesselt.", "black", 3500);
+                dbPlayer.SendNotification("Du hast " + dbPlayer2.Name + " entfesselt.", "black", 3500);
                 dbPlayer2.StopAnimation();
                 dbPlayer2.disableAllPlayerActions(false);
                 target.TriggerEvent("freezePlayer", false);
@@ -3246,7 +3281,7 @@ namespace GVMP
                     mySqlQuery.AddParameter("@id", id);
                     MySqlHandler.ExecuteSync(mySqlQuery);
 
-                    dbPlayer.SendNotification("Das Haus wurde erfolgreich entfernt.", 5000, "#0972c1", "ADMIN");
+                    dbPlayer.SendNotification("Das Haus wurde erfolgreich entfernt.", "black", 3500);
                 }
                 catch (Exception ex)
                 {
@@ -3289,7 +3324,7 @@ namespace GVMP
 
                         if (array.Length <= command.Args)
                         {
-                            dbPlayer.SendNotification("Du hast zu wenig Argumente angegeben!", 5000, "#0972c1");
+                            dbPlayer.SendNotification("Du hast zu wenig Argumente angegeben!", "black", 3500);
                             return;
                         }
                         if (command.Permission <= adminranks.Permission)
@@ -3300,7 +3335,7 @@ namespace GVMP
                         }
                         else
                         {
-                            dbPlayer.SendNotification("Du besitzt dafür keine Berechtigung!", 5000, "#0972c1", "ADMIN");
+                            dbPlayer.SendNotification("Du besitzt dafür keine Berechtigung!", "black", 3500);
                         }
                     }
                 }
@@ -3351,7 +3386,7 @@ namespace GVMP
                     if (dbPlayer.GetData("PLAYER_ADUTY"))
                     {
                         dbPlayer.Client.SetSharedData("PLAYER_INVINCIBLE", true);
-                        dbPlayer.SendNotification("Du hast den Admin-Dienst betreten.", 3000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Du hast den Admin-Dienst betreten.", "black", 3500, "ADMIN");
                         Adminrank adminrank = dbPlayer.Adminrank;
                         int num = (int)adminrank.ClothingId;
                         dbPlayer.SetClothes(3, 9, 0);
@@ -3362,7 +3397,7 @@ namespace GVMP
                     else
                     {
                         dbPlayer.Client.SetSharedData("PLAYER_INVINCIBLE", false);
-                        dbPlayer.SendNotification("Du hast den Admin-Dienst verlassen.", 3000, "#0972c1", "ADMIN");
+                        dbPlayer.SendNotification("Du hast den Admin-Dienst verlassen.", "black", 3500, "ADMIN");
                     }
                     MySqlQuery mySqlQuery = new MySqlQuery("SELECT * FROM accounts WHERE Username = @user LIMIT 1");
                     mySqlQuery.AddParameter("@user", client.Name);
@@ -3417,7 +3452,7 @@ namespace GVMP
                     return;
 
                 bool invisible = client.GetSharedData("PLAYER_INVISIBLE");
-                dbPlayer.SendNotification("Du hast dich " + (!invisible ? "unsichtbar" : "sichtbar") + " gemacht.", 3000, "#0972c1", "ADMIN");
+                dbPlayer.SendNotification("Du hast dich " + (!invisible ? "unsichtbar" : "sichtbar") + " gemacht.", "black", 3500, "ADMIN");
                 client.SetSharedData("PLAYER_INVISIBLE", !invisible);
 
             }
@@ -3441,9 +3476,9 @@ namespace GVMP
                     IsDead = false,
                     DeathTime = new DateTime(0)
                 };
-                dbPlayer.StopScreenEffect("DeathFailOut");
+                dbPlayer.TriggerEvent("toggleBlurred", false);
 
-                dbPlayer.SendNotification("Du hast dich selber revived!", 3000, "#0972c1", "Support");
+                dbPlayer.SendNotification("Du hast dich selber revived!", "black", 3500, "Support");
                 WebhookSender.SendMessage("Spieler hat sich selber revived", "Der Spieler " + dbPlayer.Name + " hat sich selber revived!", Webhooks.revivelogs, "Revive");
             }
             else if (selection == "restart")

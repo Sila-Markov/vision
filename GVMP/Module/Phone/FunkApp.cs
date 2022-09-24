@@ -10,7 +10,7 @@ namespace GVMP
         [ServerEvent(Event.ResourceStart)]
         public void ResourceStart()
         {
-            Console.Write("Funkapp geladen.");
+            Logger.Print("Funkapp geladen.");
         }
 
         [RemoteEvent("phone:joinfunk")]
@@ -44,12 +44,12 @@ namespace GVMP
                 if (encrypted)
                 {
                     p.TriggerEvent("overlay:changeimage", "funk", "radio3.png");
-                    dbPlayer.SendNotification("Dieser Funkkanal ist verschlüsselt.");
+                    dbPlayer.SendNotification("Dieser Funkkanal ist verschlüsselt.", "black", 6000);
                 }
                 else
                 {
                     p.TriggerEvent("overlay:changeimage", "funk", "radio2.png");
-                    dbPlayer.SendNotification("Du bist Funkkanal " + radio + " MHz beigetreten.");
+                    dbPlayer.SendNotification("Du bist Funkkanal " + radio + " MHz beigetreten.", "black", 6000);
                     p.Eval("mp.events.callRemote('server:joinradio', " + radio + ")");
                 }
             } catch(Exception ex) { Console.Write(ex.Message); }
@@ -69,7 +69,7 @@ namespace GVMP
                     if (dbPlayer.Faction == fraktion)
                     {
                         p.TriggerEvent("overlay:changeimage", "funk", "radio2.png");
-                        dbPlayer.SendNotification("Du bist Funkkanal " + fraktion.Dimension + " MHz beigetreten.");
+                        dbPlayer.SendNotification("Du bist Funkkanal " + fraktion.Dimension + " MHz beigetreten.", "black", 6000);
                         p.Eval("mp.events.callRemote('server:joinradio', " + fraktion.Dimension + ")");
                     }
                 }

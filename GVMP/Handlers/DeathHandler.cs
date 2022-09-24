@@ -7,15 +7,15 @@ namespace GVMP
     {
         private void handleDeath(DbPlayer dbPlayer)
         {
-            dbPlayer.StopScreenEffect("DeathFailOut");
+           // dbPlayer.TriggerEvent("toggleBlurred", false);
             dbPlayer.SpawnPlayer(dbPlayer.Client.Position);
             dbPlayer.disableAllPlayerActions(true);
-            dbPlayer.StartScreenEffect("DeathFailOut", 0, true);
-            dbPlayer.PlayAnimation(33, "combat@damage@rb_writhe", "rb_writhe_loop", 8f);
+            dbPlayer.TriggerEvent("toggleBlurred", true);
+            dbPlayer.PlayAnimation(33, "missarmenian2", "corpse_search_exit_ped", 8f);
             dbPlayer.SetInvincible(true);
             dbPlayer.SetSharedData("FUNK_CHANNEL", 0);
             dbPlayer.SetSharedData("FUNK_TALKING", false);
-            
+
         }
 
         [ServerEvent(Event.PlayerDeath)]
@@ -45,8 +45,8 @@ namespace GVMP
                         if (dbKiller == null || !dbKiller.IsValid(true))
                             return;
                         //Paintball
-                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", 5000, "black");
-                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", 5000, "black");
+                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", "black", 5000);
+                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", "black", 5000);
                         dbKiller.addMoney(30000);
 
                         dbKiller.SetHealth(200);
@@ -54,7 +54,7 @@ namespace GVMP
 
                         dbPlayer.disableAllPlayerActions(true);
                         dbPlayer.SpawnPlayer(dbPlayer.Client.Position);
-                        dbPlayer.PlayAnimation(33, "combat@damage@rb_writhe", "rb_writhe_loop", 8f);
+                        dbPlayer.PlayAnimation(33, "missarmenian2", "corpse_search_exit_ped", 8f);
                         dbPlayer.SetInvincible(true);
 
 
@@ -68,7 +68,7 @@ namespace GVMP
 
                 if (dbPlayer.HasData("IN_GANGWAR"))
                 {
-                    dbPlayer.StartScreenEffect("DeathFailOut", 0, true);
+                    dbPlayer.TriggerEvent("toggleBlurred", true);
                     dbPlayer.DeathData = new DeathData
                     {
                         IsDead = true,
@@ -83,20 +83,20 @@ namespace GVMP
                         if (dbKiller.Faction.Id != dbPlayer.Faction.Id)
                             GangwarModule.handleKill(dbKiller);
                         //Gangwar
-                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", 5000, "black");
-                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", 5000, "black");
+                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", "black", 5000);
+                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", "black", 5000);
                         dbKiller.addMoney(30000);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du bist gestorben!", 3000, "black");
+                        dbPlayer.SendNotification("Du bist gestorben!", "black", 5000);
                     }
 
                     NAPI.Task.Run(() => handleDeath(dbPlayer), 5000);
                 }
                 else if (paintballModel == null)
                 {
-                    dbPlayer.StartScreenEffect("DeathFailOut", 0, true);
+                    dbPlayer.TriggerEvent("toggleBlurred", true);
                     dbPlayer.DeathData = new DeathData { IsDead = true, DeathTime = DateTime.Now };
                     if (k != null && k.Exists)
                     {
@@ -104,13 +104,13 @@ namespace GVMP
                         if (dbKiller == null || !dbKiller.IsValid(true))
                             return;
                         //Normal
-                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", 5000, "black");
-                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", 5000, "black");
+                        dbPlayer.SendNotification("Du wurdest von " + dbKiller.Name + " getötet!", "black", 5000);
+                        dbKiller.SendNotification("Du hast " + dbPlayer.Name + " getötet! +30.000$", "black", 5000);
                         dbKiller.addMoney(30000);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Du bist gestorben!", 3000, "black");
+                        dbPlayer.SendNotification("Du bist gestorben!", "black", 5000);
                     }
 
                     dbPlayer.SetSharedData("FUNK_CHANNEL", 0);

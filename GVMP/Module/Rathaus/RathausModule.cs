@@ -84,7 +84,7 @@ namespace GVMP
 
 				if (arg == "changenumber")
 				{
-					dbPlayer.SendNotification("Diese Funktion ist derzeit deaktiviert!", 3000, "red", "RATHAUS");
+					dbPlayer.SendNotification("Diese Funktion ist derzeit deaktiviert!", "black", 3500, "RATHAUS");
 					return;
 				}
 
@@ -107,7 +107,7 @@ namespace GVMP
 						mySqlQuery5.AddParameter("@tenantprices", NAPI.Util.ToJson((object)houseById.TenantPrices));
 						mySqlQuery5.AddParameter("@id", houseById.Id);
 						MySqlHandler.ExecuteSync(mySqlQuery5);
-						dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", 3000, "red");
+						dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", "black", 3500);
 					}
 					return;
 				}
@@ -156,7 +156,7 @@ else
 	mySqlQuery.AddParameter("@tenantprices", NAPI.Util.ToJson(houseById.TenantPrices));
 	mySqlQuery.AddParameter("@id", houseById.Id);
 	MySqlHandler.ExecuteSync(mySqlQuery);
-	dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", 3000, "red", "");
+	dbPlayer.SendNotification("Du hast den Mietvertrag verlassen!", "black", 3500);
 }
                     }
                 });
@@ -288,7 +288,7 @@ CommandModule.<> c.<> 9__1_33 = u003cu003e9_133;
 						});
 						return;
 					}
-					//player.SendNotification("Name geändert, deine Verbindung wurde nun getrennt!", 6000, "green", "RATHAUS");
+					//player.SendNotification("Name geändert, deine Verbindung wurde nun getrennt!", 6000, "black", "RATHAUS");
 					player.removeMoney(25000 * player.Level);
 					player.Name = username;
 					player.RefreshData(player);
@@ -299,7 +299,7 @@ CommandModule.<> c.<> 9__1_33 = u003cu003e9_133;
 				}
 				else
 				{
-					player.SendNotification("Du hast nicht genug Geld!", 3000, "red", "RATHAUS");
+					player.SendNotification("Du hast nicht genug Geld!", "black", 3500, "RATHAUS");
 				}
 			}
 			catch (Exception ex)

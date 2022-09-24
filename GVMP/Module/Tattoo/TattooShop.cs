@@ -28,7 +28,7 @@ namespace GVMP
 			ColShape = NAPI.ColShape.CreateCylinderColShape(Position, 5f, 2f, 0);
 			NAPI.Blip.CreateBlip(75, Position, 1f, 0, Name, 255, 0, true, 0, 0);
 			ColShape.SetData("FUNCTION_MODEL", new FunctionModel("openTattooShop", Id));
-			ColShape.SetData("MESSAGE", new Message("Benutze E um dir ein Tattoo stechen zu lassen.", Name, "green", 3000));
+			ColShape.SetData("MESSAGE", new Message("Benutze E um dir ein Tattoo stechen zu lassen.", Name, "black", 3000));
 			ColShape.SetData("TATTOO", 1);
 		}
 

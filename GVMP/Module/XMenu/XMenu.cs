@@ -32,8 +32,7 @@ namespace GVMP
                     dbPlayer.SendNotification(
                         "Fahrzeug" + (dbVehicle.Vehicle.GetSharedData("lockedStatus") == true
                             ? " zugeschlossen!"
-                            : " aufgeschlossen!"), 3000,
-                        dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "green");
+                            : " aufgeschlossen!"), dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "black", 3000);
                 }
             }
             catch (Exception ex)
@@ -96,8 +95,8 @@ namespace GVMP
                 }
 
                 dbPlayer.SendNotification(
-                    "Auto-Model: " + dbVehicle.Model + " - ID: " + dbVehicle.Id + " - Besitzer: " + Owner, 3000,
-                    "lightblue", "Information");
+                    "Auto-Model: " + dbVehicle.Model + " - ID: " + dbVehicle.Id + " - Besitzer: " + Owner, "lightblue", 3000,
+                     "Information");
             }
             catch (Exception ex)
             {
@@ -147,8 +146,7 @@ namespace GVMP
                     dbPlayer.SendNotification(
                         "Fahrzeug" + (dbVehicle.Vehicle.GetSharedData("lockedStatus") == true
                             ? " zugeschlossen!"
-                            : " aufgeschlossen!"), 3000,
-                        dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "green");
+                            : " aufgeschlossen!"), dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "black", 3000);
                 }
             }
             catch (Exception ex)
@@ -197,8 +195,7 @@ namespace GVMP
                     dbPlayer.SendNotification(
                         "Fahrzeug" + (dbVehicle.Vehicle.GetSharedData("lockedStatus")
                             ? " zugeschlossen!"
-                            : " aufgeschlossen!"), 3000,
-                        dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "green");
+                            : " aufgeschlossen!"), dbVehicle.Vehicle.GetSharedData("lockedStatus") == true ? "red" : "black", 3000);
                 }
             }
             catch (Exception ex)
@@ -237,7 +234,7 @@ namespace GVMP
             
             if (dbVehicle.Vehicle.GetSharedData("lockedStatus") == true)
             {
-                dbPlayer.SendNotification("Das Fahrzeug ist abgeschlossen.", 3000, "red");
+                dbPlayer.SendNotification("Das Fahrzeug ist abgeschlossen.", "black", 3500);
                 return;
             }
 
@@ -257,7 +254,7 @@ namespace GVMP
             dbVehicle.Vehicle.SetSharedData("kofferraumStatus", !dbVehicle.Vehicle.GetSharedData("kofferraumStatus"));
             dbVehicle.RefreshData(dbVehicle);
 
-            dbPlayer.SendNotification("Kofferaum" + (dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? " zugeschlossen!" : " aufgeschlossen!"), 3000, dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? "red" : "green");
+            dbPlayer.SendNotification("Kofferaum" + (dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? " zugeschlossen!" : " aufgeschlossen!"), dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? "red" : "black", 3000);
             }
             catch (Exception ex)
             {
@@ -293,7 +290,7 @@ namespace GVMP
             
             if (dbVehicle.Vehicle.GetSharedData("lockedStatus") == true)
             {
-                dbPlayer.SendNotification("Das Fahrzeug ist abgeschlossen.", 3000, "red");
+                dbPlayer.SendNotification("Das Fahrzeug ist abgeschlossen.", "black", 3500);
                 return;
             }
 
@@ -313,7 +310,7 @@ namespace GVMP
             dbVehicle.Vehicle.SetSharedData("kofferraumStatus", !dbVehicle.Vehicle.GetSharedData("kofferraumStatus"));
             dbVehicle.RefreshData(dbVehicle);
 
-            dbPlayer.SendNotification("Kofferaum" + (dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? " zugeschlossen!" : " aufgeschlossen!"), 3000, dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? "red" : "green");
+            dbPlayer.SendNotification("Kofferaum" + (dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? " zugeschlossen!" : " aufgeschlossen!"), dbVehicle.Vehicle.GetSharedData("kofferraumStatus") == true ? "red" : "black", 3000);
             }
             catch (Exception ex)
             {
@@ -348,8 +345,8 @@ namespace GVMP
                     dbPlayer.disableAllPlayerActions(false);
                     dbPlayer.StopProgressbar();
                     veh.Repair();
-                    dbPlayer.SendNotification("Fahrzeug repariert!", 3000, "green");
-                }, 5000);
+                    dbPlayer.SendNotification("Fahrzeug repariert!", "black", 3500);
+                }, 8000);
             }
             catch (Exception ex)
             {
@@ -401,8 +398,7 @@ namespace GVMP
                     dbPlayer.SendNotification(
                         "Motor" + (dbVehicle.Vehicle.GetSharedData("engineStatus")
                             ? " angeschaltet!"
-                            : " ausgeschaltet!"), 3000,
-                        dbVehicle.Vehicle.GetSharedData("engineStatus") == true ? "green" : "red");
+                            : " ausgeschaltet!"), dbVehicle.Vehicle.GetSharedData("engineStatus") == true ? "black" : "red", 3000);
                 }
             }
             catch (Exception ex)

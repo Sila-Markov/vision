@@ -20,7 +20,7 @@ namespace GVMP
                 if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
                     return;
 
-                if (dbPlayer.HasData("PLAYER_ADUTY") && ((bool) dbPlayer.GetData("PLAYER_ADUTY")) == true)
+                if (dbPlayer.HasData("PLAYER_ADUTY") && ((bool)dbPlayer.GetData("PLAYER_ADUTY")) == true)
                 {
                     c.TriggerEvent("closeIpad");
                 }
@@ -42,7 +42,7 @@ namespace GVMP
                 if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
                     return;
 
-                if (dbPlayer.HasData("PLAYER_ADUTY") && ((bool) dbPlayer.GetData("PLAYER_ADUTY")) == true)
+                if (dbPlayer.HasData("PLAYER_ADUTY") && ((bool)dbPlayer.GetData("PLAYER_ADUTY")) == true)
                 {
                     c.TriggerEvent("openIpad");
                     c.TriggerEvent("componentServerEvent", "IpadDesktopApp", "responseIpadApps",
@@ -66,7 +66,7 @@ namespace GVMP
                 if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null)
                     return;
 
-                if (!dbPlayer.HasData("PLAYER_ADUTY") || !((bool) dbPlayer.GetData("PLAYER_ADUTY"))) return;
+                if (!dbPlayer.HasData("PLAYER_ADUTY") || !((bool)dbPlayer.GetData("PLAYER_ADUTY"))) return;
                 c.TriggerEvent("componentServerEvent", "SupportOpenTickets", "responseOpenTicketList",
                     NAPI.Util.ToJson(Tickets));
             }
@@ -85,20 +85,20 @@ namespace GVMP
                 if (c == null) return;
                 DbPlayer dbPlayer = c.GetPlayer();
                 if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
-                if (!dbPlayer.HasData("PLAYER_ADUTY") || !((bool) dbPlayer.GetData("PLAYER_ADUTY"))) return;
+                if (!dbPlayer.HasData("PLAYER_ADUTY") || !((bool)dbPlayer.GetData("PLAYER_ADUTY"))) return;
 
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(t);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
                 {
-                    dbPlayer.SendNotification("Da der Spieler offline ist, wurde das Ticket geschlossen.", 3000, "yellow", "SUPPORT");
+                    dbPlayer.SendNotification("Da der Spieler offline ist, wurde das Ticket geschlossen.", "black", 6000, "SUPPORT");
                     Tickets.RemoveAll((ticket) => ticket.Creator == t);
                 }
 
                 Client client = dbPlayer2.Client;
 
                 dbPlayer2.SendNotification(
-                    "Dein Ticket wird nun von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " bearbeitet!", 3000,
-                    "yellow", "SUPPORT");
+                    "Dein Ticket wird nun von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " bearbeitet!", "yellow", 3000,
+                     "SUPPORT");
 
                 Ticket ticket = Tickets.Find((Ticket ticket2) => ticket2.Creator == t);
                 if (ticket == null) return;
@@ -111,7 +111,7 @@ namespace GVMP
                     Admin = dbPlayer.Name,
                     Created = ticket.Created
                 };
-                dbPlayer.SendNotification("Ticket erfolgreich angenommen.", 3000, "yellow", "SUPPORT");
+                dbPlayer.SendNotification("Ticket erfolgreich angenommen.", "black", 6000, "SUPPORT");
 
                 if (!Tickets.Contains(ticket)) return;
 
@@ -141,9 +141,9 @@ namespace GVMP
 
                 if (!dbPlayer.HasData("PLAYER_ADUTY") || !(bool)dbPlayer.GetData("PLAYER_ADUTY"))
                     return;
-                
+
                 dbPlayer.TriggerEvent("componentServerEvent", "SupportAcceptedTickets", "responseAcceptedTicketList", NAPI.Util.ToJson(AcceptedTickets));
-            
+
             }
             catch (Exception ex)
             {
@@ -170,9 +170,9 @@ namespace GVMP
 
                 c.Dimension = client.Dimension;
                 c.Position = client.Position;
-                dbPlayer.SendNotification($"Du hast dich zu {t} teleportiert.", 3000, "red", "Support");
-                dbPlayer2.SendNotification($"{dbPlayer.Adminrank.Name} {dbPlayer.Name} hat sich zu dir teleportiert.",
-                    3000, "yellow", "Support");
+                dbPlayer.SendNotification($"Du hast dich zu {t} teleportiert.", "black", 3500, "Support");
+                dbPlayer2.SendNotification($"{dbPlayer.Adminrank.Name} {dbPlayer.Name} hat sich zu dir teleportiert.", "yellow",
+                    3000, "Support");
             }
             catch (Exception ex)
             {
@@ -202,12 +202,13 @@ namespace GVMP
                 dbPlayer2.SetAttribute("Death", 0);
                 dbPlayer2.StopAnimation();
                 dbPlayer2.SetInvincible(false);
-                dbPlayer2.DeathData = new DeathData { IsDead = false, DeathTime = new DateTime(0)};
-                dbPlayer2.StopScreenEffect("DeathFailOut");
+                dbPlayer2.DeathData = new DeathData { IsDead = false, DeathTime = new DateTime(0) };
+                dbPlayer2.TriggerEvent("toggleBlurred", false);
+               // dbPlayer.TriggerEvent("toggleBlurred", false);
 
-                dbPlayer.SendNotification("Spieler " + dbPlayer2.Name + " revived!", 3000, "red", "Support");
+                dbPlayer.SendNotification("Spieler " + dbPlayer2.Name + " revived!", "black", 3500, "Support");
                 dbPlayer2.SendNotification(
-                    "Du wurdest von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " revived!", 3000, "yellow",
+                    "Du wurdest von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " revived!", "black", 6000,
                     "Support");
             }
             catch (Exception ex)
@@ -235,9 +236,9 @@ namespace GVMP
 
                 client.Position = c.Position;
                 client.Dimension = c.Dimension;
-                dbPlayer.SendNotification($"{t} zu dir teleportiert.", 3000, "red", "Support");
+                dbPlayer.SendNotification($"{t} zu dir teleportiert.", "black", 3500, "Support");
                 dbPlayer2.SendNotification(
-                    $"{dbPlayer.Adminrank.Name} {dbPlayer.Name} hat dich zu ihr/ihm teleportiert.", 3000, "yellow",
+                    $"{dbPlayer.Adminrank.Name} {dbPlayer.Name} hat dich zu ihr/ihm teleportiert.", "black", 6000,
                     "Support");
             }
             catch (Exception ex)
@@ -255,7 +256,7 @@ namespace GVMP
                 if (c == null) return;
                 DbPlayer dbPlayer = c.GetPlayer();
                 if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
-                dbPlayer.SendNotification("Du hast das Ticket geschlossen.", 3000, "red");
+                dbPlayer.SendNotification("Du hast das Ticket geschlossen.", "black", 3500);
 
                 DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(t);
                 if (dbPlayer2 == null || !dbPlayer2.IsValid(true))
@@ -266,8 +267,8 @@ namespace GVMP
                     Client client = dbPlayer2.Client;
 
                     dbPlayer2.SendNotification(
-                        "Dein Ticket wurde von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " geschlossen!",
-                        3000, "yellow", "Support");
+                        "Dein Ticket wurde von " + dbPlayer.Adminrank.Name + " " + dbPlayer.Name + " geschlossen!", "yellow",
+                        3000, "Support");
                 }
 
                 WebhookSender.SendMessage("Admin schließt Ticket", "Der Admin" + dbPlayer.Name + " hat das Ticket von " + dbPlayer2.Name + " geschlossen", Webhooks.supportlogs, "Support");

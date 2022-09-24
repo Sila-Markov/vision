@@ -19,12 +19,12 @@ namespace GVMP
             else
             {
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine("(Vision Crimelife) " + msg);
+                Console.WriteLine("[Vision] " + msg);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
 
-        public static void Exception(System.Exception ex)
+        public static void Exception(Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine((object)ex);

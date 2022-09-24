@@ -172,7 +172,7 @@ namespace GVMP
                    if (t.Name == "Würfelpark" && t.Players().Count >= 10)
                    {
 
-                           dbPlayer.SendNotification("Die Lobby Würfelpark ist bereits voll!", 3000, "red");
+                           dbPlayer.SendNotification("Die Lobby Würfelpark ist bereits voll!", "black", 3500);
                            return;
                    }
                    }*/
@@ -187,7 +187,7 @@ namespace GVMP
                     if (zone.Players().Count >= zone.MaxPlayer)
                     {
 
-                        dbPlayer.SendNotification("Die Lobby ist bereits voll!", 3000, "red");
+                        dbPlayer.SendNotification("Die Lobby ist bereits voll!", "black", 3500);
                         return;
                     }
                     Random r = new Random();
@@ -228,7 +228,7 @@ namespace GVMP
                 if (paintballModel == null) return;
 
                 dbPlayer.ACWait();
-                dbPlayer.SetPosition(new Vector3(759.02, -816.13, 26.3));
+                dbPlayer.SetPosition(new Vector3(434.36, -645.99, 28.73));
 
                 dbPlayer.SetData("PBZone", null);
                 dbPlayer.SetData("PBKills", 0);
@@ -243,7 +243,7 @@ namespace GVMP
                 {
                     WeaponManager.loadWeapons(c);
                     dbPlayer.SetDimension(0);
-                }, 5000);
+                }, 3500);
             }
             catch (Exception ex)
             {
@@ -289,17 +289,17 @@ namespace GVMP
 
                 if (killstreak == 3)
                 {
-                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, "Bei " + dbPlayer2.Name + " läuft!", 5000, "white", Notification.icon.bullhorn));
+                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, "Bei " + dbPlayer2.Name + " läuft!", 3500, "white", Notification.icon.bullhorn));
                 }
 
                 else if (killstreak == 5)
                 {
-                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, dbPlayer2.Name + " scheppert richtig!", 5000, "white", Notification.icon.bullhorn));
+                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, dbPlayer2.Name + " scheppert richtig!", 3500, "white", Notification.icon.bullhorn));
                 }
 
                 else if (killstreak == 10)
                 {
-                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, dbPlayer2.Name + " ist GODLIKE!", 5000, "white", Notification.icon.bullhorn));
+                    paintballModel.Players().ForEach(p => Notification.SendGlobalNotification(p.Client, dbPlayer2.Name + " ist GODLIKE!", 3500, "white", Notification.icon.bullhorn));
                 }
 
                 dbPlayer2.SetData("PBKills", newkills);
@@ -313,7 +313,7 @@ namespace GVMP
                 dbPlayer.updatePaintballScore((int)dbPlayer.GetData("PBKills"), (int)dbPlayer.GetData("PBDeaths"));
                 dbPlayer2.updatePaintballScore((int)dbPlayer2.GetData("PBKills"), (int)dbPlayer2.GetData("PBDeaths"));
 
-                dbPlayer.SendNotification("Du hast noch " + (10 - (int)dbPlayer2.GetData("PBDeaths")) + " Leben!", 3000, "#2f2f30");
+                dbPlayer.SendNotification("Du hast noch " + (10 - (int)dbPlayer2.GetData("PBDeaths")) + " Leben!", "black", 5000);
 
                 if (dbPlayer.GetData("PBDeaths") >= 10) leavePaintball(dbPlayer.Client);
 
@@ -551,7 +551,7 @@ namespace GVMP
                 dbPlayer.updatePaintballScore((int)dbPlayer.GetData("PBKills"), (int)dbPlayer.GetData("PBDeaths"));
                 dbPlayer2.updatePaintballScore((int)dbPlayer2.GetData("PBKills"), (int)dbPlayer2.GetData("PBDeaths"));
 
-                dbPlayer.SendNotification("Du hast noch " + (10 - (int)dbPlayer2.GetData("PBDeaths")) + " Leben!", 3000, "red");
+                dbPlayer.SendNotification("Du hast noch " + (10 - (int)dbPlayer2.GetData("PBDeaths")) + " Leben!", "black", 3500);
 
                 if (dbPlayer.GetData("PBDeaths") >= 10) leavePaintball(dbPlayer.Client);
 

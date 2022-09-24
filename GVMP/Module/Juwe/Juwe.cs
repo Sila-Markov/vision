@@ -71,7 +71,7 @@ namespace GVMP
                                 Notification.SendGlobalNotification("Juwe wird aufgebrochen!", 100000, "white", Notification.icon.bullhorn);
                                 dbPlayer.RefreshData(dbPlayer);
                                 dbPlayer.PlayAnimation(33, "amb@world_human_welding@male@idle_a", "idle_a", 8f);
-                                dbPlayer.SendNotification("Du raubst nun den Juwe aus!", 2000, "grey");
+                                dbPlayer.SendNotification("Du raubst nun den Juwe aus!", "black", 3500);
                                 x.robbed = true;
 
 
@@ -85,13 +85,13 @@ namespace GVMP
                                     dbPlayer.RefreshData(dbPlayer);
                                     dbPlayer.disableAllPlayerActions(false);
                                     dbPlayer.StopAnimation();
-                                    dbPlayer.SendNotification("Du hast den Juwe erfolgreich ausgeraubt!!", 2000, "green");
+                                    dbPlayer.SendNotification("Du hast den Juwe erfolgreich ausgeraubt!!", "black", 3500);
                                 }, 15000);
 
                             }
                             else
                             {
-                                dbPlayer.SendNotification("Juwe wurde bereits angegriffen.", 3000, "red", "Juwe");
+                                dbPlayer.SendNotification("Juwe wurde bereits angegriffen.", "black", 3500, "Juwe");
                                 return;
                             }
                         }

@@ -244,7 +244,7 @@ namespace GVMP
 								val4.Parameters.AddWithValue("@id", (object)dbPlayer.Id);
 								val4.Parameters.AddWithValue("@inv", (object)"[]");
 								((DbCommand)(object)val4).ExecuteNonQueryAsync();
-								dbPlayer.SendNotification("Inventar erstellt. Bitte erneut Inventar öffnen", 3000, "green", "Inventar");
+								dbPlayer.SendNotification("Inventar erstellt. Bitte erneut Inventar öffnen", "black", 3500, "Inventar");
 							}
 							else
 							{

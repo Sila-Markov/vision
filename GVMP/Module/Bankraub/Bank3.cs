@@ -64,7 +64,7 @@ namespace GVMP
 
                     if (BlockedZones.Contains(awd))
                     {
-                        dbPlayer.SendNotification("Diese Bank wurde bereits gemacht.", 3000, "orange", "ATM");
+                        dbPlayer.SendNotification("Diese Bank wurde bereits gemacht.", "black", 3500, "ATM");
                         return;
                     }
 
@@ -77,7 +77,7 @@ namespace GVMP
                     dbPlayer.IsFarming = true;
 
                     dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.SendNotification("Du Schweisst das Schließfach 1 auf.");
+                    dbPlayer.SendNotification("Du Schweisst das Schließfach 1 auf.", "black", 6000);
                     dbPlayer.PlayAnimation(33, "amb@world_human_welding@male@idle_a", "idle_a", 8f);
                     NAPI.Task.Run(delegate
                     {

@@ -11,22 +11,22 @@ namespace GVMP
         {
             if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
 
-            dbPlayer.Client.TriggerEvent("initializePaintball");
+            dbPlayer.Client.TriggerEvent("statshud:open", 0, 0, 0);
         }
 
         public static void finishPaintball(this DbPlayer dbPlayer)
         {
             if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
 
-            dbPlayer.Client.TriggerEvent("finishPaintball");
+            dbPlayer.Client.TriggerEvent("statshud:close");
         }
 
-        public static void updatePaintballScore(this DbPlayer dbPlayer, int kills, int deaths)
+        public static void updatePaintballScore(this DbPlayer dbPlayer, int kills, int death)
         {
             if (dbPlayer == null || !dbPlayer.IsValid(true) || dbPlayer.Client == null) return;
             float kd = 0;
-            if (kills > 0 && deaths > 0) kd = kills / deaths;
-            dbPlayer.Client.TriggerEvent("updatePaintballScore", kills, deaths, kd);
+            if (kills > 0 && death > 0) kd = kills / death;
+            dbPlayer.Client.TriggerEvent("statshud:refreshdata", kills, death, kd);
         }
     }
 }

@@ -104,7 +104,7 @@ NAPI.Util.ToJson(Obj2), false);
 
                     if (Rang >= dbPlayer.Factionrank)
                     {
-                        dbPlayer.SendNotification("Dazu hast du keine Rechte!", 3000, "red");
+                        dbPlayer.SendNotification("Dazu hast du keine Rechte!", "black", 3500);
                         return;
                     }
                     if (factionId == dbPlayer.Faction.Id && dbPlayer.Factionrank > factionRank)
@@ -125,7 +125,7 @@ NAPI.Util.ToJson(Obj2), false);
 
                         dbPlayer.Faction.GetFactionPlayers().ForEach(delegate (DbPlayer target)
                         {
-                            target.SendNotification(dbPlayer.Name + " hat " + name + " auf den Rang " + Rang + " gestuft. ", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                            target.SendNotification(dbPlayer.Name + " hat " + name + " auf den Rang " + Rang + " gestuft. ", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                         });
                         DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(Id);
                         if (dbPlayer2 != null)
@@ -136,7 +136,7 @@ NAPI.Util.ToJson(Obj2), false);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Der Spieler hat einen höheren Rang oder ist nicht in deiner Fraktion!", 3000, "red");
+                        dbPlayer.SendNotification("Der Spieler hat einen höheren Rang oder ist nicht in deiner Fraktion!", "black", 3500);
                     }
                 }
 
@@ -152,7 +152,7 @@ NAPI.Util.ToJson(Obj2), false);
 
         /* dbPlayer.Faction.GetFactionPlayers().ForEach(delegate (DbPlayer target)
                  {
-                     target.SendNotification(dbPlayer.Name + " hat " + dbPlayer2.Name + " auf den Rang " + Rang + " gestuft. ", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                     target.SendNotification(dbPlayer.Name + " hat " + dbPlayer2.Name + " auf den Rang " + Rang + " gestuft. ", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
                  });*/
         [RemoteEvent("kickFraktionMember")]
         public void kickFraktionMember(Client c, int Id, int Rang)
@@ -190,13 +190,13 @@ NAPI.Util.ToJson(Obj2), false);
                         mySqlQuery.AddParameter("@fraktion", 0);
                         MySqlHandler.ExecuteSync(mySqlQuery);
 
-                        dbPlayer.SendNotification("Du hast " + name + " aus der Fraktion geworfen!", 3000, dbPlayer.Faction.GetRGBStr(), dbPlayer.Faction.Name);
+                        dbPlayer.SendNotification("Du hast " + name + " aus der Fraktion geworfen!", dbPlayer.Faction.GetRGBStr(), 3000, dbPlayer.Faction.Name);
 
                         DbPlayer dbPlayer2 = PlayerHandler.GetPlayer(Id);
                         if (dbPlayer2 != null)
                         {
                             dbPlayer2.SetData("Fraksperre", true);
-                            dbPlayer2.SendNotification("Du wurdest aus deiner Fraktion rausgeworfen!", 3000, "red");
+                            dbPlayer2.SendNotification("Du wurdest aus deiner Fraktion rausgeworfen!", "black", 3500);
                             dbPlayer2.Faction = FactionModule.getFactionById(0);
                             dbPlayer2.Factionrank = 0;
                             dbPlayer2.RefreshData(dbPlayer2);
@@ -204,7 +204,7 @@ NAPI.Util.ToJson(Obj2), false);
                     }
                     else
                     {
-                        dbPlayer.SendNotification("Der Spieler hat einen höheren Rang oder ist nicht in deiner Fraktion!", 3000, "red");
+                        dbPlayer.SendNotification("Der Spieler hat einen höheren Rang oder ist nicht in deiner Fraktion!", "black", 3500);
                     }
                 }
 

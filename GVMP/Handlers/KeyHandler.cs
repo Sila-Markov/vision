@@ -177,6 +177,8 @@ namespace GVMP
 
             KasinoModule.Instance.PressedE(dbPlayer);
 
+            ItemModule.Instance.PressedE(dbPlayer);
+
             try
             {
 
@@ -204,20 +206,6 @@ namespace GVMP
                     {
                         c.Eval("mp.events.callRemote('" + functionModel.Function + "');");
                     }
-                }
-                if (dbPlayer.IsFarming == true)
-                {
-                    NAPI.Task.Run(() =>
-                    {
-                        dbPlayer.SetData("DisableAC", false);
-                    }, 5000);
-                    dbPlayer.TriggerEvent("client:respawning");
-                    dbPlayer.StopProgressbar();
-                    dbPlayer.IsFarming = false;
-                    dbPlayer.RefreshData(dbPlayer);
-                    dbPlayer.disableAllPlayerActions(false);
-                    dbPlayer.StopAnimation();
-                    dbPlayer.SendNotification("Aktion abgebrochen!", 5000);
                 }
             }
             catch (Exception ex)
@@ -248,7 +236,7 @@ namespace GVMP
                     if (message.Title == "frak")
                         message.Title = dbPlayer.Faction.Name;
 
-                    dbPlayer.SendNotification(message.Text, message.Duration, message.Color, message.Title);
+                    dbPlayer.SendNotification(message.Text, message.Color, message.Duration, message.Title);
                 }
             }
             catch (Exception ex)

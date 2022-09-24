@@ -70,7 +70,7 @@ namespace GVMP
 			}
 			if (player.IsFarming)
 			{
-				player.SendNotification("Hör erstmal auf zu farmen.");
+				player.SendNotification("Hör erstmal auf zu farmen.", "black", 6000);
 			}
 			else
 			{
@@ -241,7 +241,7 @@ namespace GVMP
 			Logger.Print("dropInventoryItem " + dbPlayer.Name + " " + name + " " + amount);
 			if (amount < 1)
 			{
-				dbPlayer.SendNotification("hoff nicht");
+				dbPlayer.SendNotification("hoff nicht", "black", 6000);
 				return;
 			}
 			try
@@ -291,14 +291,14 @@ namespace GVMP
 			Logger.Print("giveInventoryItem " + dbPlayer.Name + " " + name + " " + amount);
 			if (amount < 1)
 			{
-				dbPlayer.SendNotification("hoff nicht");
+				dbPlayer.SendNotification("hoff nicht", "black", 6000);
 				return;
 			}
 			try
 			{
 				if ((Entity)(object)GetClosestClient(client, 5f) == (Entity)null)
 				{
-					dbPlayer.SendNotification("Es wurde kein Spieler gefunden.", 3000, "red");
+					dbPlayer.SendNotification("Es wurde kein Spieler gefunden.", "black", 3500);
 				}
 				else
 				{
@@ -372,7 +372,7 @@ namespace GVMP
 									dbPlayer.StopAnimation();
 								}
 							}, 2000L);
-							dbPlayer.SendNotification("Du hast dem Spieler " + player2.Name + " " + amount + "x " + name + " übergeben.", 3000, "green");
+							dbPlayer.SendNotification("Du hast dem Spieler " + player2.Name + " " + amount + "x " + name + " übergeben.", "black", 3500);
 						}
 						finally
 						{
@@ -419,7 +419,7 @@ namespace GVMP
 			Logger.Print("moveItemToInventory " + dbPlayer.Name + " " + name + " " + oldInventory + " " + amount);
 			if (amount < 1)
 			{
-				dbPlayer.SendNotification("hoff nicht");
+				dbPlayer.SendNotification("hoff nicht", "black", 6000);
 				return;
 			}
 			try
@@ -534,7 +534,7 @@ namespace GVMP
 					}
 					if (amount > itemModel6.Amount)
 					{
-						dbPlayer.SendNotification("hoff nicht");
+						dbPlayer.SendNotification("hoff nicht", "black", 6000);
 						return;
 					}
 					if (itemModel6.Amount >= amount)
@@ -605,18 +605,18 @@ namespace GVMP
 				}
 				if (((dynamic)((Entity)client).GetData("USING_FRAKLAGER") == true) && dbPlayer.Factionrank < 10)
 				{
-					dbPlayer.SendNotification("Du brauchst einen höheren Rang um etwas aus dem Fraktionslager rauszunehmen!", 3000, "white", "FRAKLAGER");
+					dbPlayer.SendNotification("Du brauchst einen höheren Rang um etwas aus dem Fraktionslager rauszunehmen!", "black", 6000, "FRAKLAGER");
 					return;
 				}
 				if (((dynamic)((Entity)client).GetData("USING_TRESOR") == true) && dbPlayer.Businessrank < 1)
 				{
-					dbPlayer.SendNotification("Du brauchst einen höheren Rang um etwas aus dem Tresor rauszunehmen!", 3000, "orange", "BUSINESS");
+					dbPlayer.SendNotification("Du brauchst einen höheren Rang um etwas aus dem Tresor rauszunehmen!", "black", 3500, "BUSINESS");
 					return;
 				}
 				ItemModel itemModel5 = list.FirstOrDefault((ItemModel itemModel2) => itemModel2.Name == name);
 				if (amount > itemModel5.Amount)
 				{
-					dbPlayer.SendNotification("hoff nicht");
+					dbPlayer.SendNotification("hoff nicht", "black", 6000);
 					return;
 				}
 				if (itemModel5.Amount >= amount)

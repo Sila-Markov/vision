@@ -150,7 +150,7 @@ namespace GVMP
                                 NAPI.Task.Run(() =>
                                 {
                                     dbPlayer.SetData("DisableAC", false);
-                                }, 5000);
+                                }, 3500);
                                 dbPlayer.SetHealth(100);
                                 dbPlayer.TriggerEvent("client:respawning");
                                 dbPlayer.StopProgressbar();
@@ -158,7 +158,7 @@ namespace GVMP
                                 dbPlayer.RefreshData(dbPlayer);
                                 dbPlayer.StopAnimation();
                                 dbPlayer.disableAllPlayerActions(false);
-                                dbPlayer.SendNotification("Du hast einen Verbandskasten benutzt.", 3000, "green");
+                                dbPlayer.SendNotification("Du hast einen Verbandskasten benutzt.", "black", 3500);
                             }, 4000);
                         }
                     }
@@ -263,14 +263,14 @@ namespace GVMP
                                         NAPI.Task.Run(() =>
                                         {
                                             dbPlayer.SetData("DisableAC", false);
-                                        }, 5000);
+                                        },3500);
                                         dbPlayer.SetArmor(100);
                                         dbPlayer.TriggerEvent("client:respawning");
                                         dbPlayer.StopProgressbar();
                                         dbPlayer.IsFarming = false;
                                         dbPlayer.RefreshData(dbPlayer);
                                         dbPlayer.disableAllPlayerActions(false);
-                                        dbPlayer.SendNotification("Du hast eine FIB-Schutzweste benutzt.", 3000, "green");
+                                        dbPlayer.SendNotification("Du hast eine FIB-Schutzweste benutzt.", "black", 3500);
                                         if (dbPlayer.Factionrank <= 8)
                                         {
                                             dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 3 : 3, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 0 : 0);
@@ -293,14 +293,14 @@ namespace GVMP
                                         NAPI.Task.Run(() =>
                                         {
                                             dbPlayer.SetData("DisableAC", false);
-                                        }, 5000);
+                                        },3500);
                                         dbPlayer.SetArmor(100);
                                         dbPlayer.TriggerEvent("client:respawning");
                                         dbPlayer.StopProgressbar();
                                         dbPlayer.IsFarming = false;
                                         dbPlayer.RefreshData(dbPlayer);
                                         dbPlayer.disableAllPlayerActions(false);
-                                        dbPlayer.SendNotification("Du hast eine LSPD-Schutzweste benutzt.", 3000, "green");
+                                        dbPlayer.SendNotification("Du hast eine LSPD-Schutzweste benutzt.", "black", 3500);
                                         dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 7 : 7, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 0 : 0);
                                         dbPlayer.StopAnimation();
                                     }, 4000);
@@ -328,6 +328,10 @@ namespace GVMP
                     if (dbPlayer.DeathData.IsDead) return;
 
                     if (dbPlayer.IsFarming)
+                    {
+                        return;
+                    }
+                    if (dbPlayer.IsCancleAction)
                     {
                         return;
                     }
@@ -393,14 +397,14 @@ namespace GVMP
                                     NAPI.Task.Run(() =>
                                     {
                                         dbPlayer.SetData("DisableAC", false);
-                                    }, 5000);
+                                    },3500);
                                     dbPlayer.SetArmor(100);
                                     dbPlayer.TriggerEvent("client:respawning");
                                     dbPlayer.StopProgressbar();
                                     dbPlayer.IsFarming = false;
                                     dbPlayer.RefreshData(dbPlayer);
                                     dbPlayer.disableAllPlayerActions(false);
-                                    dbPlayer.SendNotification("Du hast eine Schutzweste benutzt.", 3000, "green");
+                                    dbPlayer.SendNotification("Du hast eine Schutzweste benutzt.", "black", 3500);
                                     if (!@string.Contains("Underarmor"))
                                     {
                                         dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 16 : 15, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 2 : 2);
@@ -427,6 +431,27 @@ namespace GVMP
             }
         }
 
+        public bool PressedE(DbPlayer dbPlayer)
+        {
+            if (dbPlayer.IsFarming == true)
+            {
+                dbPlayer.IsCancleAction = true;
+                dbPlayer.TriggerEvent("client:respawning");
+                dbPlayer.StopProgressbar();
+                dbPlayer.SendProgressbar(0);
+                dbPlayer.IsFarming = false;
+                dbPlayer.RefreshData(dbPlayer);
+                dbPlayer.disableAllPlayerActions(false);
+                dbPlayer.StopAnimation();
+                dbPlayer.SendNotification("Aktion abgebrochen!", "black", 3500);
+                NAPI.Task.Run(() =>
+                {
+                    dbPlayer.IsCancleAction = false;
+                },3500);
+            }
+            return false;
+        }
+
 
         public static bool getItemFunction(Client c, int id)
         {
@@ -447,18 +472,22 @@ namespace GVMP
             {
                 if (paintballModel != null)
                 {
-                    dbPlayer.SendNotification("Du kannst im Paintball keine Waffen ausrüsten! ", 5000, "red", "");
+                    dbPlayer.SendNotification("Du kannst im Paintball keine Waffen ausrüsten! ", "black", 3500);
                 }
                 else
                 {
                     WeaponManager.addWeapon(c, item.Whash);
-                    dbPlayer.SendNotification("Du hast die Waffe ausgerüstet.", 3000, "green", "Inventar");
+                    dbPlayer.SendNotification("Du hast die Waffe ausgerüstet.", "black", 3500, "Inventar");
                 }
                 return true;
             }
             else if (item.Name == "Schutzweste")
             {
-                if (!dbPlayer.IsFarming)
+                if (dbPlayer.IsCancleAction == true)
+                {
+                    return false;
+                }
+                else
                 {
                     NAPI.Task.Run(() =>
                     {
@@ -474,23 +503,22 @@ namespace GVMP
                         NAPI.Task.Run(() =>
                         {
                             dbPlayer.SetData("DisableAC", false);
-                        }, 5000);
+                        }, 3500);
                         dbPlayer.SetArmor(100);
                         dbPlayer.TriggerEvent("client:respawning");
                         dbPlayer.IsFarming = false;
                         dbPlayer.RefreshData(dbPlayer);
                         dbPlayer.StopProgressbar();
                         dbPlayer.disableAllPlayerActions(false);
-                        dbPlayer.SendNotification("Du hast eine Schutzweste benutzt.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast eine Schutzweste benutzt.", "black", 3500);
                         dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 16 : 15, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 2 : 2);
                         dbPlayer.StopAnimation();
                     }, 4000);
-                    return true;
                 }
             }
             else if (item.Name == "Waffenkiste")
             {
-                dbPlayer.SendNotification("Waffenkiste geöffnet.", 3000, "green");
+                dbPlayer.SendNotification("Waffenkiste geöffnet.", "black", 3500);
                 int randomitem = new Random().Next(1, 6);
                 int randomanzahl = new Random().Next(1, 5);
                 int marksmanorrevolver = new Random().Next(1, 100);
@@ -525,32 +553,9 @@ namespace GVMP
                 }
                 dbPlayer.UpdateInventoryItems("Waffenkiste", 1, true);
             }
-            else if (item.Name == "Westenkiste")
-            {
-                dbPlayer.SendNotification("Westenkiste geöffnet.", 3000, "green");
-                int randomitem = new Random().Next(1, 6);
-                int randomanzahl = new Random().Next(1, 5);
-
-                switch (randomitem)
-                {
-                    case 1:
-                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
-                        break;
-                    case 2:
-                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
-                        break;
-                    case 3:
-                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
-                        break;
-                    case 4:
-                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
-                        break;
-                }
-                dbPlayer.UpdateInventoryItems("Westenkiste", 1, true);
-            }
             else if (item.Name == "FastEquipAG")
             {
-                dbPlayer.SendNotification("FastEquip Advanced & Gusi geöffnet.", 3000, "green");
+                dbPlayer.SendNotification("FastEquip Advanced & Gusi geöffnet.", "black", 3500);
                 WeaponManager.addWeapon(c, WeaponHash.AdvancedRifle);
                 WeaponManager.addWeapon(c, WeaponHash.Gusenberg);
                 WeaponManager.addWeapon(c, WeaponHash.HeavyPistol);
@@ -567,7 +572,7 @@ namespace GVMP
             }
             else if (item.Name == "FastEquipAC")
             {
-                dbPlayer.SendNotification("FastEquip Advanced & Compact geöffnet.", 3000, "green");
+                dbPlayer.SendNotification("FastEquip Advanced & Compact geöffnet.", "black", 3500);
                 WeaponManager.addWeapon(c, WeaponHash.AdvancedRifle);
                 WeaponManager.addWeapon(c, WeaponHash.CompactRifle);
                 WeaponManager.addWeapon(c, WeaponHash.HeavyPistol);
@@ -584,7 +589,7 @@ namespace GVMP
             }
             else if (item.Name == "FastEquipBG")
             {
-                dbPlayer.SendNotification("FastEquip Bullpup & Gusi geöffnet.", 3000, "green");
+                dbPlayer.SendNotification("FastEquip Bullpup & Gusi geöffnet.", "black", 3500);
                 WeaponManager.addWeapon(c, WeaponHash.BullpupRifle);
                 WeaponManager.addWeapon(c, WeaponHash.Gusenberg);
                 WeaponManager.addWeapon(c, WeaponHash.HeavyPistol);
@@ -601,7 +606,7 @@ namespace GVMP
             }
             else if (item.Name == "FastEquipBC")
             {
-                dbPlayer.SendNotification("FastEquip Bullpup & Compact geöffnet.", 3000, "green");
+                dbPlayer.SendNotification("FastEquip Bullpup & Compact geöffnet.", "black", 3500);
                 WeaponManager.addWeapon(c, WeaponHash.BullpupRifle);
                 WeaponManager.addWeapon(c, WeaponHash.CompactRifle);
                 WeaponManager.addWeapon(c, WeaponHash.HeavyPistol);
@@ -636,7 +641,7 @@ namespace GVMP
                             dbPlayer.IsFarming = false;
                             dbPlayer.RefreshData(dbPlayer);
                             dbPlayer.disableAllPlayerActions(false);
-                            dbPlayer.SendNotification("Du hast eine FIB-Schutzweste benutzt.", 3000, "green");
+                            dbPlayer.SendNotification("Du hast eine FIB-Schutzweste benutzt.", "black", 3500);
                             if (dbPlayer.Factionrank <= 8)
                             {
                                 dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 3 : 3, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 0 : 0);
@@ -658,7 +663,7 @@ namespace GVMP
                             dbPlayer.IsFarming = false;
                             dbPlayer.RefreshData(dbPlayer);
                             dbPlayer.disableAllPlayerActions(false);
-                            dbPlayer.SendNotification("Du hast eine LSPD-Schutzweste benutzt.", 3000, "green");
+                            dbPlayer.SendNotification("Du hast eine LSPD-Schutzweste benutzt.", "black", 3500);
                             if (dbPlayer.Factionrank <= 8)
                             {
                                 dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 7 : 7, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 0 : 0);
@@ -695,7 +700,7 @@ namespace GVMP
                         dbPlayer.RefreshData(dbPlayer);
                         dbPlayer.StopProgressbar();
                         dbPlayer.disableAllPlayerActions(false);
-                        dbPlayer.SendNotification("Du hast eine Underarmor benutzt.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast eine Underarmor benutzt.", "black", 3500);
                         // dbPlayer.SetClothes(9, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 16 : 15, (dbPlayer.Faction.Id != 0 && !dbPlayer.Faction.BadFraktion) ? 0 : 2);
                         dbPlayer.StopAnimation();
                     }, 4000);
@@ -720,7 +725,7 @@ namespace GVMP
                         dbPlayer.StopProgressbar();
                         dbPlayer.IsFarming = false;
                         dbPlayer.RefreshData(dbPlayer);
-                        dbPlayer.SendNotification("Du hast einen Verbandskasten benutzt.", 3000, "green");
+                        dbPlayer.SendNotification("Du hast einen Verbandskasten benutzt.", "black", 3500);
                     }, 4000);
                     return true;
                 }
@@ -730,7 +735,7 @@ namespace GVMP
                 House house = HouseModule.houses.FirstOrDefault((House house2) => house2.OwnerId == dbPlayer.Id);
                 if (house == null)
                 {
-                    dbPlayer.SendNotification("Du besitzt kein Haus!", 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt kein Haus!", "black", 3500);
                     return false;
                 }
 
@@ -762,7 +767,7 @@ namespace GVMP
                     NAPI.Task.Run(delegate
                     {
                         dbPlayer.GiveWeapon(weapon, 9999);
-                        dbPlayer.SendNotification("Du hast 1 Magazin benutzt, deine Waffe ist nun wieder voll!", 3000, "green");
+                        dbPlayer.SendNotification("Du hast 1 Magazin benutzt, deine Waffe ist nun wieder voll!", "black", 3500);
                         dbPlayer.TriggerEvent("disableAllPlayerActions", new object[1]
                         {
                             false
@@ -770,11 +775,11 @@ namespace GVMP
                         dbPlayer.StopAnimation();
                         dbPlayer.ResetData("IS_FARMING");
 
-                    }, 5000);
+                    }, 3500);
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du musst eine Waffe in der Hand halten!", 3000, "red");
+                    dbPlayer.SendNotification("Du musst eine Waffe in der Hand halten!", "black", 3500);
                 }
             }
 
@@ -857,7 +862,7 @@ namespace GVMP
                                 mySqlQuery.AddParameter("@plate", id3);
                                 mySqlQuery.AddParameter("@id", id3);
                                 MySqlHandler.ExecuteSync(mySqlQuery);
-                                dbPlayer.SendNotification("Du hast aus deinem Geschenk das Fahrzeug " + itemm + " bekommen!", 3000, "red");
+                                dbPlayer.SendNotification("Du hast aus deinem Geschenk das Fahrzeug " + itemm + " bekommen!", "black", 3500);
 
 
                             }

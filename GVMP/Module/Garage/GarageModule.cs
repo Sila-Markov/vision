@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GVMP
 {
@@ -62,11 +63,11 @@ namespace GVMP
 
                 ColShape val = NAPI.ColShape.CreateCylinderColShape(garage.Position, 1.4f, 1.4f, 0);
                 val.SetData("FUNCTION_MODEL", new FunctionModel("openGarage", reader.GetInt32("id"), garage.Name));
-                val.SetData("MESSAGE", new Message("Benutze E um die Garage zu öffnen.", garage.Name, "orange", 5000));
+                val.SetData("MESSAGE", new Message("Benutze E um die Garage zu öffnen.", garage.Name, "black"));
 
 
                 NAPI.Marker.CreateMarker(36, garage.Position, new Vector3(), new Vector3(), 1.0f, new Color(9, 114, 193), false, 0);
-                NAPI.Blip.CreateBlip(50, garage.Position, 1f, 0, garage.Name, 255, 0.0f, true, 0, 0);
+                NAPI.Blip.CreateBlip(473, garage.Position, 1f, 0, garage.Name, 255, 0.0f, true, 0, 0);
             }
             catch (Exception ex)
             {
@@ -122,6 +123,17 @@ namespace GVMP
                     if (id == 0) return;
                     if (dbPlayer.Faction.Id != id) return;
 
+                    if (c.Dimension == 8888)
+                    {
+                        List<NativeItem> nativeItems = new List<NativeItem>
+                        {
+                            new NativeItem("Revolter", "revolter")
+                        };
+                        NativeMenu nativeMenu = new NativeMenu("Revolter", "", nativeItems);
+                        dbPlayer.ShowNativeMenu(nativeMenu);
+                        return;
+                    }
+
                     c.TriggerEvent("openWindow", "Garage",
                         "{\"id\":" + id + ", \"name\": \"" + name + "\", \"fraktion\":true}");
                     dbPlayer.OpenGarage(id, name, true);
@@ -138,6 +150,35 @@ namespace GVMP
                 Logger.Print("[EXCEPTION openFraktionsGarage] " + ex.StackTrace);
             }
 
+        }
+
+        [RemoteEvent("nM-Revolter")]
+        public void Revolter(Client c, string selection)
+        {
+            try
+            {
+                if (!(c == null))
+                {
+                    DbPlayer player = c.GetPlayer();
+                    if (selection == "revolter")
+                    {
+                        player.CloseNativeMenu();
+                        var alreadyVehicle = NAPI.Pools.GetAllVehicles().ToList().FirstOrDefault(x => x != null && x.Exists && x.HasData("ownerId") && x.GetData("ownerId") == player);
+                        if (alreadyVehicle != null) alreadyVehicle.Delete();
+                        Vehicle val = NAPI.Vehicle.CreateVehicle(0xE78CC3D9, player.Faction.GarageSpawn, player.Faction.GarageSpawnRotation, 0, 0, "", 255, false, true, c.Dimension);
+                        val.CustomPrimaryColor = player.Faction.RGB;
+                        val.CustomPrimaryColor = player.Faction.RGB;
+                        val.NumberPlate = player.Faction.Short.ToUpper();
+                        val.SetData("ownerId", player);
+                        c.SetIntoVehicle(val, -1);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Print("[EXCEPTION nM-Revolter]" + ex.Message);
+                Logger.Print("[EXCEPTION nM-Revolter]" + ex.StackTrace);
+            }
         }
 
         [RemoteEvent("requestVehicleList")]
@@ -449,7 +490,7 @@ namespace GVMP
                                   val.SetMod(18, 0);
                                   val.WindowTint = 2;
                               }
-                              dbPlayer.SendNotification("Fahrzeug ausgeparkt!", 3000, "green", "Garage");
+                              dbPlayer.SendNotification("Fahrzeug ausgeparkt!", "black", 3500, "Garage");
                               val.SetSharedData("lockedStatus", true);
                               val.SetSharedData("kofferraumStatus", true);
                               val.SetSharedData("engineStatus", true);
@@ -501,7 +542,7 @@ namespace GVMP
                                   val.SecondaryColor = dbVehicle.SecondaryColor;
                                   val.PearlescentColor = dbVehicle.PearlescentColor;
                                   val.WindowTint = dbVehicle.WindowTint;
-                                  dbPlayer.SendNotification("Fahrzeug ausgeparkt!", 3000, "green", "Garage");
+                                  dbPlayer.SendNotification("Fahrzeug ausgeparkt!", "black", 3500, "Garage");
                                   val.NumberPlate = dbVehicle.Plate;
                                   val.SetData("vehicle", dbVehicle);
                                   val.SetSharedData("lockedStatus", true);
@@ -521,7 +562,7 @@ namespace GVMP
                                       return;
                                   if (dbVehicle.Fraktion != null && dbVehicle.Fraktion.Id == dbPlayer.Faction.Id && vehicle.Position.DistanceTo(dbPlayer.Client.Position) < 30)
                                   {
-                                      dbPlayer.SendNotification("Du hast das Fahrzeug " + dbVehicle.Model + " erfolgreich eingeparkt.", 3000, "green", "Garage");
+                                      dbPlayer.SendNotification("Du hast das Fahrzeug " + dbVehicle.Model + " erfolgreich eingeparkt.", "black", 3500, "Garage");
                                       vehicle.Delete();
                                       break;
                                   }
@@ -542,7 +583,7 @@ namespace GVMP
                                       MySqlHandler.ExecuteSync(mySqlQuery3);
                                       dbPlayer.SendNotification(
                                           "Du hast das Fahrzeug " + dbVehicle.Model + " erfolgreich eingeparkt.",
-                                          3000, "green", "Garage");
+                                          3000, "black", "Garage");
                                       vehicle.Delete();
                                       break;
                                   }
@@ -633,7 +674,7 @@ namespace GVMP
                                                     vehicle1.SecondaryColor = dbVehicle.SecondaryColor;
                                                     vehicle1.PearlescentColor = dbVehicle.PearlescentColor;
                                                     vehicle1.WindowTint = dbVehicle.WindowTint;
-                                                    player.SendNotification("Fahrzeug ausgeparkt!", 3000, "green", "Garage");
+                                                    player.SendNotification("Fahrzeug ausgeparkt!", "black", 3500, "Garage");
                                                     vehicle1.NumberPlate = dbVehicle.Plate;
                                                     vehicle1.SetData("vehicle", dbVehicle);
                                                     vehicle1.SetSharedData("lockedStatus", true);
@@ -882,7 +923,7 @@ namespace GVMP
                                                 vehicle2.WindowTint = 2;
                                             }
                                             vehicle2.WindowTint = 2;
-                                            player.SendNotification("Fahrzeug ausgeparkt!", 3000, "green", "Garage");
+                                            player.SendNotification("Fahrzeug ausgeparkt!", "black", 3500, "Garage");
                                             vehicle2.SetSharedData("lockedStatus", true);
                                             vehicle2.SetSharedData("kofferraumStatus", true);
                                             vehicle2.SetSharedData("engineStatus", true);
@@ -969,7 +1010,7 @@ namespace GVMP
                                     MySqlQuery mySqlQuery3 = new MySqlQuery("UPDATE vehicles SET Parked = 1 WHERE Id = @id");
                                     mySqlQuery3.AddParameter("@id", vehicleid);
                                     MySqlHandler.ExecuteSync(mySqlQuery3);
-                                    player.SendNotification(string.Concat("Du hast das Fahrzeug ", vehicle3.GetVehicle().Model, " erfolgreich eingeparkt."), 3000, "green", "Garage");
+                                    player.SendNotification(string.Concat("Du hast das Fahrzeug ", vehicle3.GetVehicle().Model, " erfolgreich eingeparkt."), "black", 3500, "Garage");
                                     vehicle3.Delete();
                                 }
                             }
@@ -981,7 +1022,7 @@ namespace GVMP
                                     DbVehicle vehicle = veh.GetVehicle();
                                     if (vehicle != null)
                                     {
-                                        player.SendNotification(string.Concat("Du hast das Fahrzeug ", vehicle.Model, " erfolgreich eingeparkt."), 3000, player.Faction.GetRGBStr(), player.Faction.Name);
+                                        player.SendNotification(string.Concat("Du hast das Fahrzeug ", vehicle.Model, " erfolgreich eingeparkt."), player.Faction.GetRGBStr(), 3000, player.Faction.Name);
                                         veh.Delete();
                                     }
                                 }));

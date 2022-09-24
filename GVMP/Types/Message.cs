@@ -33,8 +33,8 @@ namespace GVMP
         public Message(string text, string title, string color, int duration = 3000)
         {
             this.Text = text;
-            this.Title = title;
             this.Color = color;
+            this.Title = title;
             this.Duration = duration;
         }
 

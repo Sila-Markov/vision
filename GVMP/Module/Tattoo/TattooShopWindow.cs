@@ -123,7 +123,7 @@ namespace GVMP
 				}
 				if (player.Money < assetsTattoo.Price)
 				{
-					player.SendNotification($"Sie haben nicht genug Geld! Benoetigt ({assetsTattoo.Price}$)");
+					player.SendNotification($"Sie haben nicht genug Geld! Benoetigt ({assetsTattoo.Price}$)", "black", 3500);
 					return;
 				}
 				player.removeMoney(assetsTattoo.Price);
@@ -132,7 +132,7 @@ namespace GVMP
 				val.Overlay = NAPI.Util.GetHashKey(assetsTattoo.TattooHash);
 				NAPI.Player.SetPlayerDecoration(client, val);
 				player.AddTattoo(assetsTattoo.Id);
-				player.SendNotification($"Tattoo {assetsTattoo.Name} fuer ${assetsTattoo.Price} gekauft!", 3500, "green", "TATTOO");
+				player.SendNotification($"Tattoo {assetsTattoo.Name} fuer ${assetsTattoo.Price} gekauft!", "black", 3500, "TATTOO");
 				player.ApplyDecorations();
 			}
 			catch

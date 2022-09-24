@@ -216,7 +216,7 @@ namespace GVMP
                                 IsFarming = false,
                                 PlayerClothes = new PlayerClothes(),
                                 Adminrank = adminrank,
-                                
+
                                 LastEInteract = DateTime.Now,
                                 LastInteracted = DateTime.Now,
                                 OnlineSince = DateTime.Now,
@@ -458,7 +458,7 @@ namespace GVMP
                                 {
                                     if (dbPlayer.GetAttributeInt("Death") == 1)
                                         dbPlayer.SetHealth(0);
-                                }, 5000);
+                                }, 3500);
                             }
                             else
                             {
@@ -477,8 +477,7 @@ namespace GVMP
                             if (adminrank.Permission > 0)
                             {
                                 dbPlayer.SendNotification(
-                                    "Ihre Rechte wurden vollständig initialisiert. (" + adminrank.Name + ")", 3000,
-                                    "red", "ADMIN");
+                                    "Ihre Rechte wurden vollständig initialisiert. (" + adminrank.Name + ")", "red", 3000, "ADMIN");
 
                                 if (adminrank.Permission > 98)
                                 {

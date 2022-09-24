@@ -116,7 +116,7 @@ namespace GVMP
 
                     dbPlayer.removeMoney(Convert.ToInt32(buyCar.Price));
                     client.TriggerEvent("componentServerEvent", "NativeMenu", "hide");
-                    dbPlayer.SendNotification("Du hast das Fahrzeug " + buyCar.Vehicle_Name + " für " + buyCar.Price + "$ erfolgreich gekauft.", 3000, "green", "Autohandel");
+                    dbPlayer.SendNotification("Du hast das Fahrzeug " + buyCar.Vehicle_Name + " für " + buyCar.Price + "$ erfolgreich gekauft.", "black", 3500, "Autohandel");
 
                     int plate = new Random().Next(10000, 99999999);
                     int id = new Random().Next(10000, 99999999);
@@ -160,7 +160,7 @@ namespace GVMP
                 else
                 {
                     client.TriggerEvent("componentServerEvent", "NativeMenu", "hide");
-                    dbPlayer.SendNotification("Du besitzt nicht genügend Geld.", 3000, "red", "Autohandel");
+                    dbPlayer.SendNotification("Du besitzt nicht genügend Geld.", "black", 3500, "Autohandel");
                 }
             }
             catch (Exception ex)

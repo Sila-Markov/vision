@@ -58,7 +58,7 @@ namespace GVMP
 
                 ColShape val = NAPI.ColShape.CreateCylinderColShape(shop.Position, 1.4f, 1.4f, 0);
                 val.SetData("FUNCTION_MODEL", new FunctionModel("openShop", NAPI.Util.ToJson(shop)));
-                val.SetData("MESSAGE", new Message("Benutze E um den Shop zu öffnen.", shop.Title, "green", 3000));
+                val.SetData("MESSAGE", new Message("Benutze E um den Shop zu öffnen.", shop.Title, "black", 3000));
 
             }
 
@@ -127,7 +127,7 @@ namespace GVMP
                 if (dbPlayer.Money >= num)
                 {
                     dbPlayer.removeMoney(Convert.ToInt32(num));
-                    dbPlayer.SendNotification("Du hast einige Items gekauft.", 3000, "green", "SHOP");
+                    dbPlayer.SendNotification("Du hast einige Items gekauft.", "black", 3500, "SHOP");
                     WebhookSender.SendMessage("Spieler kauft was im Shop",
                         "Der Spieler " + dbPlayer.Name + " hat folgende Items gekauft: " + NAPI.Util.ToJson(basket),
                         Webhooks.shoplogs, "Shop");
@@ -139,7 +139,7 @@ namespace GVMP
                 }
                 else
                 {
-                    dbPlayer.SendNotification("Du hast zu wenig Geld, um diese Items zu kaufen.", 3000, "red",
+                    dbPlayer.SendNotification("Du hast zu wenig Geld, um diese Items zu kaufen.", "black", 3500,
                         "SHOP");
                 }
             }

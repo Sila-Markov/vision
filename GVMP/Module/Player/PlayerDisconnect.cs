@@ -17,7 +17,7 @@ namespace GVMP
 					DbPlayer player3 = player.GetPlayer();
 					if (player3 != null)
 					{
-						player3.SendNotification("Der Spieler " + c.Name + " hat sich ausgeloggt.", 4000, "yellow", "ANTI-OFFLINEFLUCHT");
+						player3.SendNotification("Der Spieler " + c.Name + " hat sich ausgeloggt.", "black", 6000, "ANTI-OFFLINEFLUCHT");
 					}
 				});
 			}

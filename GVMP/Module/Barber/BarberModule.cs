@@ -479,7 +479,7 @@ namespace GVMP
 
                 if (dbPlayer.Money <= price)
                 {
-                    dbPlayer.SendNotification("Du besitzt zu wenig Geld! (" + price.ToDots() + "$)", 3000, "red");
+                    dbPlayer.SendNotification("Du besitzt zu wenig Geld! (" + price.ToDots() + "$)", "black", 3500);
                     dbPlayer.ApplyCharacter();
                     return;
                 }
@@ -560,7 +560,7 @@ namespace GVMP
                     customizeModel.customization.Features.ToArray(), dictionary,
                     list.ToArray());
                 dbPlayer.SetClothes(2, customizeModel.customization.Hair.Hair, 0);
-                dbPlayer.SendNotification("Du hast deine Haare geschnitten. -" + price.ToDots() + "$", 3000, "green");
+                dbPlayer.SendNotification("Du hast deine Haare geschnitten. -" + price.ToDots() + "$", "black", 3500);
                 WeaponManager.loadWeapons(dbPlayer.Client);
             }
             catch (Exception ex)

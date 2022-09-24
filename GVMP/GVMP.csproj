@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>D:\SCRIPTS\MEINS\Nexus Crimelife\bridge\resources\GVMP</OutputPath>
+    <OutputPath>C:\Users\danie\Desktop\Nexus Crimelife\bridge\resources\GVMP</OutputPath>
     <Optimize>true</Optimize>
     <SkipPostSharp>True</SkipPostSharp>
     <WarningLevel>0</WarningLevel>
@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>D:\SCRIPTS\MEINS\Nexus Crimelife\bridge\resources\GVMP</OutputPath>
+    <OutputPath>C:\Users\danie\Desktop\Nexus Crimelife\bridge\resources\GVMP</OutputPath>
     <Optimize>true</Optimize>
     <SkipPostSharp>True</SkipPostSharp>
     <WarningLevel>0</WarningLevel>
@@ -34,14 +34,13 @@
     <PlatformTarget>x64</PlatformTarget>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <OutputPath>D:\SCRIPTS\MEINS\Nexus Crimelife\bridge\resources\GVMP</OutputPath>
+    <OutputPath>C:\Users\danie\Desktop\GitHub\Server\bridge\resources\GVMP</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="Simple-HTTP" Version="1.0.6" />
   </ItemGroup>
   <ItemGroup>

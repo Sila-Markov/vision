@@ -35,16 +35,20 @@ namespace GVMP
                     Name = reader.GetString("Name"),
                     Faction = FactionModule.getFactionById(reader.GetInt32("Faction")),
                     Zone = NAPI.Util.FromJson<Vector3>(reader.GetString("Zone")),
-                    PlayerSpawn1 = NAPI.Util.FromJson<Vector3>(reader.GetString("PlayerSpawn1")),
-                    PlayerSpawn2 = NAPI.Util.FromJson<Vector3>(reader.GetString("PlayerSpawn2")),
-                    CarSpawn1 = NAPI.Util.FromJson<Vector3>(reader.GetString("CarSpawn1")),
-                    CarSpawn2 = NAPI.Util.FromJson<Vector3>(reader.GetString("CarSpawn2")),
-                    CarSpawnRot1 = NAPI.Util.FromJson<float>(reader.GetString("CarSpawnRot1")),
-                    CarSpawnRot2 = NAPI.Util.FromJson<float>(reader.GetString("CarSpawnRot2")),
                     Flag1 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("Flag1"))),
                     Flag2 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("Flag2"))),
                     Flag3 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("Flag3"))),
                     Flag4 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("Flag4"))),
+
+                    PlayerSpawn1 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("PlayerSpawn1"))),
+                    PlayerSpawn2 = new Flag(NAPI.Util.FromJson<Vector3>(reader.GetString("PlayerSpawn2"))),
+
+                    RotationPlayerSpawn1 = reader.GetFloat("RotationPlayerSpawn1"),
+                    RotationPlayerSpawn2 = reader.GetFloat("RotationPlayerSpawn1"),
+
+                    CarSpawn1 = NAPI.Util.FromJson<Vector3>(reader.GetString("CarSpawn1")),
+                    CarSpawn2 = NAPI.Util.FromJson<Vector3>(reader.GetString("CarSpawn2")),
+
                     Attacker = null,
                     AttackerPoints = 0,
                     FactionPoints = 0,
@@ -125,22 +129,22 @@ namespace GVMP
 
                 if (gw.Faction.GetFactionPlayers().Count < 0)
                 {
-                    dbPlayer.SendNotification("Es müssen mindestens 3 Personen aus der anderen Fraktion online sein.", 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification("Es müssen mindestens 3 Personen aus der anderen Fraktion online sein.", "black", 3500);
                     return;
                 }
                 if (BlockedZones.Contains(gw))
                 {
-                    dbPlayer.SendNotification("Dieses Gebiet wurde bereits angegriffen.", 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification("Dieses Gebiet wurde bereits angegriffen.", "black", 3500);
                     return;
                 }
                 if (RunningGangwar != null)
                 {
-                    dbPlayer.SendNotification("Es läuft bereits ein Gangwar.", 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification("Es läuft bereits ein Gangwar.", "black", 3500);
                     return;
                 }
                 if (gw.Faction.Id == 0)
                 {
-                    dbPlayer.SendNotification("Du hast das Gebiet eingenommen.", 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification("Du hast das Gebiet eingenommen.", "black", 3500);
                     GWZones.Remove(gw);
                     gw.Faction = dbPlayer.Faction;
                     GWZones.Add(gw);
@@ -152,17 +156,17 @@ namespace GVMP
                 }
                 gw.Attacker = dbPlayer.Faction;
                 dbPlayer.SetDimension(FactionModule.GangwarDimension);
-                dbPlayer.Position = gw.PlayerSpawn2;
+                dbPlayer.Position = gw.PlayerSpawn1.Position;
+                c.Rotation = new Vector3(0f, 0f, gw.RotationPlayerSpawn1);
 
                 foreach (DbPlayer dbTarget in gw.Faction.GetFactionPlayers())
                 {
- 
-                        dbTarget.SendNotification($"Das Gebiet {gw.Name} wird von der Fraktion {gw.Attacker.Name} angegriffen.", 6000, "orange", "GANGWAR");
+                        dbTarget.SendNotification($"Das Gebiet {gw.Name} wird von der Fraktion {gw.Attacker.Name} angegriffen.", "black", 6000, "GANGWAR");
                 }
                 foreach (DbPlayer dbTarget in gw.Attacker.GetFactionPlayers())
                 {
                     if (dbTarget != null && dbTarget.IsValid(true))
-                        dbTarget.SendNotification($"Deine Fraktion greift das Gebiet {gw.Name} an.", 5000, "orange", "GANGWAR");
+                        dbTarget.SendNotification($"Deine Fraktion greift das Gebiet {gw.Name} an.", "black", 6000, "GANGWAR");
                 }
                 Notification.SendGlobalNotification($"Die Fraktion {gw.Attacker.Name} greift das Gebiet {gw.Name} von der Fraktion {gw.Faction.Name} an.", 8000, "orange", Notification.icon.warn);
 
@@ -170,7 +174,7 @@ namespace GVMP
                 BlockedZones.Add(gw);
                 RunningGangwar = gw;
 
-                gw.StopDate = DateTime.Now.AddMinutes(1);
+                gw.StopDate = DateTime.Now.AddMinutes(45);
 
                 ColShape col = NAPI.ColShape.CreateCylinderColShape(gw.Zone, 250, 25f, Convert.ToUInt32(FactionModule.GangwarDimension));
                 col.SetData("GANGWAR", true);
@@ -198,7 +202,7 @@ namespace GVMP
 
                 NAPI.Marker.CreateMarker(4, gw.Flag4.Position.Add(new Vector3(0, 0, 1)), new Vector3(), new Vector3(), 1.0f, new Color(255, 140, 0), false, Convert.ToUInt32(FactionModule.GangwarDimension));
                 dbPlayer.StopAnimation();
-                dbPlayer.SendNotification("Anti-Car", 3000);
+                dbPlayer.SendNotification("Anti-Car", "black", 3000);
             }
             catch(Exception ex)
             {
@@ -220,20 +224,17 @@ namespace GVMP
                 if (col.HasData("GANGWAR"))
                 {
                     dbPlayer.SetData("IN_GANGWAR", true);
-                    c.GiveWeapon(WeaponHash.Gusenberg, 9999);
-                    c.GiveWeapon(WeaponHash.AdvancedRifle, 9999);
-                    c.GiveWeapon(WeaponHash.AssaultRifle, 9999);
-                    c.GiveWeapon(WeaponHash.BullpupRifle, 9999);
-                    c.GiveWeapon(WeaponHash.SpecialCarbine, 9999);
-                    c.GiveWeapon(WeaponHash.Pistol50, 9999);
-                    c.GiveWeapon(WeaponHash.MiniSMG, 9999);
-                    c.GiveWeapon(WeaponHash.Pistol, 9999);
+                    c.GiveWeapon(WeaponHash.Gusenberg, 5000);
+                    c.GiveWeapon(WeaponHash.AdvancedRifle, 0);
+                    c.GiveWeapon(WeaponHash.AssaultRifle, 0);
+                    c.GiveWeapon(WeaponHash.BullpupRifle, 5000);
+                    c.GiveWeapon(WeaponHash.HeavyPistol, 5000);
                     c.TriggerEvent("gangwar:open", RunningGangwar.Name, (int)(RunningGangwar.StopDate - DateTime.Now).TotalMinutes+1 + " Minute/n", RunningGangwar.Attacker.Name, RunningGangwar.Attacker.Logo, RunningGangwar.AttackerPoints, RunningGangwar.Attacker.GetRGBStr(), RunningGangwar.Faction.Name, RunningGangwar.Faction.Logo, RunningGangwar.FactionPoints, RunningGangwar.Faction.GetRGBStr());
                 }
                 else if (col.HasData("GANGWAR_FLAG"))
                 {
                     int data = (int)((dynamic)col.GetData("GANGWAR_FLAG"));
-                    dbPlayer.SendNotification(string.Concat("Du hast die Flagge ", data.ToString(), " betreten."), 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification(string.Concat("Du hast die Flagge ", data.ToString(), " betreten."), "black", 3500);
                     switch (data)
                     {
                         case 1:
@@ -280,14 +281,12 @@ namespace GVMP
                 if (col.HasData("GANGWAR"))
                 {
                     dbPlayer.ResetData("IN_GANGWAR");
-                    c.RemoveAllWeapons();
-                    WeaponManager.loadWeapons(c);
                     c.TriggerEvent("gangwar:close");
                 }
                 else if (col.HasData("GANGWAR_FLAG"))
                 {
                     int data = (int)((dynamic)col.GetData("GANGWAR_FLAG"));
-                    dbPlayer.SendNotification("Du hast die Flagge " + data + " verlassen.", 3000, "orange", "GANGWAR");
+                    dbPlayer.SendNotification("Du hast die Flagge " + data + " verlassen.", "black", 3500);
 
                     switch (data)
                     {
@@ -326,20 +325,22 @@ namespace GVMP
         {
             try
             {
+                //Faction fraktion = FactionModule.getFactionByName(frak);
+
                 if (killer == null || killer.Client == null) return;
                 if (!killer.HasData("IN_GANGWAR") || RunningGangwar == null) return;
 
                 if (killer.Faction.Id == RunningGangwar.Faction.Id)
                 {
-                    RunningGangwar.FactionPoints += 5;
+                    RunningGangwar.FactionPoints += 3;
                 }
                 else if (killer.Faction.Id == RunningGangwar.Attacker.Id)
                 {
-                    RunningGangwar.AttackerPoints += 5;
+                    RunningGangwar.AttackerPoints += 3;
                 }
 
                 killer.Faction.GetFactionPlayers()
-                    .ForEach((DbPlayer dbPlayer) => dbPlayer.SendNotification("+5 Punkte für das Töten eines Gegners!"));
+                    .ForEach((DbPlayer dbPlayer) => dbPlayer.SendNotification("+3 Punkte für das Töten eines Gegners!", $"{killer.Faction.RGB}", 5000, $"{killer.Faction.Name}"));
 
                 RunningGangwar.Faction.GetFactionPlayers().ForEach(e =>
                 {
@@ -454,6 +455,8 @@ namespace GVMP
                             player.TriggerEvent("gangwarstats:open", RunningGangwar.Name, RunningGangwar.Faction.Name, RunningGangwar.Attacker.Name, RunningGangwar.FactionPoints, RunningGangwar.AttackerPoints, RunningGangwar.Faction.GetRGBStr(), RunningGangwar.Attacker.GetRGBStr(), RunningGangwar.Faction.Logo, RunningGangwar.Attacker.Logo);
                             player.Client.Position = player.Faction.Storage;
                             player.Dimension = 0;
+                            player.RemoveAllWeapons();
+                            WeaponManager.loadWeapons(player.Client);
                       }
                     }
                 }

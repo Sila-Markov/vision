@@ -35,7 +35,7 @@ namespace GVMP
                             {
                                 if ((dynamic)player.GetAttributeInt("Donator") != 1)
                                 {
-                                    player.SendNotification("Kein Zugriff!", 3000, "red", "");
+                                    player.SendNotification("Kein Zugriff!", "black", 3500);
                                 }
                                 else
                                 {
@@ -118,7 +118,7 @@ namespace GVMP
                         {
                             if ((dynamic)player.GetAttributeInt("Donator") != 1)
                             {
-                                player.SendNotification("Kein Zugriff!", 3000, "red", "");
+                                player.SendNotification("Kein Zugriff!", "black", 3500);
                             }
                             else
                             {
