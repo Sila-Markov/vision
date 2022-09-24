@@ -542,6 +542,9 @@ namespace GVMP
                     case 3:
                         dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
                         break;
+                    case 4:
+                        dbPlayer.UpdateInventoryItems("Schutzweste", randomanzahl, false);
+                        break;
                 }
                 dbPlayer.UpdateInventoryItems("Westenkiste", 1, true);
             }
