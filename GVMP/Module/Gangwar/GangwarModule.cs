@@ -223,7 +223,10 @@ namespace GVMP
                     c.GiveWeapon(WeaponHash.Gusenberg, 9999);
                     c.GiveWeapon(WeaponHash.AdvancedRifle, 9999);
                     c.GiveWeapon(WeaponHash.AssaultRifle, 9999);
+                    c.GiveWeapon(WeaponHash.BullpupRifle, 9999);
+                    c.GiveWeapon(WeaponHash.SpecialCarbine, 9999);
                     c.GiveWeapon(WeaponHash.Pistol50, 9999);
+                    c.GiveWeapon(WeaponHash.MiniSMG, 9999);
                     c.GiveWeapon(WeaponHash.Pistol, 9999);
                     c.TriggerEvent("gangwar:open", RunningGangwar.Name, (int)(RunningGangwar.StopDate - DateTime.Now).TotalMinutes+1 + " Minute/n", RunningGangwar.Attacker.Name, RunningGangwar.Attacker.Logo, RunningGangwar.AttackerPoints, RunningGangwar.Attacker.GetRGBStr(), RunningGangwar.Faction.Name, RunningGangwar.Faction.Logo, RunningGangwar.FactionPoints, RunningGangwar.Faction.GetRGBStr());
                 }

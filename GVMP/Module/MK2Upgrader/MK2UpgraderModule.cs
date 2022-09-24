@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GVMP
-{
+/*namespace GVMP
+/*{
     class MK2Upgradermodule : GVMP.Module.Module<MK2Upgradermodule>
     {
         public static List<MK2Upgrader> weaponMK2Upgraders = new List<MK2Upgrader>();
@@ -14,7 +14,7 @@ namespace GVMP
         {
             weaponMK2Upgraders.Add(new MK2Upgrader
             {
-                Id = 124,
+               /* Id = 124,
                 WeaponName = "SpeziMK2",
                 Weapon = WeaponHash.SpecialCarbineMK2,
                 Position = new Vector3(1094.31, -2003.37, 29.97),
@@ -149,4 +149,4 @@ namespace GVMP
             }
         }
     }
-}
+}*/
